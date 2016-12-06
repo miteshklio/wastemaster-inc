@@ -1,10 +1,10 @@
 user www-data;
-worker_processes 1;
+worker_processes 4;
 
 pid /run/nginx.pid;
 
 events {
-	worker_connections 256;
+    worker_connections 256;
     # multi_accept on;
 }
 
@@ -31,6 +31,8 @@ http {
         default_type application/octet-stream;
 
         large_client_header_buffers 4 32k;
+
+        client_max_body_size 10M;
 
         ##
         # Logging Settings

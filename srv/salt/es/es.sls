@@ -1,7 +1,7 @@
 install-java:
   pkg:
     - installed
-    - name: openjdk-7-jre-headless
+    - name: default-jre
 
 elasticsearch-key:
   cmd.run:
@@ -14,8 +14,6 @@ elasticsearch-repo:
     - name: echo 'deb http://packages.elastic.co/elasticsearch/1.7/debian stable main' | sudo tee -a /etc/apt/sources.list.d/elasticsearch-1.7.list && sudo apt-get update
     - require:
       - cmd: elasticsearch-key
-    - watch:
-      - pkg: elasticsearch
 
 install-elasticsearch:
   pkg.installed:

@@ -36,11 +36,11 @@ update:
 
 mariadb-keys:
   cmd.run:
-    - name: sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+    - name: sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
 
 mariadb-repo:
   cmd.run:
-    - name: sudo add-apt-repository 'deb [arch=amd64,i386] http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main'
+    - name: sudo add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main'
     - require:
       - cmd: mariadb-keys
 
@@ -52,22 +52,10 @@ mariadb-server-install:
       - cmd: update
       - debconf: mariadb-server-debconf
 
-# Make sure mysql gets started at boot time
-mysql-rcd:
-  cmd:
-    - run
-    - name: update-rc.d mysql defaults
-    - require:
-      - pkg: mariadb-server-install
-
-# Restart
-mysql-restart:
-  cmd:
-    - run
-    - name: service mysql restart
-    - require:
-      - pkg: mariadb-server-install
-
+mysql:
+  service.running:
+    - enable: True
+    
 # Check this file for the mysql user and pass for the app
 mysql-install-file:
   file:
@@ -76,7 +64,7 @@ mysql-install-file:
     - source: salt://mariadb/files/mysql_secure.sh
     - template: jinja
     - require:
-      - cmd: mysql-restart
+      - service: mysql
 
 mysql-install-file-execute:
   cmd:
@@ -91,3 +79,5 @@ mysql-install-run:
     - name: /etc/mysql_secure.sh
     - require:
       - cmd: mysql-install-file-execute
+    - watch:
+      - file: mysql-install-file

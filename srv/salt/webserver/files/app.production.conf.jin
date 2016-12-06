@@ -1,8 +1,23 @@
 server {
-
     listen 80;
-    root /home/public_html/app/public;
+    return 301 https://$host$request_uri;
+}
+
+server {
+
+    listen 443 ssl;
+    root /home/public_html/app/current/public;
     index index.php index.html;
+
+    ssl_certificate /etc/nginx/ssl/gamerz.crt;
+    ssl_certificate_key /etc/nginx/ssl/gamerz.key;
+
+    ssl_protocols TLSv1.1 TLSv1.2;
+
+    # redirect elb to https
+    if ($http_x_forwarded_proto != "https") {
+        rewrite ^(.*)$ https://$host$request_uri permanent;
+    }
 
     # serve static files directly
     location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ {
@@ -39,11 +54,11 @@ server {
     # catch all
     error_page 404 /index.php;
 
-    location ~ \.php$ {
-            try_files $uri $uri/ /index.php;
-            fastcgi_pass   unix:/var/run/php7.0-fpm.sock;
-            fastcgi_index  index.php;
-            fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
-            include        fastcgi_params;
+    location ~ \.php$ {  
+        try_files $uri $uri/ /index.php;
+        fastcgi_pass   unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
+        include        fastcgi_params;
     }
 }

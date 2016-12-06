@@ -1,5 +1,5 @@
 from __future__ import with_statement
-from fabric.api import *
+from fabric.api import local, cd, hide, put, env, sudo
 import time
 import os
 
@@ -29,44 +29,56 @@ env.use_ssh_config = True
 release_name = 'release-' + time.strftime("%d-%m-%Y-%H-%M-%S")
 
 # Machines to execute remove commands on.
-# Create an environment variable called `APPNAME_DEPLOY_BOX` with something like 'root@127.0.0.1'
-env_name = 'APPNAME_DEPLOY_BOX'
+# Create an environment variable called `WASTEMASTER_DEPLOY_BOX` with something like 'root@127.0.0.1'
+env_name = 'WASTEMASTER_DEPLOY_BOX'
 try:
 	env.hosts = os.environ[env_name]
 except KeyError:
 	env.hosts = ''
 
 # Root directory to store `releases` and `current` directory
-release_dir = '/home/public_html/APPNAME/'
+release_dir = '/home/public_html/app/'
+config_file = '/home/public_html/config/.env.app'
 
 # Database name
-db_name = 'APPNAME'
+db_name = 'wastemaster'
+
+
+def stage():
+    env.hosts = os.environ['WASTEMASTER_STAGING_BOX']
+    
+    global config_file
+    config_file = '/home/public_html/config/.env.staging'
 
 
 def rollback():
     with cd(release_dir + 'releases'):
         with hide('output'):
             # get most recently created dirs
-            releases = run('ls -tr -1')
+            releases = sudo('ls -tr -1')
             for release in releases.split():
-                print colored(release, 'yellow')
+                print release
             rollback = raw_input('Release to roolback to?:')
             delete = raw_input('Release to delete?:')
 
     # rollback
     with cd(release_dir):
-        run('ln -nsf releases/' + rollback + ' current')
+        sudo('ln -nsf releases/' + rollback + ' current')
 
     # delete
     with cd(release_dir + 'releases'):
-        run('rm -r -f ' + delete)
+        sudo('rm -r -f ' + delete)
 
-    run('service php5-fpm reload')
+    sudo('service php7.0-fpm reload')
 
 
-def production(branch):
+def deploy(branch):
     # Checkout branch
     local('git checkout ' + branch)
+    local('bower install')
+    local('gulp')
+    local('composer install --no-ansi --no-interaction --no-progress --optimize-autoloader')
+    local('composer dump-autoload -o')
 
     # Add branch to release_name
     global release_name
@@ -79,31 +91,52 @@ def production(branch):
 
     # Deploy
     with cd(release_dir):
-        run('mkdir -p releases')
+        sudo('mkdir -p releases')
 
     with cd(release_dir + 'releases'):
         put(
                 release_name + '.tar.gz',
-                release_dir + 'releases/'
+                release_dir + 'releases/',
+                use_sudo=True
         )
-        run('mkdir -p ' + release_name)
-        run(
-                'tar -xvzf ' + release_name + '.tar.gz -C ' + release_name +
-                ' --exclude=.env --exclude=.env.sample --exclude=*.py --exclude=*.pyc --exclude=public/images'
-        )
-        run('rm ' + release_name + '.tar.gz')
+        sudo('mkdir -p ' + release_name)
+        sudo('tar -xvzf ' + release_name + '.tar.gz -C ' + release_name) 
+        
+        sudo('rm ' + release_name + '.tar.gz')
 
     with cd(release_dir + 'releases/' + release_name):
-        run('chmod -R 777 storage')
-        run('ln -nsf /home/public_html/config/.env.app .env')
-        run('php artisan migrate')
+        sudo('chmod -R 777 storage')
+        sudo('ln -nsf ' + config_file + ' .env')
+        sudo('php artisan migrate')
 
     with cd(release_dir):
-        run('ln -nsf releases/' + release_name + ' current')
-        run('sudo service php5-fpm reload')
+        sudo('ln -nsf releases/' + release_name + ' current')
+        sudo('sudo service php7.0-fpm reload')
 
     # Clean up
     local('rm ' + release_name + '.tar.gz')
+
+
+"""
+Execute Salt Scripts
+"""
+
+
+def run_salt(env_type = 'production'):
+    # Transfer salt scripts
+    put('srv/', '/', use_sudo=True)
+    
+    # Transfer deploy script
+    sudo('mkdir -p ~/deploy')
+   
+    if env_type == 'production': 
+        put('deploy/production', '~/deploy/', use_sudo=True)
+        sudo('chmod u+x ~/deploy/production')
+        sudo('./deploy/production')
+    else:
+        put('deploy/staging', '~/deploy/', use_sudo=True)
+        sudo('chmod u+x ~/deploy/staging')
+        sudo('./deploy/staging')
 
 
 def server():
@@ -139,12 +172,12 @@ def name_app():
     if app_name == 'app':
         local('echo "nope"')
     else:
-        local("sed -i '' 's/Appname/" + app_name + "/g' *.py")
-        local("sed -i '' 's/Appname/" + app_name + "/g' bower.json")
-        local("sed -i '' 's/Appname/" + app_name.capitalize() + "/g' composer.json")
-        local("sed -i '' 's/APPNAME/" + app_name.upper() + "/g' *.py")
-        local("sed -i '' 's/Appname/" + app_name.capitalize() + "/g' *.py")
-        local('mv src/Appname src/' + app_name.capitalize())
+        local("sed -i '' 's/wastemaster/" + app_name + "/g' *.py")
+        local("sed -i '' 's/wastemaster/" + app_name + "/g' bower.json")
+        local("sed -i '' 's/wastemaster/" + app_name.capitalize() + "/g' composer.json")
+        local("sed -i '' 's/WASTEMASTER/" + app_name.upper() + "/g' *.py")
+        local("sed -i '' 's/wastemaster/" + app_name.capitalize() + "/g' *.py")
+        local('mv src/wastemaster src/' + app_name.capitalize())
         local('composer dump-autoload -o')
 
 

@@ -34,7 +34,7 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Appname\\": "src/"
+            "WasteMaster\\": "src/"
         }
     },
     "autoload-dev": {
