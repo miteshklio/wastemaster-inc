@@ -1,4 +1,4 @@
-
+@import "variables";
 
 /** Main **/
 
@@ -9,11 +9,16 @@ html {
 
 body {
   padding-top: 70px;
+  font-family: $opensans;
 }
 
 /** Logo **/
 .logo {
-  width: 45px;
+  width: 125px;
   margin-top: 0;
 }
 
+/** Alerts **/
+.alert-success {
+  margin-top: 15px;
+}

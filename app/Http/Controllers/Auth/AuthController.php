@@ -9,16 +9,6 @@ use Illuminate\Validation\Factory as Validator;
 class AuthController extends Controller {
 
     /**
-     * Login page
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    protected function loginPage()
-    {
-        return view('app.accounts.login');
-    }
-
-    /**
      * Login user
      *
      * @param Auth $auth
@@ -47,22 +37,12 @@ class AuthController extends Controller {
         // Attempt login
         if($auth->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember))
         {
-            return redirect($request->session()->pull('redirect', '/'));
+            return redirect($request->session()->pull('redirect', '/admin/dashboard'));
         }
 
         //Failed. Redirect to previous page
         return redirect()->back()->with('message', $lang->get('messages.authFailed'));
-    }
-
-    /**
-     * Sign up page
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    protected function signUpPage()
-    {
-        return view('app.accounts.sign-up');
-    }
+    }   
 
     /**
      * Logout user

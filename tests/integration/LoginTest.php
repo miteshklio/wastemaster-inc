@@ -7,10 +7,6 @@ class LoginTest extends IntegrationTestCase {
 
     public function testAdminLoginSuccess()
     {
-        // Get login page
-        $response = $this->call('GET', '/login');
-        $this->assertEquals(200, $response->status());
-
         // Admin Login
         $response = $this
             ->withSession(['redirect' => '/admin/dashboard'])
@@ -27,7 +23,7 @@ class LoginTest extends IntegrationTestCase {
         $this->assertTrue(Auth::user()->isAdmin);
 
         // View Admin Page
-        $response = $this->call('GET', '/admin/dashboard');
+        $response = $this->call('GET', '/admin/users');
         $this->assertEquals(200, $response->status());
 
         // Admin Logout
@@ -38,10 +34,6 @@ class LoginTest extends IntegrationTestCase {
 
     public function testUserLoginSuccess()
     {
-        // Get login page
-        $response = $this->call('GET', '/login');
-        $this->assertEquals(200, $response->status());
-
         // User Login
         $response = $this
             ->withSession(['redirect' => '/'])

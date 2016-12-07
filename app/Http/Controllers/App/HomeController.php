@@ -11,7 +11,7 @@ class HomeController extends Controller {
      */
     protected function index()
     {
-        return view('app.home');
+        return view('app.accounts.login');
     }
 
 }

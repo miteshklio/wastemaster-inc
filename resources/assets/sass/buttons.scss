@@ -1,0 +1,16 @@
+@import "variables";
+
+/** Orange Button **/
+.btn-green {
+  color: $white;
+  background-color: $green;
+  border-color: transparent;
+}
+
+.btn-green:hover, .btn-green:active, .btn-green:focus {
+  color: $light-gray;
+  background-image: none;
+  background-color: $green;
+  border-color: transparent;
+  outline: none;
+}
