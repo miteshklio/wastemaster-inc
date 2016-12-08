@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-sm-6">
-             <a href="/admin/users/create" class="btn btn-sm btn-default">New User</a>
+             <a href="/admin/user" class="btn btn-sm btn-success">New User</a>
         </div>
         <div class="col-sm-6 text-right">
             {!! $datatable->renderSearch() !!}
@@ -42,8 +42,8 @@
                                 Modify <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Edit</a></li>
-                                <li><a href="#">Delete</a></li>
+                                <li><a href="/admin/user/{{ $user->id }}">Edit</a></li>
+                                <li><a href="/admin/user/{{ $user->id }}/delete">Delete</a></li>
                             </ul>                        
                         </div>
                     </td>

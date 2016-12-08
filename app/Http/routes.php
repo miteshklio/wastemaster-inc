@@ -53,8 +53,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
 
     // Users
     Route::match(['get', 'post'], 'users', 'UserController@index');
+    Route::get('user', 'UserController@newUser');
     Route::post('user', 'UserController@create');
     Route::get('user/{id}', 'UserController@get');
     Route::post('user/{id}', 'UserController@update');
-    Route::post('user/{id}/delete', 'UserController@delete');
+    Route::get('user/{id}/delete', 'UserController@delete');
 });

@@ -51,13 +51,13 @@
         <div id="navbar" class="navbar-collapse collapse">
             @if(\Auth::check())
                 <ul class="nav navbar-nav">
-                    <li class="{{ request()->is('admin/leads/*') ? 'active':'' }}"><a href="#">Leads</a></li>
-                    <li class="{{ request()->is('admin/clients/*') ? 'active':'' }}"><a href="#">Clients</a></li>
-                    <li class="{{ request()->is('admin/bids/*') ? 'active':'' }}"><a href="#">Bids</a></li>
-                    <li class="{{ request()->is('admin/haulers/*') ? 'active':'' }}"><a href="#">Haulers</a></li>
+                    <li class="{{ request()->is('admin/lead*') ? 'active':'' }}"><a href="#">Leads</a></li>
+                    <li class="{{ request()->is('admin/client*') ? 'active':'' }}"><a href="#">Clients</a></li>
+                    <li class="{{ request()->is('admin/bid*') ? 'active':'' }}"><a href="#">Bids</a></li>
+                    <li class="{{ request()->is('admin/hauler*') ? 'active':'' }}"><a href="#">Haulers</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="{{ request()->is('admin/users*') ? 'active':'' }}"><a href="#">Users</a></li>
+                    <li class="{{ request()->is('admin/user*') ? 'active':'' }}"><a href="/admin/users">Users</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
             @endif

@@ -67,7 +67,10 @@ class Manage {
      */
     public function buildUser(array $user)
     {
-        $this->newUser = $user;
+        $this->newUser = [
+            'name' => $user['name'],
+            'email' => $user['email']
+        ];
 
         // Set role
         if(!empty($this->role)) {
@@ -75,7 +78,7 @@ class Manage {
         }
 
         // Set password
-        if(isset($user['password'])) {
+        if(isset($user['password']) and !empty($user['password'])) {
             $this->newUser['password'] = bcrypt($user['password']);
         }
         
