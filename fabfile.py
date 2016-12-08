@@ -140,7 +140,7 @@ def run_salt(env_type = 'production'):
 
 
 def server():
-    local('sudo php artisan serve --host=app.dev --port=80')
+    local('sudo php artisan serve --host=0.0.0.0 --port=80')
 
 
 def dev_install():

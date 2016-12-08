@@ -1,4 +1,10 @@
 $(function() {
+    // Hamburger menu
+    var $hamburger = $(".hamburger");
+    $hamburger.on("click", function(e) {
+        $hamburger.toggleClass("is-active");
+    });
+
     // Handlebars conditionals
     Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 

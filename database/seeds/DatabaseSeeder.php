@@ -14,9 +14,6 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // All Seeds
-        $this->call(UserRolesSeeder::class);
-
         // Development Seeds
         if(env('APP_ENV') == 'local') {
             $this->call(DevUserSeeder::class);

@@ -22,12 +22,7 @@ Route::get('/', 'App\HomeController@index');
  */
 
 // Login
-Route::get('login', 'Auth\AuthController@loginPage');
 Route::post('login', ['middleware' => 'csrf', 'uses' => 'Auth\AuthController@login']);
-
-// Sign up
-Route::get('sign-up', 'Auth\AuthController@signUpPage');
-Route::post('sign-up', ['middleware' => 'csrf', 'uses' => 'Auth\AuthController@signUp']);
 
 // Logout
 Route::get('logout', 'Auth\AuthController@logout');
@@ -55,4 +50,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
 {
     // Dashboard
     Route::get('dashboard', 'DashboardController@index');
+
+    // Users
+    Route::match(['get', 'post'], 'users', 'UserController@index');
+    Route::get('user', 'UserController@newUser');
+    Route::post('user', 'UserController@create');
+    Route::get('user/{id}', 'UserController@get');
+    Route::post('user/{id}', 'UserController@update');
+    Route::get('user/{id}/delete', 'UserController@delete');
 });

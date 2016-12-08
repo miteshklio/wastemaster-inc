@@ -40,32 +40,33 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+            <button class="hamburger hamburger--spring navbar-toggle collapsed hide" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="hamburger-box">
+                  <span class="hamburger-inner"></span>
+                </span>
             </button>
-            <a class="navbar-brand" href="/"><img src="/img/vault.png" class="logo"/></a>
+            
+            <a class="navbar-brand" href="{{ \Auth::check() ? '/admin/dashboard':'/' }}"><img src="/img/wastemasterlogo.png" class="logo"/></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="#">Nav Item</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                @if(!\Auth::check())
-                    <li><a href="/sign-up">Sign Up</a></li>
-                    <li><a href="/login">Sign In</a></li>
-                @else
+            @if(\Auth::check())
+                <ul class="nav navbar-nav">
+                    <li class="{{ request()->is('admin/lead*') ? 'active':'' }}"><a href="#">Leads</a></li>
+                    <li class="{{ request()->is('admin/client*') ? 'active':'' }}"><a href="#">Clients</a></li>
+                    <li class="{{ request()->is('admin/bid*') ? 'active':'' }}"><a href="#">Bids</a></li>
+                    <li class="{{ request()->is('admin/hauler*') ? 'active':'' }}"><a href="#">Haulers</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="{{ request()->is('admin/user*') ? 'active':'' }}"><a href="/admin/users">Users</a></li>
                     <li><a href="/logout">Logout</a></li>
-                @endif
-            </ul>
+                </ul>
+            @endif
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
 @if( Session::has('message') )
-    <div class="alert alert-success container margin-top-40">
+    <div class="alert alert-success container">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <p><?php echo Session::get('message'); ?></p>
     </div>

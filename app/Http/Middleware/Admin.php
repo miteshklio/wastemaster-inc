@@ -17,7 +17,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::user()->isAdmin) {
+        if(!Auth::check() or !Auth::user()->isAdmin) {
             return redirect()->back()->with('message', Lang::get('messages.notAdmin'));
         }
 
