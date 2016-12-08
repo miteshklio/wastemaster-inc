@@ -17,11 +17,13 @@ class UserController extends Controller {
     /**
      * Dashboard
      *
+     * @param User $user
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function index()
+    protected function index(User $user)
     {
-        $datatable = new DataTable(new User());
+        $datatable = new DataTable($user);
 
         $datatable->showColumns([
                 'id'         => 'ID',
@@ -50,8 +52,7 @@ class UserController extends Controller {
     {
         try {
             $user = $users->setUser($id)->get();
-        }
-        catch(UserNotFound $e) {
+        } catch(UserNotFound $e) {
             return redirect()->back()->with('message', $e->getMessage());
         }
 
@@ -97,11 +98,9 @@ class UserController extends Controller {
             return redirect()->back()->with('message', trans('messages.userUpdated', [
                 'email' => $request->input('user_email')
             ]));
-        }
-        catch(UserNotFound $e) {
+        } catch(UserNotFound $e) {
             return redirect()->back()->with('message', $e->getMessage());
-        }
-        catch(UserRoleNotFound $e) {
+        } catch(UserRoleNotFound $e) {
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -124,8 +123,7 @@ class UserController extends Controller {
         try {
             $users->setUser($id)->delete();
             return redirect()->back()->with('message', trans('messages.userDeleted'));
-        }
-        catch(UserNotFound $e) {
+        } catch(UserNotFound $e) {
             return redirect()->back()->with('message', $e->getMessage());
         }
     }
@@ -178,11 +176,9 @@ class UserController extends Controller {
             return redirect()->to('admin/users')->with('message', trans('messages.userCreated', [
                 'email' => $request->input('user_email')
             ]));
-        }
-        catch(UserExists $e) {
+        } catch(UserExists $e) {
             return redirect()->back()->with('message', $e->getMessage());
-        }
-        catch(UserRoleNotFound $e) {
+        } catch(UserRoleNotFound $e) {
             return redirect()->back()->with('message', $e->getMessage());
         }
     }

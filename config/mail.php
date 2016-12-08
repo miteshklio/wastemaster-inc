@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => env('MAIL_FROM', 'support@vaultinnovation.com'), 'name' => env('MAIL_FROM_NAME', 'Vault Support')],
 
     /*
     |--------------------------------------------------------------------------
