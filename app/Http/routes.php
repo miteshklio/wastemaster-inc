@@ -58,4 +58,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('user/{id}', 'UserController@get');
     Route::post('user/{id}', 'UserController@update');
     Route::get('user/{id}/delete', 'UserController@delete');
+
+    // Haulers
+    Route::match(['get', 'post'], 'haulers', 'HaulerController@index')->name('haulers::home');
+    Route::get('hauler', 'HaulerController@newHauler')->name('haulers::new');
+    Route::post('hauler', 'HaulerController@create')->name('haulers::create');
+    Route::get('hauler/{id}', 'HaulerController@show')->name('haulers::show');
+    Route::post('hauler/{id}', 'HaulerController@update')->name('haulers::update');
+    Route::get('hauler/{id}/delete', 'HaulerController@delete')->name('haulers::delete');
 });
