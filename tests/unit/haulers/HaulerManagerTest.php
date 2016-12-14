@@ -7,12 +7,14 @@ class HaulerManagerTest extends UnitTestCase
 {
     protected $haulers;
     protected $manager;
+    protected $cities;
 
     public function setUp()
     {
         $this->haulers = m::mock('\App\Hauler');
+        $this->cities  = m::mock('\App\City');
 
-        $this->manager = new HaulerManager($this->haulers);
+        $this->manager = new HaulerManager($this->haulers, $this->cities);
 
         parent::setUp();
     }
@@ -25,7 +27,7 @@ class HaulerManagerTest extends UnitTestCase
 
     public function testGetHaulerSuccess()
     {
-        $this->haulers->shouldReceive('find')
+        $this->haulers->shouldReceive('with->find')
             ->once()
             ->andReturn((object)[
                 'id' => 1
@@ -39,7 +41,7 @@ class HaulerManagerTest extends UnitTestCase
     {
         $this->setExpectedException('WasteMaster\v1\Haulers\HaulerNotFound');
 
-        $this->haulers->shouldReceive('find')
+        $this->haulers->shouldReceive('with->find')
             ->once()
             ->andReturn();
 
@@ -144,7 +146,7 @@ class HaulerManagerTest extends UnitTestCase
 
     public function testDeleteSuccess()
     {
-        $this->haulers->shouldReceive('find')
+        $this->haulers->shouldReceive('with->find')
             ->once()
             ->andReturn($this->haulers);
         $this->haulers->shouldReceive('delete')
