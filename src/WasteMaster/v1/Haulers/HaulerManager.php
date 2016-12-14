@@ -2,7 +2,7 @@
 
 use App\Hauler;
 
-class Manager
+class HaulerManager
 {
     /**
      * @var Hauler

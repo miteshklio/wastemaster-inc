@@ -1,6 +1,6 @@
 <?php
 
-use WasteMaster\v1\Haulers\Manager;
+use WasteMaster\v1\Haulers\HaulerManager;
 use Mockery as m;
 
 class HaulerManagerTest extends UnitTestCase
@@ -12,7 +12,7 @@ class HaulerManagerTest extends UnitTestCase
     {
         $this->haulers = m::mock('\App\Hauler');
 
-        $this->manager = new Manager($this->haulers);
+        $this->manager = new HaulerManager($this->haulers);
 
         parent::setUp();
     }
