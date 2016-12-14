@@ -28,7 +28,7 @@
             @foreach ($datatable->rows() as $row)
                 <tr>
                     <td>
-                        <a href="">{{ $row->name }}</a>
+                        <a href="{{ route('haulers::show', ['id' => $row->id]) }}">{{ $row->name }}</a>
                     </td>
                     <td>{{ $row->city_id }}</td>
                     <td>{{ $row->listWasteTypes() }}</td>

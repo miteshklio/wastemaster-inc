@@ -3,6 +3,7 @@
 use App\Hauler;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use WasteMaster\v1\Haulers\HaulerExists;
 use WasteMaster\v1\Haulers\HaulerManager;
 use WasteMaster\v1\Helpers\DataTable;
 
@@ -53,20 +54,53 @@ class HaulerController extends Controller
      * Actual Hauler creation.
      *
      * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function create(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'city' => 'required|integer',
+            'emails' => 'required|max:255'
+        ]);
 
+        try
+        {
+            $this->haulers
+                ->setName($request->input('name'))
+                ->setCityID($request->input('city'))
+                ->setRecycling((bool)$request->input('recycle'))
+                ->setWaste((bool)$request->input('waste'))
+                ->setEmails($request->input('emails'))
+                ->create();
+
+            return redirect()->route('haulers::home')->with(['message' => trans('messages.haulerCreated')]);
+        } catch(HaulerExists $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
     }
 
     /**
      * Displays the edit a Hauler form.
      *
      * @param int $haulerID
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function show(int $haulerID)
     {
+        $hauler = $this->haulers->find($haulerID);
 
+        if ($hauler === null)
+        {
+            return redirect()->back()->with(['message' => trans('messages.haulerNotFound')]);
+        }
+
+        return view('app.admin.haulers.form', [
+            'hauler' => $hauler
+        ]);
     }
 
     /**
@@ -74,10 +108,32 @@ class HaulerController extends Controller
      *
      * @param Request $request
      * @param int     $haulerID
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, int $haulerID)
     {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'city' => 'required|integer',
+            'emails' => 'required|max:255'
+        ]);
 
+        try
+        {
+            $this->haulers
+                ->setName($request->input('name'))
+                ->setCityID($request->input('city'))
+                ->setRecycling((bool)$request->input('recycle'))
+                ->setWaste((bool)$request->input('waste'))
+                ->setEmails($request->input('emails'))
+                ->update($haulerID);
+
+            return redirect()->route('haulers::home')->with(['message' => trans('messages.haulerUpdated')]);
+        } catch(\Exception $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
     }
 
     /**

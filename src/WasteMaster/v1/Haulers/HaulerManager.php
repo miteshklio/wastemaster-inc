@@ -11,9 +11,9 @@ class HaulerManager
 
     protected $name;
     protected $city;
-    protected $doesRecycling = false;
-    protected $doesWaste     = false;
-    protected $emails        = [];
+    protected $doesRecycling;
+    protected $doesWaste;
+    protected $emails = [];
 
     public function __construct(Hauler $hauler)
     {
@@ -30,7 +30,7 @@ class HaulerManager
     public function setName(string $name)
     {
         $this->name = $name;
-        
+
         return $this;
     }
 
@@ -44,7 +44,7 @@ class HaulerManager
     public function setCityID(int $id)
     {
         $this->city = $id;
-        
+
         return $this;
     }
 
@@ -58,7 +58,7 @@ class HaulerManager
     public function setRecycling(bool $recycles=false)
     {
         $this->doesRecycling = (int)$recycles;
-        
+
         return $this;
     }
 
@@ -72,7 +72,7 @@ class HaulerManager
     public function setWaste(bool $waste = false)
     {
         $this->doesWaste = (int)$waste;
-        
+
         return $this;
     }
 
@@ -99,6 +99,13 @@ class HaulerManager
     {
         $this->checkRequired();
 
+        // Does a Hauler with this name/city
+        // already exist?
+        if ($this->haulers->where(['name' => $this->name, 'city_id' => $this->city])->count())
+        {
+            throw new HaulerExists(trans('haulerExists'));
+        }
+
         $hauler = $this->haulers->create([
             'name'        => $this->name,
             'city_id'     => $this->city,
@@ -115,12 +122,11 @@ class HaulerManager
      * properties with key/value pairs in $fields array.
      *
      * @param int   $id
-     * @param array $fields
      *
      * @return
      * @throws HaulerNotFound
      */
-    public function update(int $id, array $fields)
+    public function update(int $id)
     {
         $hauler = $this->haulers->find($id);
 
@@ -129,10 +135,11 @@ class HaulerManager
             throw new HaulerNotFound(trans('messages.haulerNotFound', ['id' => $id]));
         }
 
-        if (isset($fields['emails']))
-        {
-            $fields['emails'] = serialize($this->parseEmails($fields['emails']));
-        }
+        $fields = [];
+
+        if ($this->name !== null) $fields['name'] = $this->name;
+        if ($this->city !== null) $fields['city_id'] = $this->city;
+        if (! count($this->emails)) $fields['emails'] = serialize($this->parseEmails($this->emails));
 
         $hauler->fill($fields);
         $hauler->save();

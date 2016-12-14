@@ -91,6 +91,9 @@ class HaulerManagerTest extends UnitTestCase
             'emails'      => serialize(['foo@example.com', 'bar@example.com'])
         ];
 
+        $this->haulers->shouldReceive('where->count')
+            ->once()
+            ->andReturn(0);
         $this->haulers->shouldReceive('create')
             ->once()
             ->with($fields)
@@ -116,7 +119,7 @@ class HaulerManagerTest extends UnitTestCase
             ->once()
             ->andReturn();
 
-        $this->manager->update(3, []);
+        $this->manager->update(3);
     }
 
     /**
@@ -132,7 +135,9 @@ class HaulerManagerTest extends UnitTestCase
         $this->haulers->shouldReceive('save')
             ->once();
 
-        $hauler = $this->manager->update(3, ['emails' => 'foo@example.com, bar@example.com']);
+        $hauler = $this->manager
+            ->setEmails('foo@example.com, bar@example.com')
+            ->update(3);
 
         $this->assertTrue($hauler instanceof Mockery_0_App_Hauler);
     }

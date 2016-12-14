@@ -23,4 +23,7 @@ return [
     'haulerInvalidEmail' => 'Email must be comma-delimited string or an array.',
     'haulerValidationErrors' => 'The following fields are required to create a new Hauler: :fields',
     'haulerNotFound' => 'Unable to locate a Hauler with matching id: :id',
+    'haulerCreated' => 'The Hauler was successfully created.',
+    'haulerUpdated' => 'The changes to the Hauler were successfully saved.',
+    'haulerExists' => 'A Hauler with that name already exists in that city.',
 ];
