@@ -53,7 +53,7 @@
 
                 <div class="form-group">
                     <label for="emails">Emails</label>
-                    <textarea name="emails"  rows="3" class="form-control">{{ $hauler->listEmails() ?? old('emails') }}</textarea>
+                    <textarea name="emails"  rows="3" class="form-control">{{ isset($hauler) ? $hauler->listEmails() : old('emails') }}</textarea>
                     <p class="small">Separate multiple addresses by a comma.</p>
                 </div>
 

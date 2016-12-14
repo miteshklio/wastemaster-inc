@@ -26,4 +26,6 @@ return [
     'haulerCreated' => 'The Hauler was successfully created.',
     'haulerUpdated' => 'The changes to the Hauler were successfully saved.',
     'haulerExists' => 'A Hauler with that name already exists in that city.',
+    'haulerDeleted' => 'The Hauler has been deleted.',
+    'haulerArchived' => 'Tha Hauler has been archived.',
 ];

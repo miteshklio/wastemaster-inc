@@ -19,6 +19,7 @@ class CreateHaulersTable extends Migration
              $table->boolean('svc_recycle')->default(0);
              $table->boolean('svc_waste')->default(0);
              $table->text('emails')->nullable();
+             $table->boolean('archived')->default(false);
              $table->timestamps();
         });
     }

@@ -66,4 +66,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('hauler/{id}', 'HaulerController@show')->name('haulers::show');
     Route::post('hauler/{id}', 'HaulerController@update')->name('haulers::update');
     Route::get('hauler/{id}/delete', 'HaulerController@delete')->name('haulers::delete');
+    Route::get('hauler/{id}/archive', 'HaulerController@archive')->name('haulers::archive');
+    Route::get('hauler/{id}/unarchive', 'HaulerController@unarchive')->name('haulers::unarchive');
 });

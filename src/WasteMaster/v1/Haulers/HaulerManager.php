@@ -162,6 +162,25 @@ class HaulerManager
     }
 
     /**
+     * Archives a Hauler.
+     *
+     * @param int  $id
+     * @param bool $archived
+     *
+     * @return mixed
+     */
+    public function archive(int $id, bool $archived=true)
+    {
+        $hauler = $this->find($id);
+
+        $hauler->archived = $archived;
+        $hauler->save();
+
+        return $hauler;
+    }
+
+
+    /**
      * Returns a single hauler from the database.
      *
      * @param int $id

@@ -33,6 +33,22 @@
                     <td>{{ $row->city_id }}</td>
                     <td>{{ $row->listWasteTypes() }}</td>
                     <td>{{ $row->listEmails() }}</td>
+                    <td>
+                        <a href="{{ route('haulers::show', ['id' => $row->id]) }}" class="label label-primary">Details</a>
+
+                        @if ($row->archived)
+                            <a href="{{ route('haulers::unarchive', ['id' => $row->id]) }}" class="label label-default"
+                                onClick="return confirm('Delete this Hauler permanently?');">
+                                UN-Archive
+                            </a>
+                        @else
+                            <a href="{{ route('haulers::archive', ['id' => $row->id]) }}" class="label label-warning"
+                                onClick="return confirm('Archive this Hauler?');">
+                                Archive
+                            </a>
+                        @endif
+                        <a href="{{ route('haulers::delete', ['id' => $row->id]) }}" class="label label-danger">Delete</a>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

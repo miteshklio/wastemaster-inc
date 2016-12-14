@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use WasteMaster\v1\Haulers\HaulerExists;
 use WasteMaster\v1\Haulers\HaulerManager;
+use WasteMaster\v1\Haulers\HaulerNotFound;
 use WasteMaster\v1\Helpers\DataTable;
 
 class HaulerController extends Controller
@@ -141,10 +142,60 @@ class HaulerController extends Controller
      *
      * @param Request $request
      * @param int     $haulerID
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request, int $haulerID)
     {
+        try {
+            $this->haulers->delete($haulerID);
 
+            return redirect()->route('haulers::home')->with(['message' => trans('messages.haulerDeleted')]);
+        }
+        catch (HaulerNotFound $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Sets the archive flag on a project.
+     *
+     * @param int                      $haulerID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function archive(int $haulerID)
+    {
+        try {
+            $this->haulers->archive($haulerID);
+
+            return redirect()->route('haulers::home')->with(['message' => trans('messages.haulerArchived')]);
+        }
+        catch (HaulerNotFound $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Unarchives a Hauler
+     *
+     * @param int                      $haulerID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unarchive(int $haulerID)
+    {
+        try {
+            $this->haulers->archive($haulerID, false);
+
+            return redirect()->route('haulers::home')->with(['message' => trans('messages.haulerArchived')]);
+        }
+        catch (HaulerNotFound $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
     }
 
 }
