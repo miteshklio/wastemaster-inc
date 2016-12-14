@@ -14,7 +14,7 @@ class CityController extends Controller
         $query = $request->input('query');
 
         $rows = \DB::table('cities')->where('name', 'like', $query.'%')
-            ->limit(100)
+            ->limit(20)
             ->get();
 
         if ($rows === null)

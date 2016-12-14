@@ -44,6 +44,7 @@ class CityImporter
         // don't hit the database with duplicate data.
         $lastStateID = 0;
         $lastState   = null;
+        $lastStateCode = null;
         $lastCity    = null;
 
         $fp = fopen($path, 'r');
@@ -67,6 +68,12 @@ class CityImporter
                     ]);
 
                 $lastState = $state;
+                $lastStateCode = $stateCode;
+            }
+
+            if (! empty($city))
+            {
+                $city = implode(', ', [$city, $lastStateCode]);
             }
 
             if (! empty($city) && $city != $lastCity)

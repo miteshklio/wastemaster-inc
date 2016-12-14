@@ -45,7 +45,7 @@
                   <span class="hamburger-inner"></span>
                 </span>
             </button>
-            
+
             <a class="navbar-brand" href="{{ \Auth::check() ? '/admin/dashboard':'/' }}"><img src="/img/wastemasterlogo.png" class="logo"/></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -65,12 +65,7 @@
     </div>
 </nav>
 
-@if( Session::has('message') )
-    <div class="alert alert-success container">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <p><?php echo Session::get('message'); ?></p>
-    </div>
-@endif
+@include('templates._error_block')
 
 <div class="container">
     @yield('content')

@@ -63,7 +63,7 @@ class HaulerController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'city' => 'required|integer',
+            'city' => 'required',
             'emails' => 'required|max:255'
         ]);
 
@@ -117,7 +117,7 @@ class HaulerController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'city' => 'required|integer',
+            'city' => 'required',
             'emails' => 'required|max:255'
         ]);
 
