@@ -36,6 +36,7 @@ class HaulerController extends Controller
         ])
             ->searchColumns(['name', 'emails', 'city_id'])
             ->setDefaultSort('name', 'asc')
+            ->eagerLoad('city')
             ->prepare(20);
 
         return view('app.admin.haulers.index')->with([
@@ -70,7 +71,7 @@ class HaulerController extends Controller
         {
             $this->haulers
                 ->setName($request->input('name'))
-                ->setCityID($request->input('city'))
+                ->setCity($request->input('city'))
                 ->setRecycling((bool)$request->input('recycle'))
                 ->setWaste((bool)$request->input('waste'))
                 ->setEmails($request->input('emails'))
@@ -124,7 +125,7 @@ class HaulerController extends Controller
         {
             $this->haulers
                 ->setName($request->input('name'))
-                ->setCityID($request->input('city'))
+                ->setCity($request->input('city'))
                 ->setRecycling((bool)$request->input('recycle'))
                 ->setWaste((bool)$request->input('waste'))
                 ->setEmails($request->input('emails'))

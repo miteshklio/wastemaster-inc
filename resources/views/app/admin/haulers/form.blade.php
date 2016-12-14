@@ -28,7 +28,7 @@
 
                 <div class="form-group">
                     <label for="city">City:</label>
-                    <input class="typeahead form-control" name="city" value="{{ $hauler->city_id or old('city') }}" required>
+                    <input class="typeahead form-control" name="city" value="{{ $hauler->city->name or old('city') }}" required>
                 </div>
 
                 <div class="row">

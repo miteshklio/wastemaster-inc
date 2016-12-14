@@ -49,5 +49,9 @@ class Hauler extends Model
         return implode(', ', unserialize($this->emails));
     }
 
+    public function city()
+    {
+        return $this->hasOne('App\City', 'id', 'city_id');
+    }
 
 }

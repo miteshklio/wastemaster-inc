@@ -1,5 +1,6 @@
 <?php namespace WasteMaster\v1\Haulers;
 
+use App\City;
 use App\Hauler;
 
 class HaulerManager
@@ -9,15 +10,18 @@ class HaulerManager
      */
     protected $haulers;
 
+    protected $cities;
+
     protected $name;
     protected $city;
     protected $doesRecycling;
     protected $doesWaste;
     protected $emails = [];
 
-    public function __construct(Hauler $hauler)
+    public function __construct(Hauler $hauler, City $cities)
     {
         $this->haulers = $hauler;
+        $this->cities  = $cities;
     }
 
     /**
@@ -44,6 +48,27 @@ class HaulerManager
     public function setCityID(int $id)
     {
         $this->city = $id;
+
+        return $this;
+    }
+
+    /**
+     * Looks up the appropriate city based on the city name.
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setCity(string $name)
+    {
+        $city = $this->cities->where('name', $name)->first();
+
+        if ($city === null)
+        {
+            throw new CityNotFound(trans('messages.cityNotFound'));
+        }
+
+        $this->city = $city->id;
 
         return $this;
     }
@@ -190,7 +215,7 @@ class HaulerManager
      */
     public function find(int $id)
     {
-        $hauler = $this->haulers->find($id);
+        $hauler = $this->haulers->with('city')->find($id);
 
         if ($hauler === null)
         {

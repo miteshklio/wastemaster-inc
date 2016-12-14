@@ -30,7 +30,7 @@
                     <td>
                         <a href="{{ route('haulers::show', ['id' => $row->id]) }}">{{ $row->name }}</a>
                     </td>
-                    <td>{{ $row->city_id }}</td>
+                    <td>{{ $row->city->name }}</td>
                     <td>{{ $row->listWasteTypes() }}</td>
                     <td>{{ $row->listEmails() }}</td>
                     <td>

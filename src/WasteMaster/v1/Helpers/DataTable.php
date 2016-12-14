@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace WasteMaster\v1\Helpers;
 
@@ -70,6 +70,8 @@ class DataTable
     protected $joins = [];
     protected $wheres = [];
 
+    protected $eagerLoad;
+
     /**
      * The
      * @var null
@@ -132,6 +134,11 @@ class DataTable
             {
                 $this->model = $this->model->where(...$where);
             }
+        }
+
+        if ($this->eagerLoad !== null)
+        {
+            $this->model = $this->model->with($this->eagerLoad);
         }
 
         if(!empty($this->sortColumn))
@@ -311,6 +318,21 @@ class DataTable
     }
 
     //--------------------------------------------------------------------
+
+    /**
+     * If set, will pass this string to the with() method on the model.
+     *
+     * @param string $children
+     *
+     * @return $this
+     */
+    public function eagerLoad(string $children)
+    {
+        $this->eagerLoad = $children;
+
+        return $this;
+    }
+
 
     //--------------------------------------------------------------------
     // Rendering
