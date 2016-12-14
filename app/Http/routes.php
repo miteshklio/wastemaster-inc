@@ -69,3 +69,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('hauler/{id}/archive', 'HaulerController@archive')->name('haulers::archive');
     Route::get('hauler/{id}/unarchive', 'HaulerController@unarchive')->name('haulers::unarchive');
 });
+
+/**
+ * AJAX
+ */
+Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function()
+{
+    Route::get('cities/autocomplete', 'CityController@autocomplete');
+});

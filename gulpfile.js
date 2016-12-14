@@ -58,7 +58,7 @@ gulp.task('components', function() {
             assetsDir + '/components/underscore/underscore.js',
             assetsDir + '/components/moment/min/moment.min.js',
             assetsDir + '/components/summernote/dist/summernote.js',
-            assetsDir + '/components/typeahead.js'
+            assetsDir + '/components/typeahead.js/dist/typeahead.bundle.js'
         ])
         .pipe(concat('components.js'))
         .pipe(uglify())
