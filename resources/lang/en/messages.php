@@ -18,4 +18,9 @@ return [
     'userCreated' => "Success! User :email has been created.",
     'userDeleted' => "Success! User has been deleted.",
     'userDeleteYoureADummy' => "Oh no! You almost deleted yourself. Maybe don't do that?",
+
+    // Haulers
+    'haulerInvalidEmail' => 'Email must be comma-delimited string or an array.',
+    'haulerValidationErrors' => 'The following fields are required to create a new Hauler: :fields',
+    'haulerNotFound' => 'Unable to locate a Hauler with matching id: :id',
 ];
