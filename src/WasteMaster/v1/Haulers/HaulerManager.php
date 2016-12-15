@@ -160,11 +160,14 @@ class HaulerManager
             throw new HaulerNotFound(trans('messages.haulerNotFound', ['id' => $id]));
         }
 
-        $fields = [];
+        $fields = [
+            'svc_recycle' => $this->doesRecycling,
+            'svc_waste'   => $this->doesWaste,
+        ];
 
         if ($this->name !== null) $fields['name'] = $this->name;
         if ($this->city !== null) $fields['city_id'] = $this->city;
-        if (! count($this->emails)) $fields['emails'] = serialize($this->parseEmails($this->emails));
+        if (count($this->emails)) $fields['emails'] = serialize($this->parseEmails($this->emails));
 
         $hauler->fill($fields);
         $hauler->save();

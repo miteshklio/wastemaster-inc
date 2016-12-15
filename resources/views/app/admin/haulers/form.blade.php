@@ -35,7 +35,7 @@
                     <div class="col-sm-3 col-xs-12">
                         <div class="checkbox">
                             <label for="recycle">
-                                <input type="checkbox" name="recycle" @if (old('recycle', $hauler->svc_recycle ?? null)) checked @endif> REC
+                                <input type="checkbox" name="recycle" @if (old('recycle', isset($hauler) ? $hauler->svc_recycle : null)) checked @endif> REC
                             </label>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="col-sm-3 col-xs-12">
                         <div class="checkbox">
                             <label for="waste">
-                                <input type="checkbox" name="waste" @if (old('recycle', $hauler->svc_recycle ?? null)) checked @endif> MSW
+                                <input type="checkbox" name="waste" @if (old('recycle', isset($hauler) ? $hauler->svc_waste : null)) checked @endif> MSW
                             </label>
                         </div>
                     </div>
