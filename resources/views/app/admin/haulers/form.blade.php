@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-sm-4 col-sm-offset-4">
             @if(request()->is('admin/hauler'))
-                <h2>Create New User</h2>
+                <h2>Create New Hauler</h2>
             @else
                 <h2>Update {{ $hauler->name }}</h2>
             @endif
