@@ -6,6 +6,9 @@
 
 return [
 
+    // General
+    'nothingToUpdate' => 'You must provide at least one field to update the record.',
+
     // Auth
     'notAdmin' => "Sorry, you don't have privileges to view this page.",
     'authFailed' => "Sorry, your username and password don't match our records.",
@@ -28,4 +31,9 @@ return [
     'haulerExists' => 'A Hauler with that name already exists in that city.',
     'haulerDeleted' => 'The Hauler has been deleted.',
     'haulerArchived' => 'Tha Hauler has been archived.',
+
+    // Leads
+    'invalidEmailAddress' => 'The email address :email is not a valid email.',
+    'leadValidationErrors' => 'The following fields are required to create a new Lead: :fields',
+    'leadExists' => 'A lead already exists for that address.',
 ];
