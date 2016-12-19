@@ -74,5 +74,5 @@
 @endsection
 
 @section('scripts')
-    @include('app.admin.shared._city_script.php')
+    @include('app.admin.shared._city_script')
 @endsection

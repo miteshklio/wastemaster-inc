@@ -34,22 +34,34 @@
                     <td>{{ $row->listWasteTypes() }}</td>
                     <td>{{ $row->listEmails() }}</td>
                     <td>
-                        <a href="{{ route('haulers::show', ['id' => $row->id]) }}" class="label label-primary">Details</a>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Modify <span class="caret"></span>
+                            </button>
 
-                        @if ($row->archived)
-                            <a href="{{ route('haulers::unarchive', ['id' => $row->id]) }}" class="label label-default">
-                                UN-Archive
-                            </a>
-                        @else
-                            <a href="{{ route('haulers::archive', ['id' => $row->id]) }}" class="label label-warning"
-                                onClick="return confirm('Archive this Hauler?');">
-                                Archive
-                            </a>
-                        @endif
-                        <a href="{{ route('haulers::delete', ['id' => $row->id]) }}" class="label label-danger"
-                           onClick="return confirm('Delete this Hauler permanently?');">
-                            Delete
-                        </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ route('haulers::show', ['id' => $row->id]) }}">Details</a>
+                                </li>
+                                <li>
+                                    @if ($row->archived)
+                                        <a href="{{ route('haulers::unarchive', ['id' => $row->id]) }}">
+                                            UN-Archive
+                                        </a>
+                                    @else
+                                        <a href="{{ route('haulers::archive', ['id' => $row->id]) }}" onClick="return confirm('Archive this Hauler?');">
+                                            Archive
+                                        </a>
+                                    @endif
+                                </li>
+                                <li>
+                                    <a href="{{ route('haulers::delete', ['id' => $row->id]) }}" onClick="return confirm('Delete this Hauler permanently?');">
+                                        Delete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
                     </td>
                 </tr>
             @endforeach
