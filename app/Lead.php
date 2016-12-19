@@ -58,7 +58,7 @@ class Lead extends Model
      *
      * @return string
      */
-    public function cheapestBid(bool $format = false)
+    public function cheapestBid($format = false)
     {
         return 'N/A';
     }
