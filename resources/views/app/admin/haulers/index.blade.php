@@ -26,7 +26,7 @@
             {!! $datatable->renderHeader('table') !!}
             <tbody>
             @foreach ($datatable->rows() as $row)
-                <tr>
+                <tr @if ($row->archived) class="archived" @endif>
                     <td>
                         <a href="{{ route('haulers::show', ['id' => $row->id]) }}">{{ $row->name }}</a>
                     </td>

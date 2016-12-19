@@ -27,7 +27,7 @@
             <tbody>
             @foreach ($datatable->rows() as $row)
 
-                <tr>
+                <tr @if ($row->archived) class="archived" @endif>
                     <td>
                         <a href="{{ route('leads::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
                     </td>
