@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label for="name" class="control-label col-sm-4">Business Name</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="company" value="{{ $lead->company or old('company') }}" autofocus required />
+                        <input type="text" class="form-control" name="company" value="{{ $lead->company or old('company') }}" autofocus required @if (isset($lead) && $lead->archived == 1) disabled @endif />
                     </div>
                 </div>
 
@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <label for="address" class="control-label col-sm-4">Address</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="address" value="{{ $lead->address or old('address') }}" required />
+                        <input type="text" class="form-control" name="address" value="{{ $lead->address or old('address') }}" required @if (isset($lead) && $lead->archived) disabled @endif />
                     </div>
                 </div>
 
@@ -55,7 +55,7 @@
                 <div class="form-group">
                     <label for="city" class="control-label col-sm-4">City:</label>
                     <div class="col-sm-8">
-                        <input class="typeahead form-control" name="city" value="{{ $lead->city->name or old('city') }}" required>
+                        <input class="typeahead form-control" name="city" value="{{ $lead->city->name or old('city') }}" required @if (isset($lead) && $lead->archived) disabled @endif>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                 <div class="form-group">
                     <label for="contact_name" class="control-label col-sm-4">Contact Name</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="contact_name" value="{{ $lead->contact_name or old('contact_name') }}" required />
+                        <input type="text" class="form-control" name="contact_name" value="{{ $lead->contact_name or old('contact_name') }}" required @if (isset($lead) && $lead->archived) disabled @endif />
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <label for="contact_email" class="control-label col-sm-4">Contact Email</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" name="contact_email" value="{{ $lead->contact_email or old('contact_email') }}" required />
+                        <input type="email" class="form-control" name="contact_email" value="{{ $lead->contact_email or old('contact_email') }}" required @if (isset($lead) && $lead->archived) disabled @endif />
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@
                 <div class="form-group">
                     <label for="account_num" class="control-label col-sm-4">Account Number</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="account_num" value="{{ $lead->account_num or old('account_num') }}" required />
+                        <input type="text" class="form-control" name="account_num" value="{{ $lead->account_num or old('account_num') }}" required @if (isset($lead) && $lead->archived) disabled @endif />
                     </div>
                 </div>
 
@@ -87,7 +87,7 @@
                 <div class="form-group">
                     <label for="hauler_id" class="control-label col-sm-4">Current Hauler</label>
                     <div class="col-sm-8">
-                        <select name="hauler_id" class="form-control">
+                        <select name="hauler_id" class="form-control" @if (isset($lead) && $lead->archived) disabled @endif>
                             <option value="0">Select a Hauler...</option>
                         @if ($haulers)
                             @foreach ($haulers as $hauler)
@@ -119,13 +119,13 @@
                                 </div>
                             </td>
                             <td>
-                                <input type="text" name="msw_qty" class="form-control" value="{{ $lead->msw_qty or old('msw_qty') }}">
+                                <input type="text" name="msw_qty" class="form-control" value="{{ $lead->msw_qty or old('msw_qty') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="msw_yards" class="form-control" value="{{ $lead->msw_yards or old('msw_yards') }}">
+                                <input type="text" name="msw_yards" class="form-control" value="{{ $lead->msw_yards or old('msw_yards') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="msw_per_week" class="form-control" value="{{ $lead->msw_per_week or old('msw_per_week') }}">
+                                <input type="text" name="msw_per_week" class="form-control" value="{{ $lead->msw_per_week or old('msw_per_week') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                         </tr>
                         <!-- Recycling -->
@@ -136,13 +136,13 @@
                                 </div>
                             </td>
                             <td>
-                                <input type="text" name="rec_qty" class="form-control" value="{{ $lead->rec_qty or old('rec_qty') }}">
+                                <input type="text" name="rec_qty" class="form-control" value="{{ $lead->rec_qty or old('rec_qty') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="rec_yards" class="form-control" value="{{ $lead->rec_yards or old('rec_yards') }}">
+                                <input type="text" name="rec_yards" class="form-control" value="{{ $lead->rec_yards or old('rec_yards') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="rec_per_week" class="form-control" value="{{ $lead->rec_per_week or old('rec_per_week') }}">
+                                <input type="text" name="rec_per_week" class="form-control" value="{{ $lead->rec_per_week or old('rec_per_week') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                         </tr>
                     </tbody>
@@ -154,7 +154,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <div class="input-group-addon">$</div>
-                            <input type="text" class="form-control" name="monthly_price" value="{{ $lead->monthly_price or old('monthly_price') }}" required />
+                            <input type="text" class="form-control" name="monthly_price" value="{{ $lead->monthly_price or old('monthly_price') }}" required @if (isset($lead) && $lead->archived) disabled @endif />
                         </div>
                     </div>
                 </div>
@@ -163,9 +163,9 @@
 
                 <div class="text-center">
                     @if(request()->is('admin/hauler'))
-                        <input type="submit" class="btn btn-success" value="Create Lead">
+                        <input type="submit" class="btn btn-success" value="Create Lead" @if (isset($lead) && $lead->archived) disabled @endif>
                     @else
-                        <input type="submit" class="btn btn-success" value="Save Lead">
+                        <input type="submit" class="btn btn-success" value="Save Lead" @if (isset($lead) && $lead->archived) disabled @endif>
                     @endif
                 </div>
 
