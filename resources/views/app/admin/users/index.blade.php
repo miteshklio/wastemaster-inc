@@ -8,11 +8,11 @@
     <h2>Manage Users</h2>
 
     <div class="row">
-        <div class="col-sm-6">
-             <a href="/admin/user" class="btn btn-sm btn-success">New User</a>
+        <div class="col-sm-6 text-left">
+            {!! $datatable->renderSearch() !!}
         </div>
         <div class="col-sm-6 text-right">
-            {!! $datatable->renderSearch() !!}
+             <a href="/admin/user" class="btn btn-sm btn-success">New User</a>
         </div>
     </div>
 
@@ -44,7 +44,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/admin/user/{{ $user->id }}">Edit</a></li>
                                 <li><a href="/admin/user/{{ $user->id }}/delete">Delete</a></li>
-                            </ul>                        
+                            </ul>
                         </div>
                     </td>
                 </tr>
