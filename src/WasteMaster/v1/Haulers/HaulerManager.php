@@ -229,6 +229,16 @@ class HaulerManager
     }
 
     /**
+     * Returns all haulers in the system.
+     *
+     * @return mixed
+     */
+    public function all()
+    {
+        return $this->haulers->get();
+    }
+
+    /**
      * Converts a comma-separated string of emails
      * into a usable array.
      *

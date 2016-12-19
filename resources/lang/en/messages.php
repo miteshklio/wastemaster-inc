@@ -36,4 +36,10 @@ return [
     'invalidEmailAddress' => 'The email address :email is not a valid email.',
     'leadValidationErrors' => 'The following fields are required to create a new Lead: :fields',
     'leadExists' => 'A lead already exists for that address.',
+    'leadNotFound' => 'Unable to locagte a Lead with matching id: :id',
+    'leadCreated' => 'The Lead was successfully created.',
+    'leadUpdated' => 'The changes to the Lead were successfully saved.',
+    'leadDeleted' => 'The Lead has been deleted.',
+    'leadArchived' => 'The Lead has been archived.',
+    'leadUnArchived' => 'The Lead has been un-archived.',
 ];

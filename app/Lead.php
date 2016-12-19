@@ -21,7 +21,7 @@ class Lead extends Model
      */
     public function city()
     {
-        return $this->hasOne('App\City');
+        return $this->hasOne('App\City', 'id', 'city_id');
     }
 
     /**
@@ -31,13 +31,35 @@ class Lead extends Model
      */
     public function hauler()
     {
-        return $this->hasOne('App\Hauler');
+        return $this->hasOne('App\Hauler', 'id', 'hauler_id');
     }
 
+    /**
+     * Increments the bid count by one.
+     * We keep the count separate here because count() in MySQL
+     * can be slow and, at times, inaccurate.
+     *
+     * @return $this
+     */
     public function incrementBidCount()
     {
         $this->bid_count++;
 
         return $this;
+    }
+
+    /**
+     * Displays the cheapest bid amount this lead has received so far,
+     * or 'N/A' if none.
+     *
+     * if $format is true, will display with currency symbol.
+     *
+     * @param bool $format
+     *
+     * @return string
+     */
+    public function cheapestBid(bool $format = false)
+    {
+        return 'N/A';
     }
 }

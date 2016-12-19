@@ -68,6 +68,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('hauler/{id}/delete', 'HaulerController@delete')->name('haulers::delete');
     Route::get('hauler/{id}/archive', 'HaulerController@archive')->name('haulers::archive');
     Route::get('hauler/{id}/unarchive', 'HaulerController@unarchive')->name('haulers::unarchive');
+
+    // Leads
+    Route::match(['get', 'post'], 'leads', 'LeadsController@index')->name('leads::home');
+    Route::get('lead', 'LeadsController@newLead')->name('leads::new');
+    Route::post('lead', 'LeadsController@create')->name('leads::create');
+    Route::get('lead/{id}', 'LeadsController@show')->name('leads::show');
+    Route::post('lead/{id}', 'LeadsController@update')->name('leads::update');
+    Route::get('lead/{id}/delete', 'LeadsController@delete')->name('leads::delete');
+    Route::get('lead/{id}/archive', 'LeadsController@archive')->name('leads::archive');
+    Route::get('lead/{id}/unarchive', 'LeadsController@unarchive')->name('leads::unarchive');
 });
 
 /**

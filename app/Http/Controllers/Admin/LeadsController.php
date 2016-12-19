@@ -1,19 +1,259 @@
-<?php
-
-namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Lead;
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use WasteMaster\v1\Haulers\HaulerManager;
+use WasteMaster\v1\Leads\LeadExists;
+use WasteMaster\v1\Leads\LeadManager;
+use WasteMaster\v1\Leads\LeadNotFound;
+use WasteMaster\v1\Helpers\DataTable;
 
 class LeadsController extends Controller
 {
     protected $leads;
 
-    public function __construct(Lead $leads)
+    public function __construct(LeadManager $leads)
     {
         $this->leads = $leads;
+    }
+
+    /**
+     * Displays sortable table of leads in the system.
+     *
+     * @param Lead $model
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Lead $model)
+    {
+        $datatable = new DataTable($model);
+
+        $datatable->showColumns([
+            'company'    => 'Name',
+            'city_id'    => 'City',
+            'created_at' => 'Created At',
+            'status'     => 'Status',
+            'Current $',
+            'Cheapest Bid',
+            'bid_count' => '# of Bids'
+        ])
+            ->searchColumns(['name', 'status'])
+            ->setDefaultSort('created_at', 'desc')
+            ->eagerLoad('city')
+            ->prepare(20);
+
+        return view('app.admin.leads.index')->with([
+            'datatable' => $datatable
+        ]);
+    }
+
+    /**
+     * Displays the create Lead form.
+     */
+    public function newLead(HaulerManager $haulers)
+    {
+        return view('app.admin.leads.form', [
+            'editMode' => false,
+            'haulers' => $haulers->all()
+        ]);
+    }
+
+    /**
+     * Actual Lead creation.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'company' => 'required|max:255',
+            'address' => 'required',
+            'city' => 'required',
+            'contact_name' => 'required|max:255',
+            'contact_email' => 'required|email|max:255',
+            'account_num' => 'required|max:255',
+            'hauler_id' => 'required|integer',
+            'msw_qty' => 'integer',
+            'msw_yards' => 'integer',
+            'msw_per_week' => 'integer',
+            'rec_qty' => 'integer',
+            'rec_yards' => 'integer',
+            'rec_per_week' => 'integer',
+            'monthly_price' => 'numeric'
+        ]);
+
+        try
+        {
+            $this->leads
+                ->setCompany($request->input('company'))
+                ->setAddress($request->input('address'))
+                ->setCity($request->input('city'))
+                ->setContactName($request->input('contact_name'))
+                ->setContactEmail($request->input('contact_email'))
+                ->setAccountNum($request->input('account_num'))
+                ->setHaulerID($request->input('hauler_id'))
+                ->setWaste(
+                    $request->input('msw_qty'),
+                    $request->input('msw_yards'),
+                    $request->input('msw_per_week')
+                )
+                ->setRecycling(
+                    $request->input('rec_qty'),
+                    $request->input('rec_yards'),
+                    $request->input('rec_per_week')
+                )
+                ->setMonthlyPrice($request->input('monthly_price'))
+                ->create();
+
+            return redirect()->route('leads::home')->with(['message' => trans('messages.leadCreated')]);
+        } catch(LeadExists $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Displays the edit a Lead form.
+     *
+     * @param HaulerManager $haulers
+     * @param int           $leadID
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function show(HaulerManager $haulers, int $leadID)
+    {
+        $lead = $this->leads->find($leadID);
+
+        if ($lead === null)
+        {
+            return redirect()->back()->with(['message' => trans('messages.leadNotFound')]);
+        }
+
+        return view('app.admin.leads.form', [
+            'lead' => $lead,
+            'editMode' => true,
+            'haulers' => $haulers->all()
+        ]);
+    }
+
+    /**
+     * Handles actually saving the updated record.
+     *
+     * @param Request $request
+     * @param int     $leadID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, int $leadID)
+    {
+        $this->validate($request, [
+            'company' => 'required|max:255',
+            'address' => 'required',
+            'city' => 'required',
+            'contact_name' => 'required|max:255',
+            'contact_email' => 'required|email|max:255',
+            'account_num' => 'required|max:255',
+            'hauler_id' => 'required|integer',
+            'msw_qty' => 'integer',
+            'msw_yards' => 'integer',
+            'msw_per_week' => 'integer',
+            'rec_qty' => 'integer',
+            'rec_yards' => 'integer',
+            'rec_per_week' => 'integer',
+            'monthly_price' => 'numeric'
+        ]);
+
+        try
+        {
+            $this->leads
+                ->setCompany($request->input('company'))
+                ->setAddress($request->input('address'))
+                ->setCity($request->input('city'))
+                ->setContactName($request->input('contact_name'))
+                ->setContactEmail($request->input('contact_email'))
+                ->setAccountNum($request->input('account_num'))
+                ->setHaulerID($request->input('hauler_id'))
+                ->setWaste(
+                    $request->input('msw_qty'),
+                    $request->input('msw_yards'),
+                    $request->input('msw_per_week')
+                )
+                ->setRecycling(
+                    $request->input('rec_qty'),
+                    $request->input('rec_yards'),
+                    $request->input('rec_per_week')
+                )
+                ->setMonthlyPrice($request->input('monthly_price'))
+                ->update($leadID);
+
+            return redirect()->route('leads::show', ['id' => $leadID])->with(['message' => trans('messages.leadUpdated')]);
+        } catch(LeadExists $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Deletes a Lead.
+     *
+     * @param int     $leadID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(int $leadID)
+    {
+        try {
+            $this->leads->delete($leadID);
+
+            return redirect()->route('leads::home')->with(['message' => trans('messages.leadDeleted')]);
+        }
+        catch (LeadNotFound $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Sets the archive flag on a lead.
+     *
+     * @param int $leadID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function archive(int $leadID)
+    {
+        try {
+            $this->leads->archive($leadID);
+
+            return redirect()->route('leads::home')->with(['message' => trans('messages.leadArchived')]);
+        }
+        catch (LeadNotFound $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Unarchives a Lead
+     *
+     * @param int $leadID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unarchive(int $leadID)
+    {
+        try {
+            $this->leads->archive($leadID, false);
+
+            return redirect()->route('leads::home')->with(['message' => trans('messages.leadUnArchived')]);
+        }
+        catch (LeadNotFound $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
     }
 
 }

@@ -65,7 +65,7 @@ class LeadManager
      */
     public function setCityID(int $id)
     {
-        $this->city = $id;
+        $this->city_id = $id;
 
         return $this;
     }
@@ -86,7 +86,7 @@ class LeadManager
             throw new CityNotFound(trans('messages.cityNotFound'));
         }
 
-        $this->city = $city->id;
+        $this->city_id = $city->id;
 
         return $this;
     }
@@ -176,7 +176,7 @@ class LeadManager
 
         // Does a Lead with this address
         // already exist?
-        if ($this->leads->where(['address' => $this->address, 'city_id' => $this->city])->count())
+        if ($this->leads->where(['address' => $this->address, 'city_id' => $this->city_id])->count())
         {
             throw new LeadExists(trans('messages.leadExists'));
         }
@@ -196,8 +196,8 @@ class LeadManager
             'rec_yards' => $this->rec_yards,
             'rec_per_week' => $this->rec_per_week,
             'monthly_price' => $this->monthly_price,
-            'status' => 'New Lead',
-            'archived' => false,
+            'status' => 'New',
+            'archived' => 0,
             'bid_count' => 0,
         ]);
 
@@ -270,10 +270,15 @@ class LeadManager
     {
         $lead = $this->find($id);
 
-        $lead->arhived = $archived;
+        $lead->archived = $archived;
         return $lead->save();
     }
 
+
+    /**
+     * Used internally after a create or udpate
+     * to reset the class properties.
+     */
     protected function reset()
     {
         $this->company = null;

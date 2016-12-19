@@ -80,6 +80,26 @@ class LeadManagerTest extends UnitTestCase
 
     public function testCreateSuccess()
     {
+        $expects = [
+            'company' => 'companya',
+            'address' => '123AlphabetSt',
+            'city_id' => 2,
+            'contact_name' => 'contactperson',
+            'contact_email' => 'foo@example.com',
+            'account_num' => 'abc123',
+            'hauler_id' => 3,
+            'msw_qty' => 1,
+            'msw_yards' => 2,
+            'msw_per_week' => 3,
+            'rec_qty' => 4,
+            'rec_yards' => 5,
+            'rec_per_week' => 6,
+            'monthly_price' => 123,
+            'status' => 'NewLead',
+            'archived' => 0,
+            'bid_count' => 0,
+        ];
+
         $this->leads->shouldReceive('where->count')
                     ->once()
                     ->andReturn(0);
@@ -90,10 +110,10 @@ class LeadManagerTest extends UnitTestCase
             ]);
 
         $lead = $this->manager
-            ->setCompany('company a')
-            ->setAddress('123 Alphabet St')
+            ->setCompany('companya')
+            ->setAddress('123AlphabetSt')
             ->setCityID(2)
-            ->setContactName('contact person')
+            ->setContactName('contactperson')
             ->setContactEmail('foo@example.com')
             ->setAccountNum('abc123')
             ->setHaulerID(3)
