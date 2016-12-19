@@ -191,7 +191,7 @@ class HaulerController extends Controller
         try {
             $this->haulers->archive($haulerID, false);
 
-            return redirect()->route('haulers::home')->with(['message' => trans('messages.haulerArchived')]);
+            return redirect()->route('haulers::home')->with(['message' => trans('messages.haulerUnArchived')]);
         }
         catch (HaulerNotFound $e)
         {

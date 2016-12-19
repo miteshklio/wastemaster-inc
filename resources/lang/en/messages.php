@@ -31,6 +31,7 @@ return [
     'haulerExists' => 'A Hauler with that name already exists in that city.',
     'haulerDeleted' => 'The Hauler has been deleted.',
     'haulerArchived' => 'Tha Hauler has been archived.',
+    'haulerUnArchived' => 'Tha Hauler has been un-archived.',
 
     // Leads
     'invalidEmailAddress' => 'The email address :email is not a valid email.',
