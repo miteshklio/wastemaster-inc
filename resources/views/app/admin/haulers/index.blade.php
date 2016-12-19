@@ -37,8 +37,7 @@
                         <a href="{{ route('haulers::show', ['id' => $row->id]) }}" class="label label-primary">Details</a>
 
                         @if ($row->archived)
-                            <a href="{{ route('haulers::unarchive', ['id' => $row->id]) }}" class="label label-default"
-                                onClick="return confirm('Delete this Hauler permanently?');">
+                            <a href="{{ route('haulers::unarchive', ['id' => $row->id]) }}" class="label label-default">
                                 UN-Archive
                             </a>
                         @else
@@ -47,7 +46,10 @@
                                 Archive
                             </a>
                         @endif
-                        <a href="{{ route('haulers::delete', ['id' => $row->id]) }}" class="label label-danger">Delete</a>
+                        <a href="{{ route('haulers::delete', ['id' => $row->id]) }}" class="label label-danger"
+                           onClick="return confirm('Delete this Hauler permanently?');">
+                            Delete
+                        </a>
                     </td>
                 </tr>
             @endforeach
