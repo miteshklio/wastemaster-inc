@@ -173,7 +173,7 @@
         </div>
 
 
-        <div class="col-sm-5 col-sm-offset-1">
+        <div class="col-sm-3 col-sm-offset-2 text-center">
 
             @include('app.admin.leads._send_emails')
 

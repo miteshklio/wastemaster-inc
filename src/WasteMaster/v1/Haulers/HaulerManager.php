@@ -239,6 +239,21 @@ class HaulerManager
     }
 
     /**
+     * Returns a collection of haulers within the specified city.
+     *
+     * @param int $cityID
+     *
+     * @return mixed
+     */
+    public function inCity(int $cityID)
+    {
+        return $this->haulers
+            ->where('city_id', $cityID)
+            ->get();
+    }
+
+
+    /**
      * Converts a comma-separated string of emails
      * into a usable array.
      *

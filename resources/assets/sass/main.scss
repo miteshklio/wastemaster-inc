@@ -12,6 +12,15 @@ body {
   font-family: $opensans;
 }
 
+a.btn {
+  color: #fff !important;
+}
+
+a:link,
+a:visited {
+  color: $dark-green;
+}
+
 /** Logo **/
 .logo {
   width: 125px;

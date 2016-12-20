@@ -78,6 +78,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('lead/{id}/delete', 'LeadsController@delete')->name('leads::delete');
     Route::get('lead/{id}/archive', 'LeadsController@archive')->name('leads::archive');
     Route::get('lead/{id}/unarchive', 'LeadsController@unarchive')->name('leads::unarchive');
+    Route::post('lead/{id}/send_bid_requests', 'LeadsController@sendBidRequest')->name('leads::sendBidRequest');
 });
 
 /**

@@ -1,0 +1,35 @@
+@import "variables";
+
+p.notice {
+  width: 80%;
+  margin: 0 auto 20px auto;
+}
+
+.side-block {
+  margin-bottom: 50px;
+  position:relative;
+
+  h3 {
+    color: #999;
+    font-size: 100%;
+    text-align: center;
+  }
+
+  .amt-lg {
+    color: $dark-green;
+    font-size: 36px;
+    padding: 0;
+    text-align: center;
+  }
+
+  .btn {
+    color: $white;
+    width: 80% !important;
+    margin: 0 auto;
+  }
+
+  .checkbox {
+    padding: 0 10%;
+    text-align: left;
+  }
+}
