@@ -141,7 +141,7 @@ class HaulerManagerTest extends UnitTestCase
             ->setEmails('foo@example.com, bar@example.com')
             ->update(3);
 
-        $this->assertTrue($hauler instanceof Mockery_0_App_Hauler);
+        $this->assertEquals($hauler, $this->haulers);
     }
 
     public function testDeleteSuccess()
