@@ -79,6 +79,20 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('lead/{id}/archive', 'LeadsController@archive')->name('leads::archive');
     Route::get('lead/{id}/unarchive', 'LeadsController@unarchive')->name('leads::unarchive');
     Route::post('lead/{id}/send_bid_requests', 'LeadsController@sendBidRequest')->name('leads::sendBidRequest');
+
+    // Clients
+    Route::match(['get', 'post'], 'clients', 'ClientController@index')->name('clients::home');
+    Route::get('client', 'ClientController@newClient')->name('clients::new');
+    Route::post('client', 'ClientController@create')->name('clients::create');
+    Route::get('client/{id}', 'ClientController@show')->name('clients::show');
+    Route::post('client/{id}', 'ClientController@update')->name('clients::update');
+    Route::get('client/{id}/delete', 'ClientController@delete')->name('clients::delete');
+    Route::get('client/{id}/archive', 'ClientController@archive')->name('clients::archive');
+    Route::get('client/{id}/unarchive', 'ClientController@unarchive')->name('clients::unarchive');
+    Route::get('client/{id}/rebid', 'ClientController@rebid')->name('clients::rebid');
+
+    // Bids
+    Route::match(['get', 'post'], 'bids', 'BidController@index')->name('bids::home');
 });
 
 /**

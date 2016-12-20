@@ -52,8 +52,8 @@
             @if(\Auth::check())
                 <ul class="nav navbar-nav">
                     <li class="{{ request()->is('admin/lead*') ? 'active':'' }}"><a href="{{ route('leads::home') }}">Leads</a></li>
-                    <li class="{{ request()->is('admin/client*') ? 'active':'' }}"><a href="#">Clients</a></li>
-                    <li class="{{ request()->is('admin/bid*') ? 'active':'' }}"><a href="#">Bids</a></li>
+                    <li class="{{ request()->is('admin/client*') ? 'active':'' }}"><a href="{{ route('clients::home') }}">Clients</a></li>
+                    <li class="{{ request()->is('admin/bid*') ? 'active':'' }}"><a href="{{ route('bids::home') }}">Bids</a></li>
                     <li class="{{ request()->is('admin/hauler*') ? 'active':'' }}"><a href="/admin/haulers">Haulers</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

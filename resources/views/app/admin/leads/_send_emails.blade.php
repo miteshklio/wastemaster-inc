@@ -46,7 +46,8 @@
     <div class="side-block">
         <h3>Post-Bid Matching Price</h3>
 
-        @if ($lead->bid_count > 0)
+        @if ($lead->bid_count == 0)
+            <br>
             <p class="notice">This option will display once bids have been received.</p>
         @else
         @endif

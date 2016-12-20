@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lead extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'leads';
 
     public $fillable = [
@@ -13,6 +16,8 @@ class Lead extends Model
         'hauler_id', 'msw_qty', 'msw_yards', 'msw_per_week', 'rec_qty', 'rec_yards', 'rec_per_week',
         'monthly_price', 'status', 'archived', 'bid_count'
     ];
+
+    protected $dates = ['deleted_at'];
 
     /**
      * The City/State combo the lead is in.
