@@ -29,7 +29,7 @@
 
                 <tr @if ($row->archived) class="archived" @endif>
                     <td>
-                        <a href="{{ route('leads::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
+                        <a href="{{ route('clients::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
                     </td>
                     <td>{{ $row->city->name }}</td>
                     <td>{{ date('M D, Y', strtotime($row->created_at)) }}</td>
