@@ -28,7 +28,12 @@
                             <div class="alert alert-danger" role="alert">{{ $errors->first('email') }}</div>
                         @endif
 
-                        <input type="email" class="form-control" name="email" id = "inputEmail" placeholder="Your email address..." value="{{ old('email', '') }}">
+                        <br>
+
+                        <div class="form-group">
+                            <label for="email" class="control-label">Your Email Address</label>
+                            <input type="email" class="form-control" name="email" id = "inputEmail" placeholder="john.doe@example.com" value="{{ old('email', '') }}">
+                        </div>
 
                         <br/>
 
