@@ -9,6 +9,13 @@ class Lead extends Model
 {
     use SoftDeletes;
 
+    // Status constants
+    const NEW                 = 1;
+    const REBIDDING           = 2;
+    const BIDS_REQUESTED      = 3;
+    const BID_ACCEPTED        = 4;
+    const CONVERTED_TO_CLIENT = 5;
+
     protected $table = 'leads';
 
     public $fillable = [
