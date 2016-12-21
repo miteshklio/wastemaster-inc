@@ -32,7 +32,7 @@ class AuthController extends Controller {
         }
 
         // Remember me
-        $remember = (!empty($request->get('remember')) and $request->get('remember') === 'true') ? true : false;
+        $remember = (!empty($request->get('remember-me')) and $request->get('remember-me') === 'on') ? true : false;
 
         // Attempt login
         if($auth->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember))
@@ -42,7 +42,7 @@ class AuthController extends Controller {
 
         //Failed. Redirect to previous page
         return redirect()->back()->with('message', $lang->get('messages.authFailed'));
-    }   
+    }
 
     /**
      * Logout user
