@@ -1,31 +1,25 @@
-<?php namespace WasteMaster\v1\Clients;
+<?php namespace WasteMaster\v1\Bids;
 
+use App\Bid;
 use App\City;
 use App\Client;
 use Geocoder\Exception\InvalidArgument;
 
-class ClientManager
+class BidManager
 {
     /**
-     * @var \App\Client
+     * @var \App\Bid
      */
-    protected $clients;
-
-    /**
-     * @var \App\City
-     */
-    protected $cities;
+    protected $bids;
 
     /**
      * DB Columns
      */
-    protected $company;
-    protected $address;
-    protected $city_id;
-    protected $contact_name;
-    protected $contact_email;
-    protected $account_num;
     protected $hauler_id;
+    protected $hauler_email;
+    protected $lead_id;
+    protected $status;
+    protected $notes;
     protected $msw_qty;
     protected $msw_yards;
     protected $msw_per_week;
@@ -42,90 +36,12 @@ class ClientManager
     protected $admin_fee;
     protected $other_fees;
     protected $net_monthly;
-    protected $gross_profit;
-    protected $total;
-    protected $archived;
 
-    public function __construct(Client $clients, City $cities)
+    public function __construct(Bid $bids)
     {
-        $this->clients = $clients;
-        $this->cities = $cities;
+        $this->bids = $bids;
     }
 
-    public function setCompany(string $company)
-    {
-        $this->company = $company;
-
-        return $this;
-    }
-
-    public function setAddress(string $address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Sets the city_id to use when creating/updating a Hauler.
-     *
-     * @param int $id
-     *
-     * @return $this
-     */
-    public function setCityID(int $id)
-    {
-        $this->city_id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Looks up the appropriate city based on the city name.
-     *
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setCity(string $name)
-    {
-        $city = $this->cities->where('name', $name)->first();
-
-        if ($city === null)
-        {
-            throw new CityNotFound(trans('messages.cityNotFound'));
-        }
-
-        $this->city_id = $city->id;
-
-        return $this;
-    }
-
-    public function setContactName(string $name)
-    {
-        $this->contact_name = $name;
-
-        return $this;
-    }
-
-    public function setContactEmail(string $email)
-    {
-        if (! filter_var($email, FILTER_VALIDATE_EMAIL))
-        {
-            throw new InvalidEmail(trans('messages.invalidEmailAddress'));
-        }
-
-        $this->contact_email = $email;
-
-        return $this;
-    }
-
-    public function setAccountNum(string $num)
-    {
-        $this->account_num = $num;
-
-        return $this;
-    }
 
     public function setHaulerID(int $id)
     {
@@ -133,6 +49,51 @@ class ClientManager
 
         return $this;
     }
+
+    public function setHaulerEmail(string $email)
+    {
+        if (! filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            throw new InvalidEmail(trans('messages.invalidEmailAddress', ['email' => $email]));
+        }
+
+        $this->hauler_email = $email;
+        
+        return $this;
+    }
+
+    public function setLeadID(int $leadID)
+    {
+        $this->lead_id = $leadID;
+        
+        return $this;
+    }
+
+    public function setStatus(int $statusID)
+    {
+        $validStatus = [
+            Bid::STATUS_LIVE,
+            Bid::STATUS_ACCEPTED,
+            Bid::STATUS_CLOSED,
+        ];
+
+        if (! in_array($statusID, $validStatus))
+        {
+            throw new InvalidStatus(trans('messages.bidInvalidStatus', ['status' => $statusID]));
+        }
+
+        $this->status = $statusID;
+
+        return $this;
+    }
+
+    public function setNotes(string $notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
 
     public function setWaste(int $qty, int $yards, int $frequency)
     {
@@ -148,18 +109,6 @@ class ClientManager
         $this->rec_qty      = $qty;
         $this->rec_yards    = $yards;
         $this->rec_per_week = $frequency;
-
-        return $this;
-    }
-
-    public function setPriorTotal($total)
-    {
-        if (! is_numeric($total))
-        {
-            throw new InvalidArgument(trans('messages.notANumber', ['key' => 'prior_total', 'value' => $total]));
-        }
-
-        $this->prior_total = $total;
 
         return $this;
     }
@@ -272,36 +221,6 @@ class ClientManager
         return $this;
     }
 
-    public function setGross($amount)
-    {
-        if (! is_numeric($amount))
-        {
-            throw new InvalidArgument(trans('messages.notANumber', ['key' => 'gross_profit', 'value' => $amount]));
-        }
-
-        $this->gross_profit = $amount;
-
-        return $this;
-    }
-
-    public function setTotal($amount)
-    {
-        if (! is_numeric($amount))
-        {
-            throw new InvalidArgument(trans('messages.notANumber', ['key' => 'total', 'value' => $amount]));
-        }
-
-        $this->total = $amount;
-
-        return $this;
-    }
-
-    public function setArchived(bool $archived = true)
-    {
-        $this->archived = $archived;
-
-        return $this;
-    }
 
     public function create()
     {
@@ -309,26 +228,23 @@ class ClientManager
 
         // Does a Lead with this address
         // already exist?
-        if ($this->clients->where(['address' => $this->address, 'city_id' => $this->city_id])->count())
+        if ($this->bids->where(['lead_id' => $this->lead_id, 'hauler_id' => $this->hauler_id])->count())
         {
-            throw new ClientExists(trans('messages.clientExists'));
+            throw new BidExists(trans('messages.bidExists'));
         }
 
-        $lead = $this->clients->create([
-            'company' => $this->company,
-            'address' => $this->address,
-            'city_id' => $this->city_id,
-            'contact_name' => $this->contact_name,
-            'contact_email' => $this->contact_email,
-            'account_num' => $this->account_num,
+        $lead = $this->bids->create([
             'hauler_id' => $this->hauler_id,
+            'hauler_email' => $this->hauler_email,
+            'lead_id' => $this->lead_id,
+            'status' => $this->status,
+            'notes' => $this->notes,
             'msw_qty' => $this->msw_qty,
             'msw_yards' => $this->msw_yards,
             'msw_per_week' => $this->msw_per_week,
             'rec_qty' => $this->rec_qty,
             'rec_yards' => $this->rec_yards,
             'rec_per_week' => $this->rec_per_week,
-            'prior_total' => $this->prior_total,
             'msw_price' => $this->msw_price,
             'rec_price' => $this->rec_price,
             'rec_offset' => $this->rec_offset,
@@ -338,9 +254,6 @@ class ClientManager
             'admin_fee' => $this->admin_fee,
             'other_fees' => $this->other_fees,
             'net_monthly' => $this->net_monthly,
-            'gross_profit' => $this->gross_profit,
-            'total' => $this->total,
-            'archived' => 0,
         ]);
 
         $this->reset();
@@ -350,28 +263,27 @@ class ClientManager
 
     public function update($id)
     {
-        $client = $this->clients->find($id);
+        $bid = $this->bids->find($id);
 
-        if ($client === null)
+        if ($bid === null)
         {
-            throw new ClientNotFound(trans('messages.clientNotFound', ['id' => $id]));
+            throw new BidNotFound(trans('messages.bidNotFound', ['id' => $id]));
         }
 
         $fields = [];
 
-        if ($this->company !== null) $fields['company'] = $this->company;
-        if ($this->address !== null) $fields['address'] = $this->address;
-        if ($this->contact_name !== null) $fields['contact_name'] = $this->contact_name;
-        if ($this->contact_email !== null) $fields['contact_email'] = $this->contact_email;
-        if ($this->account_num !== null) $fields['account_num'] = $this->account_num;
+
         if ($this->hauler_id !== null) $fields['hauler_id'] = $this->hauler_id;
+        if ($this->hauler_email !== null) $fields['hauler_email'] = $this->hauler_email;
+        if ($this->lead_id !== null) $fields['lead_id'] = $this->lead_id;
+        if ($this->status !== null) $fields['status'] = $this->status;
+        if ($this->notes !== null) $fields['notes'] = $this->notes;
         if ($this->msw_qty !== null) $fields['msw_qty'] = $this->msw_qty;
         if ($this->msw_yards !== null) $fields['msw_yards'] = $this->msw_yards;
         if ($this->msw_per_week !== null) $fields['msw_per_week'] = $this->msw_per_week;
         if ($this->rec_qty !== null) $fields['rec_qty'] = $this->rec_qty;
         if ($this->rec_yards !== null) $fields['rec_yards'] = $this->rec_yards;
         if ($this->rec_per_week !== null) $fields['rec_per_week'] = $this->rec_per_week;
-        if ($this->prior_total !== null) $fields['prior_total'] = $this->prior_total;
         if ($this->msw_price !== null) $fields['msw_price'] = $this->msw_price;
         if ($this->rec_price !== null) $fields['rec_price'] = $this->rec_price;
         if ($this->rec_offset !== null) $fields['rec_offset'] = $this->rec_offset;
@@ -381,33 +293,30 @@ class ClientManager
         if ($this->admin_fee !== null) $fields['admin_fee'] = $this->admin_fee;
         if ($this->other_fees !== null) $fields['other_fees'] = $this->other_fees;
         if ($this->net_monthly !== null) $fields['net_monthly'] = $this->net_monthly;
-        if ($this->gross_profit !== null) $fields['gross_profit'] = $this->gross_profit;
-        if ($this->total !== null) $fields['total'] = $this->total;
-        if ($this->archived !== null) $fields['archived'] = $this->archived;
 
         if (! count($fields))
         {
             throw new NothingToUpdate(trans('messages.nothingToUpdate'));
         }
 
-        $client->fill($fields);
-        $client->save();
+        $bid->fill($fields);
+        $bid->save();
 
         $this->reset();
 
-        return $client;
+        return $bid;
     }
 
     public function find(int $id)
     {
-        $client = $this->clients->with(['city', 'hauler'])->find($id);
+        $bid = $this->bids->with(['lead', 'hauler'])->find($id);
 
-        if ($client === null)
+        if ($bid === null)
         {
-            throw new ClientNotFound(trans('messages.clientNotFound', ['id' => $id]));
+            throw new BidNotFound(trans('messages.bidNotFound', ['id' => $id]));
         }
 
-        return $client;
+        return $bid;
     }
 
     public function delete(int $id)
@@ -417,14 +326,6 @@ class ClientManager
         return $lead->delete();
     }
 
-    public function archive(int $id, bool $archived = true)
-    {
-        $client = $this->find($id);
-
-        $client->archived = $archived;
-        return $client->save();
-    }
-
 
     /**
      * Used internally after a create or udpate
@@ -432,13 +333,11 @@ class ClientManager
      */
     protected function reset()
     {
-        $this->company = null;
-        $this->address = null;
-        $this->city_id = null;
-        $this->contact_name = null;
-        $this->contact_email = null;
-        $this->account_num = null;
         $this->hauler_id = null;
+        $this->hauler_email = null;
+        $this->lead_id = null;
+        $this->status = null;
+        $this->notes = null;
         $this->msw_qty = null;
         $this->msw_yards = null;
         $this->msw_per_week = null;
@@ -454,9 +353,6 @@ class ClientManager
         $this->admin_fee = null;
         $this->other_fees = null;
         $this->net_monthly = null;
-        $this->gross_profit = null;
-        $this->total = null;
-        $this->archived = null;
     }
 
     /**
@@ -468,7 +364,7 @@ class ClientManager
         // doesWaste and doesRecycling will return
         // false alarm when a '0'.
         $requiredFields = [
-            'address', 'contact_name', 'contact_email', 'account_num'
+            'hauler_id', 'hauler_email', 'lead_id', 'status', 'msw_price', 'rec_price', 'net_monthly'
         ];
 
         $errorFields = [];
@@ -483,7 +379,7 @@ class ClientManager
 
         if (count($errorFields))
         {
-            throw new MissingRequiredFields(trans('messages.clientValidationErrors', ['fields' => implode(', ', $errorFields)]));
+            throw new MissingRequiredFields(trans('messages.bidValidationErrors', ['fields' => implode(', ', $errorFields)]));
         }
     }
 

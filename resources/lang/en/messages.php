@@ -54,4 +54,13 @@ return [
     'clientDeleted' => 'The Client has been deleted.',
     'clientArchived' => 'The Client has been archived.',
     'clientUnArchived' => 'The Client has been un-archived.',
+
+    // Bids
+    'bidValidationErrors' => 'The following fields are required to create a new Bid: :fields',
+    'bidExists' => 'A Bid already exists for that lead/hauler.',
+    'bidNotFound' => 'Unable to locate a Bid with matching id: :id',
+    'bidCreated' => 'The Bid was successfully created.',
+    'bidUpdated' => 'The changes to the Bid were successfully saved.',
+    'bidDeleted' => 'The Bid has been deleted.',
+    'bidInvalidStatus' => ':status is not a valid Bid Status.',
 ];

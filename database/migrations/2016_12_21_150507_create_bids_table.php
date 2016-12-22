@@ -28,7 +28,6 @@ class CreateBidsTable extends Migration
             $table->decimal('admin_fee')->nullable();
             $table->decimal('other_fees')->nullable();
             $table->decimal('net_monthly')->nullable();
-            $table->boolean('archived');
             $table->timestamps();
 
             $table->index('lead_id');
