@@ -69,6 +69,7 @@ class DataTable
 
     protected $joins = [];
     protected $wheres = [];
+    protected $select;
 
     protected $eagerLoad;
 
@@ -151,6 +152,11 @@ class DataTable
             $this->results = $this->model->paginate($this->perPage);
         }
 
+        if (! empty($this->select) && is_array($this->select))
+        {
+            $this->model = $this->model->select(...$this->select);
+        }
+
         return $this;
     }
 
@@ -184,6 +190,13 @@ class DataTable
     }
 
     //--------------------------------------------------------------------
+
+    public function select(...$params)
+    {
+        $this->select = $params;
+
+        return $this;
+    }
 
     /**
      * Sets the default sort value to use if nothing else has

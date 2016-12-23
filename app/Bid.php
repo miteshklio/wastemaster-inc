@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bid extends Model
 {
-    use SoftDeletes;
-
     const STATUS_LIVE     = 1;
     const STATUS_ACCEPTED = 2;
     const STATUS_CLOSED   = 3;
@@ -21,8 +19,6 @@ class Bid extends Model
         'msw_price', 'rec_price', 'rec_offset', 'fuel_surcharge', 'env_surcharge', 'recovery_fee',
         'admin_fee', 'other_fees', 'net_monthly',
     ];
-
-    protected $dates = ['deleted_at'];
 
     /**
      * The City/State combo the lead is in.

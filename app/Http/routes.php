@@ -93,6 +93,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
 
     // Bids
     Route::match(['get', 'post'], 'bids', 'BidController@index')->name('bids::home');
+    Route::get('bid', 'BidController@newClient')->name('bids::new');
+    Route::post('bid', 'BidController@create')->name('bids::create');
+    Route::get('bid/{id}', 'BidController@show')->name('bids::show');
+    Route::post('bid/{id}', 'BidController@update')->name('bids::update');
+    Route::get('bid/{id}/delete', 'BidController@delete')->name('bids::delete');
 });
 
 /**
