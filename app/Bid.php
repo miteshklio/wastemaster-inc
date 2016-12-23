@@ -50,5 +50,30 @@ class Bid extends Model
         return $this->hasOne('App\Lead', 'id', 'lead_id');
     }
 
+    /**
+     * Takes the current instance's status value and
+     * returns a human-readable string describing it.
+     *
+     * @return string
+     */
+    public function describeStatus()
+    {
+        $status = '';
+
+        switch ($this->status)
+        {
+            case self::STATUS_LIVE:
+                $status = 'Live';
+                break;
+            case self::STATUS_ACCEPTED:
+                $status = 'Accepted';
+                break;
+            case self::STATUS_CLOSED:
+                $status = 'Closed';
+                break;
+        }
+
+        return $status;
+    }
 
 }

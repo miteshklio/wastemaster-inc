@@ -58,14 +58,14 @@ class BidManager
         }
 
         $this->hauler_email = $email;
-        
+
         return $this;
     }
 
     public function setLeadID(int $leadID)
     {
         $this->lead_id = $leadID;
-        
+
         return $this;
     }
 
@@ -321,9 +321,51 @@ class BidManager
 
     public function delete(int $id)
     {
-        $lead = $this->find($id);
+        $bid = $this->find($id);
 
-        return $lead->delete();
+        return $bid->delete();
+    }
+
+    /**
+     * Accepts this bid and closes all other bids
+     * for the same lead.
+     *
+     * @param int $bidID
+     *
+     * @return $this
+     */
+    public function acceptBid(int $bidID)
+    {
+        $bid = $this->find($bidID);
+
+        // Close all bids for this lead
+        $this->bids
+            ->where('lead_id', $bid->lead_id)
+            ->update(['status' => Bid::STATUS_CLOSED]);
+
+        // Set this bid to accepted
+        $bid->status = Bid::STATUS_ACCEPTED;
+        $bid->save();
+
+        return $this;
+    }
+
+    /**
+     * Resets all bids for this lead to be Live.
+     *
+     * @param int $bidID
+     *
+     * @return $this
+     */
+    public function rescindBid(int $bidID)
+    {
+        $bid = $this->find($bidID);
+
+        // Close all bids for this lead
+        $this->bids->where('lead_id', $bid->lead_id)
+            ->update(['status' => Bid::STATUS_LIVE]);
+
+        return $this;
     }
 
 

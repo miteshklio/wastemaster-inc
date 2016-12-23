@@ -63,4 +63,6 @@ return [
     'bidUpdated' => 'The changes to the Bid were successfully saved.',
     'bidDeleted' => 'The Bid has been deleted.',
     'bidInvalidStatus' => ':status is not a valid Bid Status.',
+    'bidAccepted' => 'The bid was accepted and all other bids for this lead have been closed.',
+    'bidRescinded' => 'The bid was rescinded and all other bids for this lead have been re-opened.',
 ];

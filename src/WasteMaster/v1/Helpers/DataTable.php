@@ -142,6 +142,11 @@ class DataTable
             $this->model = $this->model->with($this->eagerLoad);
         }
 
+        if (! empty($this->select) && is_array($this->select))
+        {
+            $this->model = $this->model->select(...$this->select);
+        }
+
         if(!empty($this->sortColumn))
         {
             $this->results = $this->model->orderBy($this->sortColumn, $this->sortDirection)
@@ -150,11 +155,6 @@ class DataTable
         else
         {
             $this->results = $this->model->paginate($this->perPage);
-        }
-
-        if (! empty($this->select) && is_array($this->select))
-        {
-            $this->model = $this->model->select(...$this->select);
         }
 
         return $this;

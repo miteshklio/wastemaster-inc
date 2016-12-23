@@ -77,9 +77,6 @@ class BidManagerTest extends UnitTestCase
             ->create();
     }
 
-    /**
-     * @group single
-     */
     public function testCreateSuccess()
     {
         $expects = [
@@ -189,6 +186,57 @@ class BidManagerTest extends UnitTestCase
                       ->andReturn();
 
         $this->manager->delete(12);
+    }
+
+    public function testAcceptBid()
+    {
+        $bid = m::mock('App\Bid[setAttribute,getAttribute,save]');
+        $bid->shouldReceive('getAttribute')
+            ->with('lead_id')
+            ->andReturn(22);
+        $bid->shouldReceive('setAttribute')
+            ->with('status', Bid::STATUS_ACCEPTED);
+        $bid->shouldReceive('save');
+
+        // Find the existing lead
+        $this->bids->shouldReceive('with->find')
+            ->once()
+            ->andReturn($bid);
+
+        // Close all bids
+        $this->bids->shouldReceive('where')
+            ->with('lead_id', 22)
+            ->andReturn($this->bids);
+        $this->bids->shouldReceive('update')
+            ->once()
+            ->with(['status' => \App\Bid::STATUS_CLOSED]);
+
+        // Set and save the current bid
+        $this->bids->shouldReceive('setAttribute')
+            ->with('status', \App\Bid::STATUS_ACCEPTED);
+
+        $this->manager->acceptBid(3);
+    }
+
+    public function testRescindBid()
+    {
+        $bid = m::mock('App\Bid');
+        $bid->shouldReceive('getAttribute')
+            ->with('lead_id')
+            ->andReturn(22);
+
+
+        $this->bids->shouldReceive('with->find')
+                   ->once()
+                   ->andReturn($bid);
+        $this->bids->shouldReceive('where')
+            ->with('lead_id', 22)
+            ->andReturn($this->bids);
+        $this->bids->shouldReceive('update')
+            ->with(['status' => \App\Bid::STATUS_LIVE]);
+
+        $this->manager->rescindBid(3);
+
     }
 
 }

@@ -98,6 +98,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('bid/{id}', 'BidController@show')->name('bids::show');
     Route::post('bid/{id}', 'BidController@update')->name('bids::update');
     Route::get('bid/{id}/delete', 'BidController@delete')->name('bids::delete');
+    Route::get('bid/{id}/accept', 'BidController@accept')->name('bids::accept');
+    Route::get('bid/{id}/rescind', 'BidController@rescind')->name('bids::rescind');
 });
 
 /**
