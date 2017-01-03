@@ -239,12 +239,6 @@ class BidManager
             'lead_id' => $this->lead_id,
             'status' => $this->status,
             'notes' => $this->notes,
-            'msw_qty' => $this->msw_qty,
-            'msw_yards' => $this->msw_yards,
-            'msw_per_week' => $this->msw_per_week,
-            'rec_qty' => $this->rec_qty,
-            'rec_yards' => $this->rec_yards,
-            'rec_per_week' => $this->rec_per_week,
             'msw_price' => $this->msw_price,
             'rec_price' => $this->rec_price,
             'rec_offset' => $this->rec_offset,
@@ -278,12 +272,6 @@ class BidManager
         if ($this->lead_id !== null) $fields['lead_id'] = $this->lead_id;
         if ($this->status !== null) $fields['status'] = $this->status;
         if ($this->notes !== null) $fields['notes'] = $this->notes;
-        if ($this->msw_qty !== null) $fields['msw_qty'] = $this->msw_qty;
-        if ($this->msw_yards !== null) $fields['msw_yards'] = $this->msw_yards;
-        if ($this->msw_per_week !== null) $fields['msw_per_week'] = $this->msw_per_week;
-        if ($this->rec_qty !== null) $fields['rec_qty'] = $this->rec_qty;
-        if ($this->rec_yards !== null) $fields['rec_yards'] = $this->rec_yards;
-        if ($this->rec_per_week !== null) $fields['rec_per_week'] = $this->rec_per_week;
         if ($this->msw_price !== null) $fields['msw_price'] = $this->msw_price;
         if ($this->rec_price !== null) $fields['rec_price'] = $this->rec_price;
         if ($this->rec_offset !== null) $fields['rec_offset'] = $this->rec_offset;
@@ -314,6 +302,21 @@ class BidManager
         if ($bid === null)
         {
             throw new BidNotFound(trans('messages.bidNotFound', ['id' => $id]));
+        }
+
+        return $bid;
+    }
+
+    public function findExisting(int $leadID, int $haulerID)
+    {
+        $bid = $this->bids->with(['lead', 'hauler'])
+            ->where('lead_id', $leadID)
+            ->where('hauler_id', $haulerID)
+            ->first();
+
+        if ($bid === null)
+        {
+            throw new BidNotFound(trans('messages.bidsNotFound'));
         }
 
         return $bid;

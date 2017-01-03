@@ -68,4 +68,5 @@ return [
     'bidInvalidStatus' => ':status is not a valid Bid Status.',
     'bidAccepted' => 'The bid was accepted and all other bids for this lead have been closed.',
     'bidRescinded' => 'The bid was rescinded and all other bids for this lead have been re-opened.',
+    'bidsNotFound' => 'Unable to locate any bids for that lead.',
 ];
