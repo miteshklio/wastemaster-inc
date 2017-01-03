@@ -85,12 +85,6 @@ class BidManagerTest extends UnitTestCase
             'lead_id' => 13,
             'status' => Bid::STATUS_LIVE,
             'notes' => 'Schnotes!',
-            'msw_qty' => 1,
-            'msw_yards' => 2,
-            'msw_per_week' => 3,
-            'rec_qty' => 4,
-            'rec_yards' => 5,
-            'rec_per_week' => 6,
             'msw_price' => 123,
             'rec_price' => 456,
             'rec_offset' => 20,
@@ -224,7 +218,6 @@ class BidManagerTest extends UnitTestCase
         $bid->shouldReceive('getAttribute')
             ->with('lead_id')
             ->andReturn(22);
-
 
         $this->bids->shouldReceive('with->find')
                    ->once()
