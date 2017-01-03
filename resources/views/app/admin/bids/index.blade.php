@@ -1,11 +1,11 @@
 @extends('templates.master')
 
 @section('title')
-    <title>WasteMaster | Clients</title>
+    <title>WasteMaster | Bids</title>
 @stop
 
 @section('content')
-    <h2>Manage Clients</h2>
+    <h2>Manage Bids</h2>
 
     <div class="row">
         <div class="col-sm-12">
