@@ -33,6 +33,7 @@ return [
     'haulerDeleted' => 'The Hauler has been deleted.',
     'haulerArchived' => 'Tha Hauler has been archived.',
     'haulerUnArchived' => 'Tha Hauler has been un-archived.',
+    'haulerNoneFound' => 'No matching Haulers were found.',
 
     // Leads
     'invalidEmailAddress' => 'The email address :email is not a valid email.',
@@ -44,6 +45,8 @@ return [
     'leadDeleted' => 'The Lead has been deleted.',
     'leadArchived' => 'The Lead has been archived.',
     'leadUnArchived' => 'The Lead has been un-archived.',
+    'leadNoHaulers' => 'No Haulers were selected to send bid requests to.',
+    'leadBidsSent' => 'Your bids have been sent to the haulers.',
 
     // Clients
     'clientValidationErrors' => 'The following fields are required to create a new Client: :fields',

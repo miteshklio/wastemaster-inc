@@ -229,6 +229,26 @@ class HaulerManager
     }
 
     /**
+     * Finds multiple haulers with ids matching those passed in the only parameter.
+     *
+     * @param array $ids
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     * @throws HaulerNotFound
+     */
+    public function findIn(array $ids)
+    {
+        $haulers = $this->haulers->with('city')->find($ids);
+
+        if ($haulers === null)
+        {
+            throw new HaulerNotFound(trans('messages.haulerNoneFound'));
+        }
+
+        return $haulers;
+    }
+
+    /**
      * Returns all haulers in the system.
      *
      * @return mixed

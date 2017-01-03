@@ -103,6 +103,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
 });
 
 /**
+ * External Forms
+ */
+Route::get('bid/{id}', 'BidController@showForm')->name('bids::externalForm');
+Route::post('bid/{id}', 'BidController@submitBid')->name('bids::submitBid');
+
+/**
  * AJAX
  */
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function()

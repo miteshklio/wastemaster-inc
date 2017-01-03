@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers\Admin;
 
+use App\Events\Event;
+use App\Events\RequestBidsForLead;
 use App\Http\Controllers\Controller;
 use App\Lead;
 use Illuminate\Http\Request;
@@ -257,6 +259,39 @@ class LeadsController extends Controller
         {
             return redirect()->back()->with(['message' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * Sends the bid request emails to the selected haulers.
+     *
+     * @param int $leadID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function sendBidRequest(Request $request, HaulerManager $haulerManager, int $leadID)
+    {
+        try {
+            $lead = $this->leads->find($leadID);
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->route('leads::show', ['id' => $leadID])->with(['message' => $e->getMessage()]);
+        }
+
+        $haulerIDs = ! empty($request->input('haulers'))
+            ? array_keys($request->input('haulers'))
+            : null;
+
+        if ($haulerIDs === null)
+        {
+            return redirect()->route('leads::show', ['id' => $leadID])->with(['message' => trans('messages.leadNoHaulers')]);
+        }
+
+        $haulers = $haulerManager->findIn($haulerIDs);
+
+        \Event::fire(new RequestBidsForLead($lead, $haulers));
+
+        return redirect()->route('leads::show', ['id' => $leadID])->with(['message' => trans('messages.leadBidsSent')]);
     }
 
 }

@@ -6,7 +6,7 @@
 
     {{--Applicable Haulers--}}
     <div class="side-block">
-        <form action="{{ route('leads::sendBidRequest', ['id' => $lead->id]) }}">
+        <form action="{{ route('leads::sendBidRequest', ['id' => $lead->id]) }}" method="post">
             {{ csrf_field() }}
 
             <h3>Applicable Haulers</h3>
@@ -15,10 +15,14 @@
                 @foreach ($cityHaulers as $hauler)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="haulers[]" checked> {{ $hauler->name }}
+                            <input type="checkbox" name="haulers[{{ $hauler->id }}]" checked> {{ $hauler->name }}
                         </label>
                     </div>
                 @endforeach
+            @else
+                <div class="alert alert-info">
+                    No valid Haulers are in the system.
+                </div>
             @endif
 
             <br>
