@@ -32,7 +32,7 @@
                         <a href="{{ route('leads::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
                     </td>
                     <td>{{ $row->city->name }}</td>
-                    <td>{{ date('M D, Y', strtotime($row->created_at)) }}</td>
+                    <td>{{ date('M j, Y', strtotime($row->created_at)) }}</td>
                     <td>{{ $row->status }}</td>
                     <td>${{ number_format($row->monthly_price, 0) }}</td>
                     <td>{{ $row->cheapestBid() }}</td>
