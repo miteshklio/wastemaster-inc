@@ -13,7 +13,7 @@ class AlterUsersAddLastLogin extends Migration
     public function up()
     {
         Schema::table('users', function(Blueprint $table) {
-            $table->timestamp('last_login')->nullable()->after('remember_token');
+            $table->dateTime('last_login')->nullable()->after('remember_token');
         });
     }
 

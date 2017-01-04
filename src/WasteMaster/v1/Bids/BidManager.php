@@ -3,6 +3,7 @@
 use App\Bid;
 use App\City;
 use App\Client;
+use App\User;
 use Geocoder\Exception\InvalidArgument;
 
 class BidManager
@@ -314,11 +315,6 @@ class BidManager
             ->where('hauler_id', $haulerID)
             ->first();
 
-        if ($bid === null)
-        {
-            throw new BidNotFound(trans('messages.bidsNotFound'));
-        }
-
         return $bid;
     }
 
@@ -369,6 +365,25 @@ class BidManager
             ->update(['status' => Bid::STATUS_LIVE]);
 
         return $this;
+    }
+
+    /**
+     * Checks to see the number of new bids that have
+     * come in since the user's last login. We give a
+     * 5-minute buffer from the user's last login to
+     * ensure they do actually get to see it and not
+     * have it dissappear in a flash.
+     *
+     * @param string $lastLogin
+     */
+    public function recentBidCount(string $lastLogin=null)
+    {
+        // Time before lastLogin date to check
+        $buffer = 300;  // 5 minutes
+
+        $date = strtotime($lastLogin) - $buffer;
+
+        return $this->bids->where('created_at', '>=', date('Y-m-d H:i:s', $date))->count();
     }
 
 

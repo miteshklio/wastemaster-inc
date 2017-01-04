@@ -164,6 +164,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
 
     ],
 
