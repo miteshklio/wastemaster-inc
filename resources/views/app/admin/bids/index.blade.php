@@ -29,7 +29,7 @@
                     </td>
                     <td>{{ $row->describeStatus() }}</td>
                     <td>{{ $row->hauler_name }}</td>
-                    <td>{{ date('M D, Y', strtotime($row->created_at)) }}</td>
+                    <td>{{ date('M j, Y', strtotime($row->created_at)) }}</td>
                     <td>${{ number_format($row->current_total, 2) }}</td>
                     <td>${{ number_format($row->net_monthly, 2) }}</td>
                     <td>

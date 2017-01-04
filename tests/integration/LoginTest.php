@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Session;
 
 class LoginTest extends IntegrationTestCase {
 
+    /**
+     * @group single
+     */
     public function testAdminLoginSuccess()
     {
         // Admin Login

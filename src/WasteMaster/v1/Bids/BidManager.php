@@ -382,9 +382,16 @@ class BidManager
      * have it disappear in a flash.
      *
      * @param string $datetime
+     *
+     * @return int
      */
     public function recentBidCount(string $datetime=null)
     {
+        if ($datetime === null)
+        {
+            return $this->bids->count();
+        }
+
         return $this->bids->where('created_at', '>=', $datetime)->count();
     }
 
@@ -415,11 +422,20 @@ class BidManager
      *
      * @return array
      */
-    protected function findRecentlyBiddedLeads(string $datetime)
+    protected function findRecentlyBiddedLeads(string $datetime=null)
     {
-        $leads = $this->bids->where('created_at', '>=', $datetime)
-                    ->select('id', 'lead_id')
-                    ->get();
+        // If $datetime is null, the user has never visited
+        // so they'll all be new...
+        if ($datetime === null)
+        {
+            $leads = $this->bids->select('id', 'lead_id')->get();
+        }
+        else
+        {
+            $leads = $this->bids->where('created_at', '>=', $datetime)
+                                ->select('id', 'lead_id')
+                                ->get();
+        }
 
         if ($leads !== null)
         {
