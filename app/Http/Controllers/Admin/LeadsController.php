@@ -5,6 +5,7 @@ use App\Events\RequestBidsForLead;
 use App\Http\Controllers\Controller;
 use App\Lead;
 use Illuminate\Http\Request;
+use WasteMaster\v1\Bids\BidManager;
 use WasteMaster\v1\Haulers\HaulerManager;
 use WasteMaster\v1\Leads\LeadExists;
 use WasteMaster\v1\Leads\LeadManager;
@@ -27,7 +28,7 @@ class LeadsController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Lead $model)
+    public function index(Lead $model, BidManager $bids)
     {
         $datatable = new DataTable($model);
 
@@ -46,7 +47,9 @@ class LeadsController extends Controller
             ->prepare(20);
 
         return view('app.admin.leads.index')->with([
-            'datatable' => $datatable
+            'datatable' => $datatable,
+            'bids' => $bids,
+            'recentDate' => \Auth::user()->last_bids_view,
         ]);
     }
 

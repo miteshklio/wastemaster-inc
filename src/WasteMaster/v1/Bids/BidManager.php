@@ -38,6 +38,13 @@ class BidManager
     protected $other_fees;
     protected $net_monthly;
 
+    /**
+     * Stores the IDs of all leads with "recent" bids.
+     * See self::leadHasRecent()
+     * @var array
+     */
+    protected $recentBidLeads;
+
     public function __construct(Bid $bids)
     {
         $this->bids = $bids;
@@ -369,23 +376,59 @@ class BidManager
 
     /**
      * Checks to see the number of new bids that have
-     * come in since the user's last login. We give a
+     * come in since the user's last bids index page view. We give a
      * 5-minute buffer from the user's last login to
      * ensure they do actually get to see it and not
-     * have it dissappear in a flash.
+     * have it disappear in a flash.
      *
-     * @param string $lastLogin
+     * @param string $datetime
      */
-    public function recentBidCount(string $lastLogin=null)
+    public function recentBidCount(string $datetime=null)
     {
-        // Time before lastLogin date to check
-        $buffer = 300;  // 5 minutes
-
-        $date = strtotime($lastLogin) - $buffer;
-
-        return $this->bids->where('created_at', '>=', date('Y-m-d H:i:s', $date))->count();
+        return $this->bids->where('created_at', '>=', $datetime)->count();
     }
 
+    /**
+     * Checks the bids to see if any new bids exist for the given lead.
+     * To minimize db calls, we grab the ids of all leads that have
+     * new bids and cache it.
+     *
+     * @param int $leadID
+     *
+     * @return bool
+     */
+    public function leadHasRecent(int $leadID, string $datetime=null)
+    {
+        // Make sure we've checked before.
+        if ($this->recentBidLeads === null)
+        {
+            $this->recentBidLeads = $this->findRecentlyBiddedLeads($datetime);
+        }
+
+        return in_array($leadID, $this->recentBidLeads);
+    }
+
+    /**
+     * Locates all of the leads that have recent bids.
+     *
+     * @param string $datetime
+     *
+     * @return array
+     */
+    protected function findRecentlyBiddedLeads(string $datetime)
+    {
+        $leads = $this->bids->where('created_at', '>=', $datetime)
+                    ->select('id', 'lead_id')
+                    ->get();
+
+        if ($leads !== null)
+        {
+            $leads = $leads->toArray();
+            $leads = array_column($leads, 'lead_id');
+        }
+
+        return $leads;
+    }
 
     /**
      * Used internally after a create or udpate

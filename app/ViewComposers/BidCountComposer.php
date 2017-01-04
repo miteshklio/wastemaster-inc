@@ -20,7 +20,7 @@ class BidCountComposer
         // Not in admin? Get outta' here!
         if (! request()->is('admin/*')) return;
 
-        $view->with('newBidCount', $this->bids->recentBidCount(\Auth::user()->last_login));
+        $view->with('newBidCount', $this->bids->recentBidCount(\Auth::user()->last_bids_view));
     }
 
 }

@@ -47,3 +47,7 @@ tr.archived {
 .badge.success {
   background-color: $dark-green;
 }
+
+tr.has_bids {
+  background: $light-green;
+}

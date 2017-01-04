@@ -27,7 +27,7 @@
             <tbody>
             @foreach ($datatable->rows() as $row)
 
-                <tr @if ($row->archived) class="archived" @endif>
+                <tr class="@if ($row->archived) archived @endif @if ($bids->leadHasRecent($row->id, $recentDate)) has_bids @endif">
                     <td>
                         <a href="{{ route('leads::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
                     </td>

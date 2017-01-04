@@ -27,6 +27,12 @@ class BidController extends Controller
      */
     public function index(Bid $model)
     {
+        // Update the last_bids_view for this user
+        // so that we can track new bids.
+        $user = \Auth::user();
+        $user->last_bids_view = date('Y-m-d H:i:s');
+        $user->save();
+
         $datatable = new DataTable($model);
 
         $datatable->showColumns([
@@ -45,7 +51,8 @@ class BidController extends Controller
             ->prepare(20);
 
         return view('app.admin.bids.index')->with([
-            'datatable' => $datatable
+            'datatable' => $datatable,
+            'recentDate' => strtotime(\Auth::user()->last_bids_view),
         ]);
     }
 
