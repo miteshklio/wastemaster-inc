@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Translation\Translator as Lang;
 use Illuminate\Http\Request;

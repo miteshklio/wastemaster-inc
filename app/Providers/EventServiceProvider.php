@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\RequestBidsForLead' => [
             'App\Listeners\EmailBidRequests',
         ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
     ];
 
     /**
