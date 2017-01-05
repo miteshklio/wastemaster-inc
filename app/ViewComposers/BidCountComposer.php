@@ -18,9 +18,15 @@ class BidCountComposer
     public function compose(View $view)
     {
         // Not in admin? Get outta' here!
-        if (! request()->is('admin/*')) return;
+        if (! request()->is('admin/*')) {
+            $count = 0;
+        }
+        else
+        {
+            $count = $this->bids->recentBidCount(\Auth::user()->last_bids_view);
+        }
 
-        $view->with('newBidCount', $this->bids->recentBidCount(\Auth::user()->last_bids_view));
+        $view->with('newBidCount', $count);
     }
 
 }
