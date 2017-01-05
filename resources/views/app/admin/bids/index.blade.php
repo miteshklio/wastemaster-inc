@@ -25,7 +25,7 @@
             @foreach ($datatable->rows() as $row)
                 <tr class="@if ($row->status == \App\Bid::STATUS_CLOSED) archived @endif @if (strtotime($row->created_at) > $recentDate)) has_bids @endif">
                     <td>
-                        <a href="{{ route('clients::show', ['id' => $row->id]) }}">{{ $row->lead_name }}</a>
+                        <a href="{{ route('bids::show', ['id' => $row->id]) }}">{{ $row->lead_name }}</a>
                     </td>
                     <td>{{ $row->describeStatus() }}</td>
                     <td>{{ $row->hauler_name }}</td>
