@@ -43,7 +43,7 @@ class BidController extends Controller
             'current_total' => 'Current $',
             'net_monthly' => 'Bid $'
         ])
-            ->searchColumns(['leads.company', 'haulers.name'])
+            ->searchColumns(['leads.id', 'leads.company', 'haulers.name'])
             ->setDefaultSort('company', 'asc')
             ->join('leads', 'leads.id', '=', 'bids.lead_id')
             ->join('haulers', 'haulers.id', '=', 'bids.hauler_id')
