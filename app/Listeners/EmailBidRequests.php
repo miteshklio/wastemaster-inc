@@ -38,7 +38,8 @@ class EmailBidRequests
             ];
 
             $this->mailer->send('emails.general_bid', $data, function ($m) use($hauler) {
-                $m->to(unserialize($hauler->emails));
+                $m->subject('A new Bid Request from WasteMaster.com')
+                    ->to(unserialize($hauler->emails));
             });
         }
     }
