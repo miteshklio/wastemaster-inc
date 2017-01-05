@@ -36,7 +36,7 @@
                     <td>{{ $row->status }}</td>
                     <td>${{ number_format($row->monthly_price, 0) }}</td>
                     <td>{{ $row->cheapestBid() }}</td>
-                    <td>{{ $row->bid_count }}</td>
+                    <td>{{ $row->bidCount() }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

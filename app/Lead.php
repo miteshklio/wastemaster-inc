@@ -74,4 +74,15 @@ class Lead extends Model
     {
         return 'N/A';
     }
+
+    /**
+     * Returns the number of bids currently in the system for the current lead.
+     *
+     * @return mixed
+     */
+    public function bidCount()
+    {
+        return \DB::table('bids')->where('lead_id', $this->id)->count();
+    }
+
 }
