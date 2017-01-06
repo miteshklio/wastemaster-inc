@@ -447,6 +447,20 @@ class BidManager
     }
 
     /**
+     * Returns the cheapest bid object for the given lead.
+     *
+     * @param int $leadID
+     *
+     * @return mixed
+     */
+    public function cheapestForLead(int $leadID)
+    {
+        return $this->bids->where('lead_id', $leadID)
+                    ->orderBy('net_monthly', 'asc')
+                    ->first();
+    }
+
+    /**
      * Used internally after a create or udpate
      * to reset the class properties.
      */

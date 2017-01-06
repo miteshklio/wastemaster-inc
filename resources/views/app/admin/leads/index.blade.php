@@ -34,7 +34,7 @@
                     <td>{{ $row->city->name }}</td>
                     <td>{{ date('M j, Y', strtotime($row->created_at)) }}</td>
                     <td>{{ $row->status }}</td>
-                    <td>${{ number_format($row->monthly_price, 0) }}</td>
+                    <td>${{ number_format($row->monthly_price, 2) }}</td>
                     <td>{{ $row->cheapestBid() }}</td>
                     <td>
                         <a href="{{ route('bids::home').'?search='. $row->id }}">

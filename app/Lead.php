@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use WasteMaster\v1\Bids\BidManager;
 
 class Lead extends Model
 {
@@ -72,7 +73,13 @@ class Lead extends Model
      */
     public function cheapestBid($format = false)
     {
-        return 'N/A';
+        $bids = app(BidManager::class);
+
+        $bid = $bids->cheapestForLead($this->id);
+
+        return $bid === null
+            ? 'N/A'
+            : '$'. number_format($bid->net_monthly, 2);
     }
 
     /**
