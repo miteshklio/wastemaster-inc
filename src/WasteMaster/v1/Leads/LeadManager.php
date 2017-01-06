@@ -204,7 +204,7 @@ class LeadManager
             'rec_yards' => $this->rec_yards,
             'rec_per_week' => $this->rec_per_week,
             'monthly_price' => $this->monthly_price,
-            'status' => 'New',
+            'status' => Lead::NEW,
             'archived' => 0,
             'bid_count' => 0,
             'notes' => $this->notes

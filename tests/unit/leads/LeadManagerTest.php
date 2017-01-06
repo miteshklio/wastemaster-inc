@@ -95,7 +95,7 @@ class LeadManagerTest extends UnitTestCase
             'rec_yards' => 5,
             'rec_per_week' => 6,
             'monthly_price' => 123,
-            'status' => 'NewLead',
+            'status' => \App\Lead::NEW,
             'archived' => 0,
             'bid_count' => 0,
         ];

@@ -92,4 +92,29 @@ class Lead extends Model
         return \DB::table('bids')->where('lead_id', $this->id)->count();
     }
 
+    public function status()
+    {
+        switch ($this->status)
+        {
+            case self::NEW:
+                return 'New';
+                break;
+            case self::REBIDDING:
+                return 'Re-Bidding';
+                break;
+            case self::BIDS_REQUESTED:
+                return 'Bids Requested';
+                break;
+            case self::BID_ACCEPTED:
+                return 'Bid Accepted';
+                break;
+            case self::CONVERTED_TO_CLIENT:
+                return 'Converted to Client';
+                break;
+        }
+
+        return 'New';
+    }
+
+
 }

@@ -292,6 +292,14 @@ class LeadsController extends Controller
             return redirect()->route('leads::show', ['id' => $leadID])->with(['message' => trans('messages.leadNoHaulers')]);
         }
 
+        // If it's a new lead, we're requesting bids,
+        // but don't change if it's another send of the bids.
+        if ($lead->status == Lead::NEW || empty($lead->status))
+        {
+            $lead->status = Lead::BIDS_REQUESTED;
+            $lead->save();
+        }
+
         $haulers = $haulerManager->findIn($haulerIDs);
 
         \Event::fire(new RequestBidsForLead($lead, $haulers));
