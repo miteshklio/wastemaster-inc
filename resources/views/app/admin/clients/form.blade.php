@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="name" class="control-label col-sm-4">Time Created</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="created_at" value="{{ $client->created_at }}" disabled />
+                            <input type="text" class="form-control" name="created_at" value="{{ date('M j, Y g:ia', strtotime($client->created_at)) }}" disabled />
                         </div>
                     </div>
                 @endif
