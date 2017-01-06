@@ -35,6 +35,7 @@ class LeadManager
     protected $status;
     protected $archived;
     protected $bid_count;
+    protected $notes;
 
     public function __construct(Lead $leads, City $cities)
     {
@@ -170,6 +171,13 @@ class LeadManager
         return $this;
     }
 
+    public function setNotes(string $notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
     public function create()
     {
         $this->checkRequired();
@@ -199,6 +207,7 @@ class LeadManager
             'status' => 'New',
             'archived' => 0,
             'bid_count' => 0,
+            'notes' => $this->notes
         ]);
 
         $this->reset();
@@ -233,6 +242,7 @@ class LeadManager
         if ($this->status !== null) $fields['status'] = $this->status;
         if ($this->archived !== null) $fields['archived'] = $this->archived;
         if ($this->bid_count !== null) $fields['bid_count'] = $this->bid_count;
+        if ($this->notes !== null) $fields['notes'] = $this->notes;
 
         if (! count($fields))
         {

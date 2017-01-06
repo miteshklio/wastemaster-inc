@@ -87,7 +87,7 @@ class LeadsController extends Controller
             'rec_qty' => 'integer',
             'rec_yards' => 'integer',
             'rec_per_week' => 'integer',
-            'monthly_price' => 'numeric'
+            'monthly_price' => 'numeric',
         ]);
 
         try
@@ -111,6 +111,7 @@ class LeadsController extends Controller
                     $request->input('rec_per_week')
                 )
                 ->setMonthlyPrice($request->input('monthly_price'))
+                ->setNotes($request->input('notes'))
                 ->create();
 
             return redirect()->route('leads::home')->with(['message' => trans('messages.leadCreated')]);
@@ -195,6 +196,7 @@ class LeadsController extends Controller
                     $request->input('rec_per_week')
                 )
                 ->setMonthlyPrice($request->input('monthly_price'))
+                ->setNotes($request->input('notes'))
                 ->update($leadID);
 
             return redirect()->route('leads::show', ['id' => $leadID])->with(['message' => trans('messages.leadUpdated')]);

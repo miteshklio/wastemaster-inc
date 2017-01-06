@@ -12,6 +12,8 @@
 
             <p class="text-center">{{ $lead->address }} {{ $lead->city->name }}</p>
 
+            <p class="text-center">{{ $lead->notes }}</p>
+
             @if ($bid)
                 <div class="row">
                     <div class="alert alert-info col-sm-11">

@@ -148,6 +148,15 @@
                     </tbody>
                 </table>
 
+                <!-- Notes -->
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label for="notes">Notes</label>
+                        <textarea name="notes" class="form-control" rows=6 @if (isset($lead) && $lead->archived) disabled @endif>{{ $lead->notes or old('notes') }}</textarea>
+                    </div>
+                </div>
+
+
                 <!-- Total Monthly -->
                 <div class="form-group">
                     <label for="monthly_price" class="control-label col-sm-4">Total Monthly</label>
