@@ -11,7 +11,7 @@
 
             <h3>Applicable Haulers</h3>
 
-            @if ($cityHaulers)
+            @if ($cityHaulers && $cityHaulers->count() > 0)
                 @foreach ($cityHaulers as $hauler)
                     <div class="checkbox">
                         <label>
@@ -21,7 +21,7 @@
                 @endforeach
             @else
                 <div class="alert alert-info">
-                    No valid Haulers are in the system.
+                    No additional Haulers found that match this Lead's needs.
                 </div>
             @endif
 

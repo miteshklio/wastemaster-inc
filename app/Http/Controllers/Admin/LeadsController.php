@@ -138,7 +138,7 @@ class LeadsController extends Controller
             return redirect()->back()->with(['message' => trans('messages.leadNotFound')]);
         }
 
-        $cityHaulers = $haulers->inCity($lead->city_id, $lead->hauler_id);
+        $cityHaulers = $haulers->applicableForLead($lead);
 
         return view('app.admin.leads.form', [
             'lead' => $lead,

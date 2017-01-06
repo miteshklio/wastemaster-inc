@@ -2,6 +2,7 @@
 
 use App\City;
 use App\Hauler;
+use App\Lead;
 
 class HaulerManager
 {
@@ -279,6 +280,29 @@ class HaulerManager
         return $this->haulers
             ->where('city_id', $cityID)
             ->get();
+    }
+
+    public function applicableForLead(Lead $lead)
+    {
+        $needsWaste = (bool)$lead->msw_qty;
+        $needsRecycling = (bool)$lead->rec_qty;
+
+        $haulers = $this->haulers;
+
+        if ($needsWaste)
+        {
+            $haulers = $haulers->where('svc_waste', 1);
+        }
+
+        if ($needsRecycling)
+        {
+            $haulers = $haulers->where('svc_recycle', 1);
+        }
+
+        return $haulers
+                ->where('city_id', $lead->city_id)
+                ->where('id', '!=', $lead->hauler_id)
+                ->get();
     }
 
 
