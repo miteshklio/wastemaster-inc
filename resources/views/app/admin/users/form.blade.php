@@ -1,7 +1,7 @@
 @extends('templates.master')
 
 @section('title')
-    <title>WasteMaster | Users</title>
+    <title>Wastemaster | Users</title>
 @stop
 
 @section('content')
