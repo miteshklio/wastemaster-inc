@@ -262,11 +262,20 @@ class HaulerManager
      * Returns a collection of haulers within the specified city.
      *
      * @param int $cityID
+     * @param int $excludeID Ignore this hauler...
      *
      * @return mixed
      */
-    public function inCity(int $cityID)
+    public function inCity(int $cityID, int $excludeID = null)
     {
+        if (is_numeric($excludeID))
+        {
+            return $this->haulers
+                ->where('city_id', $cityID)
+                ->where('id', '!=', $excludeID)
+                ->get();
+        }
+
         return $this->haulers
             ->where('city_id', $cityID)
             ->get();
