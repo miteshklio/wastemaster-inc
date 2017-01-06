@@ -35,9 +35,9 @@
     <div class="side-block">
         <h3>Pre-Bid Matching Price</h3>
 
-        <p class="amt-lg">$368</p>
+        {{--<p class="amt-lg">$368</p>--}}
 
-        <p class="text-center">Offered to <a href="#">Bob's Coffee</a>.</p>
+        <p class="text-center">This feature will display once more information has been added to the database.</p>
 
         <br>
 
