@@ -92,7 +92,7 @@ class LeadsController extends Controller
 
         try
         {
-            $this->leads
+            $lead = $this->leads
                 ->setCompany($request->input('company'))
                 ->setAddress($request->input('address'))
                 ->setCity($request->input('city'))
@@ -101,20 +101,20 @@ class LeadsController extends Controller
                 ->setAccountNum($request->input('account_num'))
                 ->setHaulerID($request->input('hauler_id'))
                 ->setWaste(
-                    $request->input('msw_qty'),
-                    $request->input('msw_yards'),
-                    $request->input('msw_per_week')
+                    (int)$request->input('msw_qty'),
+                    (int)$request->input('msw_yards'),
+                    (int)$request->input('msw_per_week')
                 )
                 ->setRecycling(
-                    $request->input('rec_qty'),
-                    $request->input('rec_yards'),
-                    $request->input('rec_per_week')
+                    (int)$request->input('rec_qty'),
+                    (int)$request->input('rec_yards'),
+                    (int)$request->input('rec_per_week')
                 )
                 ->setMonthlyPrice($request->input('monthly_price'))
                 ->setNotes($request->input('notes'))
                 ->create();
 
-            return redirect()->route('leads::home')->with(['message' => trans('messages.leadCreated')]);
+            return redirect()->route('leads::show', ['id' => $lead->id])->with(['message' => trans('messages.leadCreated')]);
         } catch(LeadExists $e)
         {
             return redirect()->back()->with(['message' => $e->getMessage()]);
