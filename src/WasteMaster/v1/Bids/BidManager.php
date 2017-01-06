@@ -123,7 +123,7 @@ class BidManager
 
     public function setWastePrice($price)
     {
-        if (! is_numeric($price))
+        if (! is_numeric($price)  && $price !== null)
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'msw_price', 'value' => $price]));
         }
@@ -135,7 +135,7 @@ class BidManager
 
     public function setRecyclePrice($price)
     {
-        if (! is_numeric($price))
+        if (! is_numeric($price) && $price !== null && $price !== '')
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'rec_price', 'value' => $price]));
         }
@@ -147,7 +147,7 @@ class BidManager
 
     public function setRecycleOffset($amount)
     {
-        if (! is_numeric($amount))
+        if (! is_numeric($amount) && $amount !== null && $amount !== '')
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'rec_offset', 'value' => $amount]));
         }
@@ -159,7 +159,7 @@ class BidManager
 
     public function setFuelSurcharge($amount)
     {
-        if (! is_numeric($amount))
+        if (! is_numeric($amount)  && $amount !== null && $amount !== '')
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'fuel_surcharge', 'value' => $amount]));
         }
@@ -171,7 +171,7 @@ class BidManager
 
     public function setEnvironmentalSurcharge($amount)
     {
-        if (! is_numeric($amount))
+        if (! is_numeric($amount) && $amount !== null && $amount !== '')
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'env_surcharge', 'value' => $amount]));
         }
@@ -183,7 +183,7 @@ class BidManager
 
     public function setRecoveryFee($fee)
     {
-        if (! is_numeric($fee))
+        if (! is_numeric($fee) && $fee !== null && $fee !== '')
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'recovery_fee', 'value' => $fee]));
         }
@@ -195,7 +195,7 @@ class BidManager
 
     public function setAdminFee($fee)
     {
-        if (! is_numeric($fee))
+        if (! is_numeric($fee)  && $fee !== null && $fee !== '')
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'admin_fee', 'value' => $fee]));
         }
@@ -207,7 +207,7 @@ class BidManager
 
     public function setOtherFees($fee)
     {
-        if (! is_numeric($fee))
+        if (! is_numeric($fee)  && $fee !== null && $fee !== '')
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'other_fees', 'value' => $fee]));
         }
@@ -219,7 +219,7 @@ class BidManager
 
     public function setNet($amount)
     {
-        if (! is_numeric($amount))
+        if (! is_numeric($amount)  && $amount !== null && $amount !== '')
         {
             throw new InvalidArgument(trans('messages.notANumber', ['key' => 'net_monthly', 'value' => $amount]));
         }
@@ -497,7 +497,7 @@ class BidManager
         // doesWaste and doesRecycling will return
         // false alarm when a '0'.
         $requiredFields = [
-            'hauler_id', 'hauler_email', 'lead_id', 'status', 'msw_price', 'rec_price', 'net_monthly'
+            'hauler_id', 'hauler_email', 'lead_id', 'status', 'net_monthly'
         ];
 
         $errorFields = [];

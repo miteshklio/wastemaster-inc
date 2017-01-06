@@ -106,7 +106,7 @@
                             <label for="rec_offset" class="control-label">REC Offset Fee</label>
                             <div class="input-group">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" name="rec_offset" id="rec_offset" class="form-control fee" value="{{ old('rec_offset', ! empty($bid->rec_offset) ? $bid->rec_offset : null ) }}">
+                                <input type="text" name="rec_offset" id="rec_offset" class="form-control fee" value="{{ old('rec_offset', ! empty($bid->rec_offset) ? $bid->rec_offset : 0 ) }}">
                             </div>
                         </div>
 
@@ -117,7 +117,7 @@
                             <label for="fuel_surcharge" class="control-label">Fuel Surcharge</label>
                             <div class="input-group">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" name="fuel_surcharge" id="fuel_surcharge" class="form-control fee" value="{{ old('fuel_surcharge', ! empty($bid->fuel_surcharge) ? $bid->fuel_surcharge : null ) }}">
+                                <input type="text" name="fuel_surcharge" id="fuel_surcharge" class="form-control fee" value="{{ old('fuel_surcharge', ! empty($bid->fuel_surcharge) ? $bid->fuel_surcharge : 0 ) }}">
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@
                             <label for="env_surcharge" class="control-label">Enviro Surcharge</label>
                             <div class="input-group">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" name="env_surcharge" id="env_surcharge" class="form-control fee" value="{{ old('env_surcharge', ! empty($bid->env_surcharge) ? $bid->env_surcharge : null ) }}">
+                                <input type="text" name="env_surcharge" id="env_surcharge" class="form-control fee" value="{{ old('env_surcharge', ! empty($bid->env_surcharge) ? $bid->env_surcharge : 0 ) }}">
                             </div>
                         </div>
 
@@ -142,7 +142,7 @@
                             <label for="recovery_fee" class="control-label">Regulatory Cost Recovery</label>
                             <div class="input-group">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" name="recovery_fee" id="recovery_fee" class="form-control fee" value="{{ old('recovery_fee', ! empty($bid->recovery_fee) ? $bid->recovery_fee : null ) }}">
+                                <input type="text" name="recovery_fee" id="recovery_fee" class="form-control fee" value="{{ old('recovery_fee', ! empty($bid->recovery_fee) ? $bid->recovery_fee : 0 ) }}">
                             </div>
                         </div>
 
@@ -153,7 +153,7 @@
                             <label for="admin_fee" class="control-label">Admin Fee</label>
                             <div class="input-group">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" name="admin_fee" id="admin_fee" class="form-control fee" value="{{ old('admin_fee', ! empty($bid->admin_fee) ? $bid->admin_fee : null ) }}">
+                                <input type="text" name="admin_fee" id="admin_fee" class="form-control fee" value="{{ old('admin_fee', ! empty($bid->admin_fee) ? $bid->admin_fee : 0 ) }}">
                             </div>
                         </div>
 
@@ -164,7 +164,7 @@
                             <label for="other_fees" class="control-label">Other Fees (lock, etc)</label>
                             <div class="input-group">
                                 <div class="input-group-addon">$</div>
-                                <input type="text" name="other_fees" id="other_fees" class="form-control fee" value="{{ old('other_fees', ! empty($bid->other_fees) ? $bid->other_fees : null ) }}">
+                                <input type="text" name="other_fees" id="other_fees" class="form-control fee" value="{{ old('other_fees', ! empty($bid->other_fees) ? $bid->other_fees : 0 ) }}">
                             </div>
                         </div>
 

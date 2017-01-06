@@ -70,8 +70,6 @@ class BidController extends Controller
     {
         $this->validate($request, [
             'hauler_email' => 'required|email',
-            'msw_price' => 'numeric',
-            'rec_price' => 'numeric',
             'rec_offset' => 'numeric',
             'fuel_surcharge' => 'numeric',
             'env_surcharge' => 'numeric',
