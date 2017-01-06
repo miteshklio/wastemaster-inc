@@ -7,7 +7,6 @@
 @section('content')
     <form action="{{ route('bids::update', ['id' => $bid->id]) }}" method="post" class="form-horizontal">
 
-
     <div class="row">
 
         <!-- Details Column -->
@@ -198,4 +197,39 @@
     </div>
 
 </form>
+@endsection
+
+@section('scripts')
+    <script>
+        // Calculates the Net monthly costs and updates the form.
+        $('.fee').change(function(){
+            var mswPrice = parseFloat($('#msw_price').val());
+            var recPrice = parseFloat($('#rec_price').val());
+            var recOffset = parseFloat($('#rec_offset').val());
+            var fuelSurcharge = parseFloat($('#fuel_surcharge').val());
+            var envSurcharge = parseFloat($('#env_surcharge').val());
+            var recovery = parseFloat($('#recovery_fee').val());
+            var admin = parseFloat($('#admin_fee').val());
+            var other = parseFloat($('#other_fees').val());
+
+            var net =
+                (mswPrice ? mswPrice : 0)+
+                (recPrice ? recPrice : 0) +
+                (recOffset ? recOffset : 0) +
+                (fuelSurcharge ? fuelSurcharge : 0) +
+                (envSurcharge ? envSurcharge : 0) +
+                (recovery ? recovery : 0) +
+                (admin ? admin : 0) +
+                (other ? other : 0);
+
+            $('#net_monthly').val(net.toFixed(2)).trigger('change');
+        });
+
+        // Format the fee and update the Net Value
+        $('.fee, .number').change(function(){
+            var amount = parseFloat($(this).val())
+
+            $(this).val(amount ? amount.toFixed(2) : 0.00);
+        });
+    </script>
 @endsection
