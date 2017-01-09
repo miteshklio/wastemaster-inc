@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers\Admin;
 
+use Event;
+use App\Events\PostBidMatchRequest;
 use App\Http\Controllers\Controller;
 use App\Bid;
 use Illuminate\Http\Request;
@@ -187,5 +189,20 @@ class BidController extends Controller
             return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
+
+    public function postMatchRequest(int $bidID)
+    {
+        try
+        {
+            Event::fire(new PostBidMatchRequest($this->bids->find($bidID)));
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
+
+        return redirect()->back()->with(['message' => trans('messages.emailSent')]);
+    }
+
 
 }

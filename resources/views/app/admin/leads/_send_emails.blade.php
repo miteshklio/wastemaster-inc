@@ -50,10 +50,28 @@
     <div class="side-block">
         <h3>Post-Bid Matching Price</h3>
 
-        @if ($lead->bid_count == 0)
+        @if ($lowBid === null)
             <br>
             <p class="notice">This option will display once bids have been received.</p>
         @else
+            <p class="amt-lg">${{ number_format($lowBid->net_monthly,2) }}</p>
+
+            <p class="text-center">
+                Submitted by
+                <a href="{{ route('bids::show', ['id' => $lowBid->id]) }}">
+                    {{ $lowBid->hauler->name }}
+                </a>
+            </p>
+
+            <br>
+
+            <a href="{{ route('bids::postMatchRequest', ['id' => $lowBid->id]) }}" class="btn btn-primary btn-block">
+                Send Match Request<br>to Current Hauler
+            </a>
+
+            @if (! empty($lead->post_match_sent))
+                <p class="small" style="margin-top: 0.5em;">Request sent on {{ date('M j, Y g:ia') }}</p>
+            @endif
         @endif
     </div>
 @else

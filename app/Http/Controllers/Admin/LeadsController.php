@@ -147,6 +147,7 @@ class LeadsController extends Controller
             'editMode' => true,
             'haulers' => $haulers->all(),
             'cityHaulers' => $cityHaulers,
+            'lowBid' => $lead->cheapestBidObject()
         ]);
     }
 

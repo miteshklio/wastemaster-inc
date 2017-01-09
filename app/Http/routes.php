@@ -101,6 +101,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('bid/{id}/delete', 'BidController@delete')->name('bids::delete');
     Route::get('bid/{id}/accept', 'BidController@accept')->name('bids::accept');
     Route::get('bid/{id}/rescind', 'BidController@rescind')->name('bids::rescind');
+    Route::get('bid/{id}/post_match_request', 'BidController@postMatchRequest')->name('bids::postMatchRequest');
 });
 
 /**

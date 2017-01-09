@@ -344,6 +344,42 @@ class LeadManager
             ->update($client->id);
     }
 
+    /**
+     * Sets the date for the lead's pre bid match request was sent
+     * to the current time.
+     *
+     * @param int $leadID
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     */
+    public function setPreMatchDate(int $leadID)
+    {
+        $lead = $this->find($leadID);
+
+        $lead->pre_match_sent = date('Y-m-d H:i:s');
+        $lead->save();
+
+        return $lead;
+    }
+
+    /**
+     * Sets the date for the lead's post bid match request was sent
+     * to the current time.
+     *
+     * @param int $leadID
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     */
+    public function setPostMatchDate(int $leadID)
+    {
+        $lead = $this->find($leadID);
+
+        $lead->post_match_sent = date('Y-m-d H:i:s');
+        $lead->save();
+
+        return $lead;
+    }
+
 
     /**
      * Used internally after a create or udpate

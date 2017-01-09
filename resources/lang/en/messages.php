@@ -9,6 +9,7 @@ return [
     // General
     'nothingToUpdate' => 'You must provide at least one field to update the record.',
     'notANumber' => ':key must be a number. Current value :value',
+    'emailSent' => 'The email has been sent.',
 
     // Auth
     'notAdmin' => "Sorry, you don't have privileges to view this page.",

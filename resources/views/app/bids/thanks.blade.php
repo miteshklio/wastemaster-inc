@@ -9,7 +9,7 @@
 
     <br><br>
 
-    <p class="text-center">Your bid for {{ $lead->company }} has been submitted and we will follow up with you it's accepted.</p>
+    <p class="text-center">Your bid for {{ $lead->company }} has been submitted and we will follow up with you if it's accepted.</p>
 
     <br><br>
 
