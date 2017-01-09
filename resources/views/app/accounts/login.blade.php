@@ -1,7 +1,7 @@
 @extends('templates.master')
 
 @section('title')
-    <title>AppName</title>
+    <title>Wastemaster</title>
 @stop
 
 @section('content')
