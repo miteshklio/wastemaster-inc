@@ -13,9 +13,7 @@
 
     <br><br>
 
-    <p class="text-center">
-        <a href="{{ route('bids::externalForm', ['id' => $code]) }}">Go Back</a>
-    </p>
+    <p class="text-center">Made a mistake? Contact us.</p>
 
     <p class="text-center">
         <a href="mailto://wastemastercorp@gmail.com"><i class="fa fa-envelope"></i> wastemastercorp@gmail.com</a>
