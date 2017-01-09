@@ -376,6 +376,7 @@ class BidManager
      * @param int $bidID
      *
      * @return $this
+     * @throws \WasteMaster\v1\Leads\LeadNotFound
      */
     public function rescindBid(int $bidID)
     {
@@ -384,6 +385,17 @@ class BidManager
         // Close all bids for this lead
         $this->bids->where('lead_id', $bid->lead_id)
             ->update(['status' => Bid::STATUS_LIVE]);
+
+        // Reset our leads status
+        $lead = $bid->lead;
+
+        if ($lead === null)
+        {
+            throw new LeadNotFound(trans('messages.leadNotFound'));
+        }
+
+        $lead->status = Lead::REBIDDING;
+        $lead->save();
 
         return $this;
     }

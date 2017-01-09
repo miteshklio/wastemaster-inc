@@ -185,12 +185,24 @@ class BidManagerTest extends UnitTestCase
     public function testAcceptBid()
     {
         $bid = m::mock('App\Bid[setAttribute,getAttribute,save]');
+        $lead = m::mock('App\Lead[setAttribute,getAttribute,save]');
+
         $bid->shouldReceive('getAttribute')
             ->with('lead_id')
             ->andReturn(22);
         $bid->shouldReceive('setAttribute')
             ->with('status', Bid::STATUS_ACCEPTED);
         $bid->shouldReceive('save');
+        $bid->shouldReceive('getAttribute')
+            ->once()
+            ->with('lead')
+            ->andReturn($lead);
+        $lead->shouldReceive('setAttribute')
+            ->once()
+            ->andReturn($lead);
+        $lead->shouldReceive('save')
+            ->once()
+            ->andReturn($lead);
 
         // Find the existing lead
         $this->bids->shouldReceive('with->find')
@@ -214,10 +226,22 @@ class BidManagerTest extends UnitTestCase
 
     public function testRescindBid()
     {
-        $bid = m::mock('App\Bid');
+        $bid = m::mock('App\Bid[setAttribute,getAttribute,save]');
+        $lead = m::mock('App\Lead[setAttribute,getAttribute,save]');
+
         $bid->shouldReceive('getAttribute')
             ->with('lead_id')
             ->andReturn(22);
+        $bid->shouldReceive('getAttribute')
+            ->once()
+            ->with('lead')
+            ->andReturn($lead);
+        $lead->shouldReceive('setAttribute')
+             ->once()
+             ->andReturn($lead);
+        $lead->shouldReceive('save')
+             ->once()
+             ->andReturn($lead);
 
         $this->bids->shouldReceive('with->find')
                    ->once()
