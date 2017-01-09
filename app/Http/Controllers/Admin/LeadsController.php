@@ -41,7 +41,7 @@ class LeadsController extends Controller
             'Cheapest Bid',
             'bid_count' => '# of Bids'
         ])
-            ->searchColumns(['name', 'status'])
+            ->searchColumns(['company', 'status'])
             ->setDefaultSort('created_at', 'desc')
             ->eagerLoad('city')
             ->prepare(20);
