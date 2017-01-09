@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers\Admin;
 
@@ -13,7 +13,7 @@ class DashboardController extends Controller {
      */
     protected function index()
     {
-        return redirect()->to('/admin/users');
+        return redirect()->to('/admin/leads');
     }
 
 }

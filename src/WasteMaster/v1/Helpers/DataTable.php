@@ -41,6 +41,9 @@ class DataTable
      */
     protected $sortDirection = 'asc';
 
+    protected $alwaysSortColumn;
+    protected $alwaysSortDirection;
+
     /**
      * The resulting Collection
      * @var Collection
@@ -147,6 +150,11 @@ class DataTable
             $this->model = $this->model->select(...$this->select);
         }
 
+        if (! empty($this->alwaysSortColumn))
+        {
+            $this->results = $this->model->orderBy($this->alwaysSortColumn, $this->alwaysSortDirection);
+        }
+
         if(!empty($this->sortColumn))
         {
             $this->results = $this->model->orderBy($this->sortColumn, $this->sortDirection)
@@ -216,6 +224,15 @@ class DataTable
     }
 
     //--------------------------------------------------------------------
+
+    public function setAlwaysSort(string $field, string $dir='asc')
+    {
+        $this->alwaysSortColumn = $field;
+        $this->alwaysSortDirection = $dir;
+
+        return $this;
+    }
+
 
     /**
      * Sets the URL used by both the search form and the

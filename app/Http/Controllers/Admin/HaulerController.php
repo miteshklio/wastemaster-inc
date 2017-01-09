@@ -36,6 +36,7 @@ class HaulerController extends Controller
         ])
             ->searchColumns(['name', 'emails', 'city_id'])
             ->setDefaultSort('name', 'asc')
+            ->setAlwaysSort('archived', 'asc')
             ->eagerLoad('city')
             ->prepare(20);
 

@@ -42,6 +42,7 @@ class LeadsController extends Controller
             'bid_count' => '# of Bids'
         ])
             ->searchColumns(['company', 'status'])
+            ->setAlwaysSort('archived', 'asc')
             ->setDefaultSort('created_at', 'desc')
             ->eagerLoad('city')
             ->prepare(20);

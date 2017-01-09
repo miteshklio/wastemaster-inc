@@ -40,6 +40,7 @@ class ClientController extends Controller
         ])
             ->searchColumns(['company'])
             ->setDefaultSort('company', 'asc')
+            ->setAlwaysSort('archived', 'asc')
             ->eagerLoad('city')
             ->prepare(20);
 
