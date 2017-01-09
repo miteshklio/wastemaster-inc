@@ -3,8 +3,10 @@
 use App\Bid;
 use App\City;
 use App\Client;
+use App\Lead;
 use App\User;
 use Geocoder\Exception\InvalidArgument;
+use WasteMaster\v1\Leads\LeadNotFound;
 
 class BidManager
 {
@@ -339,6 +341,7 @@ class BidManager
      * @param int $bidID
      *
      * @return $this
+     * @throws \WasteMaster\v1\Leads\LeadNotFound
      */
     public function acceptBid(int $bidID)
     {
@@ -352,6 +355,17 @@ class BidManager
         // Set this bid to accepted
         $bid->status = Bid::STATUS_ACCEPTED;
         $bid->save();
+
+        // Update the lead status
+        $lead = $bid->lead;
+
+        if ($lead === null)
+        {
+            throw new LeadNotFound(trans('messages.leadNotFound'));
+        }
+
+        $lead->status = Lead::BID_ACCEPTED;
+        $lead->save();
 
         return $this;
     }

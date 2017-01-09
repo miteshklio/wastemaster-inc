@@ -162,7 +162,7 @@ class BidController extends Controller
 
             return redirect()->route('bids::home')->with(['message' => trans('messages.bidAccepted')]);
         }
-        catch (BidNotFound $e)
+        catch (\Exception $e)
         {
             return redirect()->back()->with(['message' => $e->getMessage()]);
         }
@@ -182,7 +182,7 @@ class BidController extends Controller
 
             return redirect()->route('bids::home')->with(['message' => trans('messages.bidRescinded')]);
         }
-        catch (BidNotFound $e)
+        catch (\Exception $e)
         {
             return redirect()->back()->with(['message' => $e->getMessage()]);
         }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Lead;
 use Illuminate\Http\Request;
 use WasteMaster\v1\Bids\BidManager;
+use WasteMaster\v1\Clients\ClientManager;
 use WasteMaster\v1\Haulers\HaulerManager;
 use WasteMaster\v1\Leads\LeadExists;
 use WasteMaster\v1\Leads\LeadManager;
@@ -306,6 +307,30 @@ class LeadsController extends Controller
         \Event::fire(new RequestBidsForLead($lead, $haulers));
 
         return redirect()->route('leads::show', ['id' => $leadID])->with(['message' => trans('messages.leadBidsSent')]);
+    }
+
+    /**
+     * Converts a lead into a client, transferring the lowest bid as
+     * the current client information. If the client already exists,
+     * will update the current bid info to match the cheapest bid.
+     *
+     * @param \WasteMaster\v1\Clients\ClientManager $clients
+     * @param int                                   $leadID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function convertToClient(ClientManager $clients, int $leadID)
+    {
+        try {
+            $client = $this->leads->convertToClient($leadID, $clients);
+
+            return redirect()->route('clients::show', ['id' => $client->id])
+                ->with(['message' => trans('messages.leadConverted')]);
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
 }

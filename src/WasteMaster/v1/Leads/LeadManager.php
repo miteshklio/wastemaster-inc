@@ -2,6 +2,9 @@
 
 use App\City;
 use App\Lead;
+use WasteMaster\v1\Bids\BidManager;
+use WasteMaster\v1\Bids\BidNotFound;
+use WasteMaster\v1\Clients\ClientManager;
 
 class LeadManager
 {
@@ -282,6 +285,63 @@ class LeadManager
 
         $lead->archived = $archived;
         return $lead->save();
+    }
+
+    /**
+     * Copies a lead to the clients table along with all
+     * current information for the lowest bidder.
+     *
+     * If the client already exists, will copy the new
+     * bid information over.
+     *
+     * @param int                                   $leadID
+     * @param \WasteMaster\v1\Clients\ClientManager $clients
+     *
+     * @throws \WasteMaster\v1\Bids\BidNotFound
+     * @throws \WasteMaster\v1\Leads\LeadNotFound
+     */
+    public function convertToClient(int $leadID, ClientManager $clients)
+    {
+        // Get the Lead
+        $lead = $this->leads->find($leadID);
+
+        if ($lead === null)
+        {
+            throw new LeadNotFound(trans('messages.leadNotFound'));
+        }
+
+        // Get the lowest bid
+        $bid = $lead->cheapestBidObject();
+
+        if ($bid === null)
+        {
+            throw new BidNotFound(trans('messages.bidNotFound'));
+        }
+
+        // Get or create the client
+        $client = $clients->findOrCreate([
+            'company' => $lead->company,
+            'address' => $lead->address,
+            'city_id' => $lead->city_id
+        ]);
+
+        return $clients->setContactName($lead->contact_name)
+            ->setContactEmail($bid->hauler_email)
+            ->setAccountNum($lead->account_num)
+            ->setWaste($lead->msw_qty, $lead->msw_yards, $lead->msw_per_week)
+            ->setRecycling($lead->rec_qty, $lead->rec_yards, $lead->rec_per_week)
+            ->setPriorTotal($lead->monthly_price)
+            ->setWastePrice($bid->msw_price)
+            ->setRecyclePrice($bid->rec_price)
+            ->setRecycleOffset($bid->rec_offset)
+            ->setFuelSurcharge($bid->fuel_surcharge)
+            ->setEnvironmentalSurcharge($bid->env_surcharge)
+            ->setRecoveryFee($bid->recovery_fee)
+            ->setAdminFee($bid->admin_fee)
+            ->setOtherFees($bid->other_fees)
+            ->setTotal($bid->net_monthly)
+            ->setHaulerID($bid->hauler_id)
+            ->update($client->id);
     }
 
 

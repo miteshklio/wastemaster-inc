@@ -65,6 +65,12 @@
                                     </a>
                                 </li>
                             </ul>
+                            @if ($row->status == \App\Lead::BID_ACCEPTED)
+                                <a href="{{ route('leads::convert', ['id' => $row->id]) }}" class="btn btn-success btn-xs btn-convert" title="Convert to Client"
+                                    onclick="return confirm('Convert this Lead into a Client?');">
+                                    Convert
+                                </a>
+                            @endif
                         </div>
                     </td>
                     <td>

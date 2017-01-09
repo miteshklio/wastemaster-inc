@@ -47,6 +47,7 @@ return [
     'leadUnArchived' => 'The Lead has been un-archived.',
     'leadNoHaulers' => 'No Haulers were selected to send bid requests to.',
     'leadBidsSent' => 'Your bids have been sent to the haulers.',
+    'leadConverted' => 'The lead was successfully converted to a Client.',
 
     // Clients
     'clientValidationErrors' => 'The following fields are required to create a new Client: :fields',

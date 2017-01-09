@@ -425,6 +425,11 @@ class ClientManager
         return $client->save();
     }
 
+    public function findOrCreate(array $params)
+    {
+        return $this->clients->firstOrCreate($params);
+    }
+
 
     /**
      * Used internally after a create or udpate

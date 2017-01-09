@@ -83,6 +83,19 @@ class Lead extends Model
     }
 
     /**
+     * Returns the actual bid object of the cheapest bid.
+     *
+     * @return mixed
+     */
+    public function cheapestBidObject()
+    {
+        $bids = app(BidManager::class);
+
+        return $bids->cheapestForLead($this->id);
+    }
+
+
+    /**
      * Returns the number of bids currently in the system for the current lead.
      *
      * @return mixed

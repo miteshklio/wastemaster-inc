@@ -79,6 +79,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('lead/{id}/archive', 'LeadsController@archive')->name('leads::archive');
     Route::get('lead/{id}/unarchive', 'LeadsController@unarchive')->name('leads::unarchive');
     Route::post('lead/{id}/send_bid_requests', 'LeadsController@sendBidRequest')->name('leads::sendBidRequest');
+    Route::get('lead/{id}/convert', 'LeadsController@convertToClient')->name('leads::convert');
 
     // Clients
     Route::match(['get', 'post'], 'clients', 'ClientController@index')->name('clients::home');
