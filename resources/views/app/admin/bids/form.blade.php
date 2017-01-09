@@ -114,7 +114,7 @@
                 <div class="col-sm-7">
                     <div class="input-group">
                         <div class="input-group-addon">$</div>
-                        <input type="text" class="form-control fee" name="rec_offset" id="rec_offset" value="{{ $bid->msw_price or old('rec_offset') }}" required  />
+                        <input type="text" class="form-control fee" name="rec_offset" id="rec_offset" value="{{ $bid->rec_offset or old('rec_offset') }}" required  />
                     </div>
                 </div>
             </div>
