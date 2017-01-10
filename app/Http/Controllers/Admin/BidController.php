@@ -213,7 +213,7 @@ class BidController extends Controller
         try {
             $this->bids->acceptBid($bidID, $request->input('gross'));
 
-            return redirect()->route('bids::home')->with(['message' => trans('messages.bidAccepted')]);
+            return redirect()->route('bids::show', ['id' => $bidID])->with(['message' => trans('messages.bidAccepted')]);
         }
         catch (\Exception $e)
         {
