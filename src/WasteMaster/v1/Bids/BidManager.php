@@ -3,6 +3,7 @@
 use App\Bid;
 use App\City;
 use App\Client;
+use App\Events\AcceptedBid;
 use App\Lead;
 use App\User;
 use Geocoder\Exception\InvalidArgument;
@@ -338,22 +339,27 @@ class BidManager
      * Accepts this bid and closes all other bids
      * for the same lead.
      *
-     * @param int $bidID
+     * @param int   $bidID
+     *
+     * @param float $profit
      *
      * @return $this
      * @throws \WasteMaster\v1\Leads\LeadNotFound
      */
-    public function acceptBid(int $bidID)
+    public function acceptBid(int $bidID, float $profit=null)
     {
         $bid = $this->find($bidID);
 
         // Close all bids for this lead
         $this->bids
             ->where('lead_id', $bid->lead_id)
-            ->update(['status' => Bid::STATUS_CLOSED]);
+            ->update([
+                'status' => Bid::STATUS_CLOSED,
+            ]);
 
         // Set this bid to accepted
-        $bid->status = Bid::STATUS_ACCEPTED;
+        $bid->status       = Bid::STATUS_ACCEPTED;
+        $bid->gross_profit = $profit;
         $bid->save();
 
         // Update the lead status
@@ -366,6 +372,9 @@ class BidManager
 
         $lead->status = Lead::BID_ACCEPTED;
         $lead->save();
+
+        // Send the email
+        \Event::fire(new AcceptedBid($bid));
 
         return $this;
     }

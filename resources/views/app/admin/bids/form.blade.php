@@ -54,9 +54,9 @@
                 <label for="status" class="control-label col-sm-4">Status</label>
                 <div class="col-sm-8">
                     <select name="status" class="form-control" disabled>
-                        <option value="{{ \App\Bid::STATUS_LIVE }}">Live</option>
-                        <option value="{{ \App\Bid::STATUS_ACCEPTED }}">Accepted</option>
-                        <option value="{{ \App\Bid::STATUS_CLOSED }}">Closed</option>
+                        <option value="{{ \App\Bid::STATUS_LIVE }}" @if ($bid->status == \App\Bid::STATUS_LIVE) selected @endif>Live</option>
+                        <option value="{{ \App\Bid::STATUS_ACCEPTED }}" @if ($bid->status == \App\Bid::STATUS_ACCEPTED) selected @endif>Accepted</option>
+                        <option value="{{ \App\Bid::STATUS_CLOSED }}" @if ($bid->status == \App\Bid::STATUS_CLOSED) selected @endif>Closed</option>
                     </select>
                 </div>
             </div>
@@ -181,6 +181,29 @@
                     <div class="input-group">
                         <div class="input-group-addon">$</div>
                         <input type="text" class="form-control number" name="net_monthly" id="net_monthly" value="{{ $bid->net_monthly or old('net_monthly') }}" required  />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gross Profit -->
+            <div class="form-group">
+                <label for="gross_profit" class="control-label col-sm-5">Gross Profit</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input type="text" class="form-control number" name="gross_profit" value="{{ $bid->gross_profit }}" disabled  />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Net Monthly -->
+            <div class="form-group">
+                <label for="total" class="control-label col-sm-5">Total</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input type="text" class="form-control number" name="total"
+                               value="@if(! empty($bid->net_monthly)){{ number_format($bid->net_monthly + $bid->gross_profit, 2) }} @endif" disabled  />
                     </div>
                 </div>
             </div>

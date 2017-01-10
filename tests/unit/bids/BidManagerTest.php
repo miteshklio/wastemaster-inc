@@ -184,6 +184,8 @@ class BidManagerTest extends UnitTestCase
 
     public function testAcceptBid()
     {
+        $this->expectsEvents(App\Events\AcceptedBid::class);
+
         $bid = m::mock('App\Bid[setAttribute,getAttribute,save]');
         $lead = m::mock('App\Lead[setAttribute,getAttribute,save]');
 
@@ -192,6 +194,8 @@ class BidManagerTest extends UnitTestCase
             ->andReturn(22);
         $bid->shouldReceive('setAttribute')
             ->with('status', Bid::STATUS_ACCEPTED);
+        $bid->shouldReceive('setAttribute')
+            ->with('gross_profit', 123);
         $bid->shouldReceive('save');
         $bid->shouldReceive('getAttribute')
             ->once()
@@ -221,7 +225,7 @@ class BidManagerTest extends UnitTestCase
         $this->bids->shouldReceive('setAttribute')
             ->with('status', \App\Bid::STATUS_ACCEPTED);
 
-        $this->manager->acceptBid(3);
+        $this->manager->acceptBid(3, 123);
     }
 
     public function testRescindBid()

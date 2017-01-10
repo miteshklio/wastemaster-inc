@@ -151,26 +151,6 @@ class BidController extends Controller
     }
 
     /**
-     * Sets the archive flag on a lead.
-     *
-     * @param int $bidID
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function accept(int $bidID)
-    {
-        try {
-            $this->bids->acceptBid($bidID);
-
-            return redirect()->route('bids::home')->with(['message' => trans('messages.bidAccepted')]);
-        }
-        catch (\Exception $e)
-        {
-            return redirect()->back()->with(['message' => $e->getMessage()]);
-        }
-    }
-
-    /**
      * Rescind a bid and make all bids for this lead Live again.
      *
      * @param int $bidID
@@ -204,5 +184,40 @@ class BidController extends Controller
         return redirect()->back()->with(['message' => trans('messages.emailSent')]);
     }
 
+    public function acceptModal(int $bidID)
+    {
+        $bid = $this->bids->find($bidID);
+        $lead = $bid->lead;
 
+        $initialGross = round(($lead->monthly_price - $bid->net_monthly) / 2, 2);
+        $initalTotal  = $bid->net_monthly + $initialGross;
+
+        return view('app.admin.bids._accept_modal', [
+            'bid' => $bid,
+            'lead' => $lead,
+            'hauler' => $bid->hauler,
+            'gross' => $initialGross,
+            'total' => $initalTotal
+        ]);
+    }
+
+    /**
+     * Sets the archive flag on a lead.
+     *
+     * @param int $bidID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function accept(Request $request, int $bidID)
+    {
+        try {
+            $this->bids->acceptBid($bidID, $request->input('gross'));
+
+            return redirect()->route('bids::home')->with(['message' => trans('messages.bidAccepted')]);
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
 }

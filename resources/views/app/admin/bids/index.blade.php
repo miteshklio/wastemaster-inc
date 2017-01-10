@@ -43,7 +43,9 @@
                                 </li>
                                 <li>
                                 @if ($row->status == \App\Bid::STATUS_LIVE)
-                                    <a href="{{ route('bids::accept', ['id' => $row->id]) }}" onClick="return confirm('Accept this bid and close others for this lead?')">Accept</a>
+                                    <a href="#" class="accept" data-id="{{ $row->id }}">
+                                        Accept
+                                    </a>
                                 @elseif ($row->status == \App\Bid::STATUS_ACCEPTED)
                                     <a href="{{ route('bids::rescind', ['id' => $row->id]) }}" onClick="return confirm('Rescind this bid?');">
                                         Rescind
@@ -72,4 +74,33 @@
             No users were found in the system.
         </div>
     @endif
+
+    <div id="modal-wrap"></div>
+@endsection
+
+@section('scripts')
+    <script>
+        $('a.accept').click(function(el){
+            el.preventDefault();
+
+            var bidID = $(this).attr('data-id');
+
+            // Load the customized modal
+            $('#modal-wrap').load(
+                '/admin/bid/'+bidID+'/get_accept_modal',
+                function()
+                {
+                    $('#accept-modal').modal().modal('show');
+                }
+            )
+        });
+
+        $('body').on('keyup', '.profit', function()
+        {
+            var net = $('#net').text();
+            var profit = $('#gross').val();
+
+            $('#modal-total').text(parseFloat(net) + parseFloat(profit));
+        });
+    </script>
 @endsection

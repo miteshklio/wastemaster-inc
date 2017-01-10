@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PostBidMatchRequest' => [
             'App\Listeners\EmailPostMatchRequest',
         ],
+        'App\Events\AcceptedBid' => [
+            'App\Listeners\EmailAcceptedBidder'
+        ],
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
         ],
