@@ -244,7 +244,7 @@ class BidManager
             throw new BidExists(trans('messages.bidExists'));
         }
 
-        $lead = $this->bids->create([
+        $bid = $this->bids->create([
             'hauler_id' => $this->hauler_id,
             'hauler_email' => $this->hauler_email,
             'lead_id' => $this->lead_id,
@@ -263,7 +263,13 @@ class BidManager
 
         $this->reset();
 
-        return $lead;
+        // Whenever a bid is created, increment
+        // the bid_count for that item.
+        $lead = $bid->lead;
+        $lead->bid_count = $lead->bid_count + 1;
+        $lead->save();
+
+        return $bid;
     }
 
     public function update($id)
@@ -331,6 +337,11 @@ class BidManager
     public function delete(int $id)
     {
         $bid = $this->find($id);
+
+        // Decrement our bid count on the lead
+        $lead = $bid->lead;
+        $lead->bid_count = $lead->bid_count - 1;
+        $lead->save();
 
         return $bid->delete();
     }

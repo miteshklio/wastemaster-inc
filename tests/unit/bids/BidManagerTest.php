@@ -79,6 +79,9 @@ class BidManagerTest extends UnitTestCase
 
     public function testCreateSuccess()
     {
+        $bid  = m::mock('App\Bid[setAttribute,getAttribute,save]');
+        $lead = m::mock('App\Lead[setAttribute,getAttribute,save]');
+
         $expects = [
             'hauler_id' => 3,
             'hauler_email' => 'foo@example.com',
@@ -102,9 +105,21 @@ class BidManagerTest extends UnitTestCase
         $this->bids->shouldReceive('create')
                       ->once()
                       ->with(Mockery::subset($expects))
-                      ->andReturn((object)[
-                'id' => 4
-            ]);
+                      ->andReturn($bid);
+        $bid->shouldReceive('getAttribute')
+            ->once()
+            ->with('lead')
+            ->andReturn($lead);
+        $bid->shouldReceive('getAttribute')
+            ->with('id')
+            ->andReturn(4);
+        $lead->shouldReceive('getAttribute')
+            ->with('bid_count')
+            ->andReturn(1);
+        $lead->shouldReceive('setAttribute')
+            ->with('bid_count', 2);
+        $lead->shouldReceive('save')
+            ->once();
 
         $Bid = $this->manager
             ->setHaulerID(3)
@@ -182,6 +197,30 @@ class BidManagerTest extends UnitTestCase
         $this->manager->delete(12);
     }
 
+    public function testDeleteSuccess()
+    {
+        $bid = m::mock('App\Bid[setAttribute,getAttribute,save]');
+        $lead = m::mock('App\Lead[setAttribute,getAttribute,save]');
+
+        $this->bids->shouldReceive('with->find')
+            ->once()
+            ->andReturn($bid);
+        $bid->shouldReceive('getAttribute')
+            ->once()
+            ->with('lead')
+            ->andReturn($lead);
+        $lead->shouldReceive('getAttribute')
+             ->with('bid_count')
+             ->andReturn(1);
+        $lead->shouldReceive('setAttribute')
+             ->with('bid_count', 0);
+        $lead->shouldReceive('save')
+             ->once();
+
+        $this->manager->delete(12);
+    }
+
+
     public function testAcceptBid()
     {
         $this->expectsEvents(App\Events\AcceptedBid::class);
@@ -198,7 +237,6 @@ class BidManagerTest extends UnitTestCase
             ->with('gross_profit', 123);
         $bid->shouldReceive('save');
         $bid->shouldReceive('getAttribute')
-            ->once()
             ->with('lead')
             ->andReturn($lead);
         $lead->shouldReceive('setAttribute')
