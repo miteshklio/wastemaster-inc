@@ -35,12 +35,12 @@ class LeadsController extends Controller
 
         $datatable->showColumns([
             'company'    => 'Name',
+            'bid_count' => '# of Bids',
+            'status'     => 'Status',
             'city_id'    => 'City',
             'created_at' => 'Created At',
-            'status'     => 'Status',
             'Current $',
             'Cheapest Bid',
-            'bid_count' => '# of Bids'
         ])
             ->searchColumns(['company', 'status'])
             ->setAlwaysSort('archived', 'asc')

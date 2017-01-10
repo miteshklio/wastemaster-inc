@@ -32,16 +32,16 @@
                         <td>
                             <a href="{{ route('leads::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
                         </td>
-                        <td>{{ $row->city->name }}</td>
-                        <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
-                        <td>{{ $row->status() }}</td>
-                        <td class="hidden-xs">${{ number_format($row->monthly_price, 2) }}</td>
-                        <td>{{ $row->cheapestBid() }}</td>
                         <td>
                             <a href="{{ route('bids::home').'?search='. $row->id }}">
                                 {{ $row->bidCount() }}
                             </a>
                         </td>
+                        <td>{{ $row->status() }}</td>
+                        <td>{{ $row->city->name }}</td>
+                        <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
+                        <td class="hidden-xs">${{ number_format($row->monthly_price, 2) }}</td>
+                        <td>{{ $row->cheapestBid() }}</td>
                         <td>
                             <div class="btn-group" role="group">
                                 <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
