@@ -32,9 +32,9 @@
                         <td>
                             <a href="{{ route('leads::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <a href="{{ route('bids::home').'?search='. $row->id }}">
-                                {{ $row->bidCount() }}
+                                {{ (int)$row->bid_count }}
                             </a>
                         </td>
                         <td>{{ $row->status() }}</td>
