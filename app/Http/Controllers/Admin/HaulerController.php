@@ -38,6 +38,7 @@ class HaulerController extends Controller
             ->setDefaultSort('name', 'asc')
             ->setAlwaysSort('archived', 'asc')
             ->eagerLoad('city')
+            ->hideOnMobile(['emails'])
             ->prepare(20);
 
         return view('app.admin.haulers.index')->with([

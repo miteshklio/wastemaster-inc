@@ -50,6 +50,7 @@ class BidController extends Controller
             ->join('leads', 'leads.id', '=', 'bids.lead_id')
             ->join('haulers', 'haulers.id', '=', 'bids.hauler_id')
             ->select('bids.*', 'leads.company as lead_name', 'leads.monthly_price as current_total', 'haulers.name as hauler_name')
+            ->hideOnMobile(['created_at', 'current_total'])
             ->prepare(20);
 
         return view('app.admin.bids.index')->with([

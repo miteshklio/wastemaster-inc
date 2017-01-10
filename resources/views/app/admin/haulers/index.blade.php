@@ -32,7 +32,7 @@
                     </td>
                     <td>{{ $row->city->name }}</td>
                     <td>{{ $row->listWasteTypes() }}</td>
-                    <td>{{ $row->listEmails() }}</td>
+                    <td class="hidden-xs">{{ $row->listEmails() }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

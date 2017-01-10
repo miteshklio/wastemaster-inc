@@ -8,7 +8,7 @@ use WasteMaster\v1\Users\UserExists;
 use App\User;
 use App\UserRole;
 use Illuminate\Contracts\Auth\Guard as Auth;
-use Illuminate\Validation\Factory as Validator; 
+use Illuminate\Validation\Factory as Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -34,6 +34,7 @@ class UserController extends Controller {
             ])
             ->searchColumns(['name', 'email'])
             ->setDefaultSort('created_at', 'desc')
+            ->hideOnMobile(['id', 'role_id', 'created_at'])
             ->prepare(20);
 
         return view('app.admin.users.index')->with([
@@ -141,7 +142,7 @@ class UserController extends Controller {
         ]);
     }
 
-    /** 
+    /**
      * Create new user
      *
      * @param Request $request

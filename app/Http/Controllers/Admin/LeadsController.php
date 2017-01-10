@@ -45,6 +45,7 @@ class LeadsController extends Controller
             ->searchColumns(['company', 'status'])
             ->setAlwaysSort('archived', 'asc')
             ->setDefaultSort('created_at', 'desc')
+            ->hideOnMobile(['created_at', 'Current $'])
             ->eagerLoad('city')
             ->prepare(20);
 

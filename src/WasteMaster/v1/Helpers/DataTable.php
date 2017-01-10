@@ -76,6 +76,8 @@ class DataTable
 
     protected $eagerLoad;
 
+    protected $hideColumns = [];
+
     /**
      * The
      * @var null
@@ -173,6 +175,21 @@ class DataTable
     //--------------------------------------------------------------------
     // Setup
     //--------------------------------------------------------------------
+
+    /**
+     * Set the columns that should have a "hidden-xs" class added.
+     *
+     * @param array $columns
+     *
+     * @return $this
+     */
+    public function hideOnMobile(array $columns)
+    {
+        $this->hideColumns = $columns;
+
+        return $this;
+    }
+
 
     /**
      * Force a table join. This would be the same as those in Query Builder.
@@ -443,7 +460,11 @@ class DataTable
                 $link = "<a href='{$this->url}?{$sort}'>{$value} {$arrow}</a>";
             }
 
-            $output .= "<th>{$link}</th>\n";
+            $hide = in_array($key, $this->hideColumns)
+                ? ' class="hidden-xs"'
+                : '';
+
+            $output .= "<th{$hide}>{$link}</th>\n";
         }
 
         $output .="<th>Actions</th>\n";

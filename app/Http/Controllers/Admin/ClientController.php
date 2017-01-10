@@ -41,6 +41,7 @@ class ClientController extends Controller
             ->searchColumns(['company'])
             ->setDefaultSort('company', 'asc')
             ->setAlwaysSort('archived', 'asc')
+            ->hideOnMobile(['created_at', 'prior_total'])
             ->eagerLoad('city')
             ->prepare(20);
 

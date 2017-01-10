@@ -22,35 +22,37 @@
 
         <p>{!! $datatable->renderMeta() !!}</p>
 
-        <table class="table">
-            {!! $datatable->renderHeader('table') !!}
-            <tbody>
-            @foreach ($datatable->rows() as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>
-                        <a href="/admin/user/{{ $user->id }}">
-                            {{ $user->name }}
-                        </a>
-                    </td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->role->name }}</td>
-                    <td>{{ date('Y-m-d', strtotime($user->created_at)) }}</td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Modify <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="/admin/user/{{ $user->id }}">Edit</a></li>
-                                <li><a href="/admin/user/{{ $user->id }}/delete">Delete</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table">
+                {!! $datatable->renderHeader('table') !!}
+                <tbody>
+                @foreach ($datatable->rows() as $user)
+                    <tr>
+                        <td class="hidden-xs">{{ $user->id }}</td>
+                        <td>
+                            <a href="/admin/user/{{ $user->id }}">
+                                {{ $user->name }}
+                            </a>
+                        </td>
+                        <td>{{ $user->email }}</td>
+                        <td class="hidden-xs">{{ $user->role->name }}</td>
+                        <td class="hidden-xs">{{ date('Y-m-d', strtotime($user->created_at)) }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Modify <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/admin/user/{{ $user->id }}">Edit</a></li>
+                                    <li><a href="/admin/user/{{ $user->id }}/delete">Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
 
         {!! $datatable->renderLinks() !!}
     @else
