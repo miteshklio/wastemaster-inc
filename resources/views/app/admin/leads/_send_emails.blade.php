@@ -41,9 +41,9 @@
 
         <br>
 
-        <a href="#" class="btn btn-primary btn-block">
-            Send Match Request<br>to Current Hauler
-        </a>
+        {{--<a href="#" class="btn btn-primary btn-block">--}}
+            {{--Send Match Request<br>to Current Hauler--}}
+        {{--</a>--}}
     </div>
 
     {{--Post-Bid Price--}}
