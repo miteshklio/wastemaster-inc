@@ -29,7 +29,7 @@
 
             <input type="submit" class="btn btn-primary btn-block" value="Send Bid Requests">
 
-            @if ($bidRequestHistory)
+            @if (! empty($bidRequestHistory) && $bidRequestHistory->count())
                 <?php
                     $haulers = [];
                     foreach ($bidRequestHistory as $item)

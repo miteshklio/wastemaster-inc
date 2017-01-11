@@ -216,7 +216,9 @@
     <div class="row">
         <div class="text-center">
             <input type="submit" class="btn btn-success" value="Save Bid">
-            <a href="#" class="btn btn-primary" id="accept" data-id="{{ $bid->id }}">Accept Bid</a>
+            @if ($bid->status == \App\Bid::STATUS_LIVE)
+                <a href="#" class="btn btn-primary" id="accept" data-id="{{ $bid->id }}">Accept Bid</a>
+            @endif
         </div>
     </div>
 

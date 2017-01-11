@@ -36,7 +36,13 @@
                             {{ (int)$row->bid_count }}
                         </a>
                     </td>
-                    <td>{{ $row->status() }}</td>
+                    <td>
+                        @if ($row->status == \App\Lead::BID_ACCEPTED)
+                            <a href="{{ route('bids::show', ['id' => $row->cheapestBidObject()->id]) }}">Bid Accepted</a>
+                        @else
+                            {{ $row->status() }}
+                        @endif
+                    </td>
                     <td>{{ $row->city->name }}</td>
                     <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
                     <td class="hidden-xs">${{ number_format($row->monthly_price, 2) }}</td>
