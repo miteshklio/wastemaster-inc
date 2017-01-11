@@ -28,7 +28,13 @@
                         <a href="{{ route('bids::show', ['id' => $row->id]) }}">{{ $row->lead_name }}</a>
                     </td>
                     <td>{{ $row->describeStatus() }}</td>
-                    <td>{{ $row->hauler_name }}</td>
+                    <td>
+                        {{ $row->hauler_name }}
+                        <?php $lead = $row->lead; ?>
+                        @if ($lead->hauler->name == $row->hauler_name)
+                            <img src="/img/star.png" class="hauler_star" alt="Current Hauler">
+                        @endif
+                    </td>
                     <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
                     <td class="hidden-xs">${{ number_format($row->current_total, 2) }}</td>
                     <td>${{ number_format($row->net_monthly, 2) }}</td>
