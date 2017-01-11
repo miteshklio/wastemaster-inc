@@ -7,6 +7,8 @@ class ClientManagerTest extends UnitTestCase
 {
     protected $clients;
     protected $cities;
+    protected $history;
+    protected $histories;
 
     /**
      * @var \WasteMaster\v1\Clients\ClientManager
@@ -19,7 +21,9 @@ class ClientManagerTest extends UnitTestCase
 
         $this->clients = m::mock('\App\Client');
         $this->cities  = m::mock('\App\City');
-        $this->manager = new ClientManager($this->clients, $this->cities);
+        $this->history = m::mock('App\History');
+        $this->histories  = new \WasteMaster\v1\History\HistoryManager($this->history);
+        $this->manager = new ClientManager($this->clients, $this->cities, $this->histories);
     }
 
     public function tearDown()
@@ -243,6 +247,14 @@ class ClientManagerTest extends UnitTestCase
             ->with('archived', 1);
         $bid->shouldReceive('save');
 
+        // Delete Email History
+        $lead->shouldReceive('getAttribute')
+            ->with('id')
+            ->andReturn(1);
+        $this->history->shouldReceive('where')
+            ->with('lead_id', 1)
+            ->andReturn($this->history);
+        $this->history->shouldReceive('delete');
 
         $this->manager->rebidClient(1);
     }

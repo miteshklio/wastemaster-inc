@@ -20,6 +20,8 @@ class ClientManager
      */
     protected $cities;
 
+    protected $history;
+
     /**
      * DB Columns
      */
@@ -50,10 +52,11 @@ class ClientManager
     protected $total;
     protected $archived;
 
-    public function __construct(Client $clients, City $cities)
+    public function __construct(Client $clients, City $cities, HistoryManager $history)
     {
         $this->clients = $clients;
         $this->cities  = $cities;
+        $this->history = $history;
     }
 
     public function setCompany(string $company)
@@ -477,8 +480,7 @@ class ClientManager
             $lead->save();
 
             // Reset the History
-            $history = app(HistoryManager::class);
-            $history->deleteForLead($lead->id);
+            $this->history->deleteForLead($lead->id);
 
             // Archive the bids
             $bids = $lead->bids;
