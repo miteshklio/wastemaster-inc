@@ -314,7 +314,15 @@ class ClientController extends Controller
      */
     public function rebid(int $clientID)
     {
-        return '<h1>Coming Soon</h1>';
+        try {
+            $this->clients->rebidClient($clientID);
+
+            die('here');
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
 

@@ -2,7 +2,10 @@
 
 use App\City;
 use App\Client;
+use App\Lead;
 use Geocoder\Exception\InvalidArgument;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use WasteMaster\v1\Leads\LeadManager;
 
 class ClientManager
 {
@@ -49,7 +52,7 @@ class ClientManager
     public function __construct(Client $clients, City $cities)
     {
         $this->clients = $clients;
-        $this->cities = $cities;
+        $this->cities  = $cities;
     }
 
     public function setCompany(string $company)
@@ -429,6 +432,38 @@ class ClientManager
     {
         return $this->clients->firstOrCreate($params);
     }
+
+    public function rebidClient(int $clientID)
+    {
+        $client = $this->find($clientID);
+        $lead = $client->lead;
+
+        // Un-archive the lead
+        if ($lead !== null)
+        {
+            $lead->archived = 0;
+            $lead->save();
+        }
+
+        // Archive the client
+    }
+
+    public function rebidLead(Lead $lead)
+    {
+
+    }
+
+    /**
+     * Handles the actual rebid process.
+     *
+     * @param \App\Client $client
+     * @param \App\Lead   $lead
+     */
+    protected function rebid(Client $client, Lead $lead)
+    {
+
+    }
+
 
 
     /**

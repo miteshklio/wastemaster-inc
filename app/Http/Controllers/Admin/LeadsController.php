@@ -335,4 +335,15 @@ class LeadsController extends Controller
         }
     }
 
+    public function rebid(ClientManager $clients, LeadManager $leads, int $leadID)
+    {
+        try {
+            $clients->rebidLead($leadID, $leads);
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
+    }
+
 }

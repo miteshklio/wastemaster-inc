@@ -19,56 +19,54 @@
 
         <p>{!! $datatable->renderMeta() !!}</p>
 
-        <div class="table-responsive">
-            <table class="table">
-                {!! $datatable->renderHeader('table') !!}
-                <tbody>
-                @foreach ($datatable->rows() as $row)
-                    <tr class="@if ($row->status == \App\Bid::STATUS_CLOSED) archived @endif @if (strtotime($row->created_at) + 10 > $recentDate)) has_bids @endif">
-                        <td>
-                            <a href="{{ route('bids::show', ['id' => $row->id]) }}">{{ $row->lead_name }}</a>
-                        </td>
-                        <td>{{ $row->describeStatus() }}</td>
-                        <td>{{ $row->hauler_name }}</td>
-                        <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
-                        <td class="hidden-xs">${{ number_format($row->current_total, 2) }}</td>
-                        <td>${{ number_format($row->net_monthly, 2) }}</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Modify <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('bids::show', ['id' => $row->id]) }}">Details</a>
-                                    </li>
-                                    <li>
-                                    @if ($row->status == \App\Bid::STATUS_LIVE)
-                                        <a href="#" class="accept" data-id="{{ $row->id }}">
-                                            Accept
-                                        </a>
-                                    @elseif ($row->status == \App\Bid::STATUS_ACCEPTED)
-                                        <a href="{{ route('bids::rescind', ['id' => $row->id]) }}" onClick="return confirm('Rescind this bid?');">
-                                            Rescind
-                                        </a>
-                                    @endif
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('bids::delete', ['id' => $row->id]) }}" onClick="return confirm('Delete this Bid permanently?');">
-                                            Delete
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                        <td>
+        <table class="table">
+            {!! $datatable->renderHeader('table') !!}
+            <tbody>
+            @foreach ($datatable->rows() as $row)
+                <tr class="@if ($row->status == \App\Bid::STATUS_CLOSED) archived @endif @if (strtotime($row->created_at) + 10 > $recentDate)) has_bids @endif">
+                    <td>
+                        <a href="{{ route('bids::show', ['id' => $row->id]) }}">{{ $row->lead_name }}</a>
+                    </td>
+                    <td>{{ $row->describeStatus() }}</td>
+                    <td>{{ $row->hauler_name }}</td>
+                    <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
+                    <td class="hidden-xs">${{ number_format($row->current_total, 2) }}</td>
+                    <td>${{ number_format($row->net_monthly, 2) }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Modify <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ route('bids::show', ['id' => $row->id]) }}">Details</a>
+                                </li>
+                                <li>
+                                @if ($row->status == \App\Bid::STATUS_LIVE)
+                                    <a href="#" class="accept" data-id="{{ $row->id }}">
+                                        Accept
+                                    </a>
+                                @elseif ($row->status == \App\Bid::STATUS_ACCEPTED)
+                                    <a href="{{ route('bids::rescind', ['id' => $row->id]) }}" onClick="return confirm('Rescind this bid?');">
+                                        Rescind
+                                    </a>
+                                @endif
+                                </li>
+                                <li>
+                                    <a href="{{ route('bids::delete', ['id' => $row->id]) }}" onClick="return confirm('Delete this Bid permanently?');">
+                                        Delete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
 
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
 
         {!! $datatable->renderLinks() !!}
     @else

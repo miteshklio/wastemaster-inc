@@ -318,6 +318,10 @@ class LeadManager
             throw new BidNotFound(trans('messages.bidNotFound'));
         }
 
+        // Archive the lead
+        $lead->archived = 1;
+        $lead->save();
+
         // Get or create the client
         $client = $clients->findOrCreate([
             'company' => $lead->company,
