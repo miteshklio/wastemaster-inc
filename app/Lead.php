@@ -124,7 +124,7 @@ class Lead extends Model
                 return 'Bid Accepted';
                 break;
             case self::CONVERTED_TO_CLIENT:
-                return 'Converted to Client';
+                return 'Client';
                 break;
         }
 

@@ -320,6 +320,7 @@ class LeadManager
 
         // Archive the lead
         $lead->archived = 1;
+        $lead->status = Lead::CONVERTED_TO_CLIENT;
         $lead->save();
 
         // Archive the bids
