@@ -6,19 +6,30 @@ use App\Events\AcceptedBid;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use WasteMaster\v1\History\HistoryManager;
 
 class EmailAcceptedBidder
 {
+    /**
+     * @var \Illuminate\Contracts\Mail\Mailer
+     */
     protected $mailer;
+
+    /**
+     * @var \WasteMaster\v1\History\HistoryManager
+     */
+    protected $history;
 
     /**
      * Create the event listener.
      *
-     * @return void
+     * @param \Illuminate\Contracts\Mail\Mailer      $mailer
+     * @param \WasteMaster\v1\History\HistoryManager $history
      */
-    public function __construct(Mailer $mailer)
+    public function __construct(Mailer $mailer, HistoryManager $history)
     {
         $this->mailer = $mailer;
+        $this->history = $history;
     }
 
     /**
@@ -42,5 +53,12 @@ class EmailAcceptedBidder
             $m->subject('Your Wastemaster bid has been accepted')
               ->to(unserialize($hauler->emails));
         });
+
+        // Log it into history
+        $this->history
+            ->setLeadID($lead->id)
+            ->setHaulerID($hauler->id)
+            ->setType('bid_accepted')
+            ->create();
     }
 }

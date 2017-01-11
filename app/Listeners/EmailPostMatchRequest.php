@@ -6,6 +6,7 @@ use App\Events\PostBidMatchRequest;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use WasteMaster\v1\History\HistoryManager;
 
 class EmailPostMatchRequest
 {
@@ -15,13 +16,19 @@ class EmailPostMatchRequest
     protected $mailer;
 
     /**
+     * @var \WasteMaster\v1\History\HistoryManager
+     */
+    protected $history;
+
+    /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(Mailer $mailer)
+    public function __construct(Mailer $mailer, HistoryManager $history)
     {
         $this->mailer = $mailer;
+        $this->history = $history;
     }
 
     /**
@@ -47,7 +54,11 @@ class EmailPostMatchRequest
               ->to(unserialize($hauler->emails));
         });
 
-        $lead->post_match_sent = date('Y-m-d H:i:s');
-        $lead->save();
+        // Log it into history
+        $this->history
+            ->setLeadID($lead->id)
+            ->setHaulerID($hauler->id)
+            ->setType('post_match_request')
+            ->create();
     }
 }
