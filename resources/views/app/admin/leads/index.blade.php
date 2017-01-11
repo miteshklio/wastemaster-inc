@@ -77,7 +77,7 @@
                                     Convert
                                 </a>
                             @elseif ($row->status == \App\Lead::CONVERTED_TO_CLIENT)
-                                <a href="{{ route('leads::rebid', ['id' => $row->id]) }}" class="btn btn-success btn-xs btn-rebid" title="Rebid this Lead"
+                                <a href="{{ route('leads::rebid', ['id' => $row->id]) }}" class="btn btn-warning btn-xs btn-rebid" title="Rebid this Lead"
                                    onclick="return confirm('Rebid this lead?');">
                                     Rebid
                                 </a>
