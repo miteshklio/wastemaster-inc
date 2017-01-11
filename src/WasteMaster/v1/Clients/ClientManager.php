@@ -5,6 +5,7 @@ use App\Client;
 use App\Lead;
 use Geocoder\Exception\InvalidArgument;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
+use WasteMaster\v1\History\HistoryManager;
 use WasteMaster\v1\Leads\LeadManager;
 
 class ClientManager
@@ -475,6 +476,10 @@ class ClientManager
             $lead->status = Lead::REBIDDING;
             $lead->save();
 
+            // Reset the History
+            $history = app(HistoryManager::class);
+            $history->deleteForLead($lead->id);
+
             // Archive the bids
             $bids = $lead->bids;
 
@@ -486,9 +491,6 @@ class ClientManager
                     $bid->save();
                 }
             }
-
-            // Reset the History
-            // @todo reset history/timestamps.
         }
 
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use WasteMaster\v1\Bids\BidManager;
 use WasteMaster\v1\Clients\ClientManager;
 use WasteMaster\v1\Haulers\HaulerManager;
+use WasteMaster\v1\History\HistoryManager;
 use WasteMaster\v1\Leads\LeadExists;
 use WasteMaster\v1\Leads\LeadManager;
 use WasteMaster\v1\Leads\LeadNotFound;
@@ -127,12 +128,13 @@ class LeadsController extends Controller
     /**
      * Displays the edit a Lead form.
      *
-     * @param HaulerManager $haulers
-     * @param int           $leadID
+     * @param HaulerManager                          $haulers
+     * @param \WasteMaster\v1\History\HistoryManager $history
+     * @param int                                    $leadID
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show(HaulerManager $haulers, int $leadID)
+    public function show(HaulerManager $haulers, HistoryManager $history, int $leadID)
     {
         $lead = $this->leads->find($leadID);
 
@@ -148,7 +150,10 @@ class LeadsController extends Controller
             'editMode' => true,
             'haulers' => $haulers->all(),
             'cityHaulers' => $cityHaulers,
-            'lowBid' => $lead->cheapestBidObject()
+            'lowBid' => $lead->cheapestBidObject(),
+            'bidRequestHistory' => $history->findForLead($leadID, 'bid_request'),
+            'preMatchHistory' => $history->findForLead($leadID, 'pre_match_request'),
+            'postMatchHistory' => $history->findForLead($leadID, 'post_match_request'),
         ]);
     }
 

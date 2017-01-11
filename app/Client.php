@@ -40,4 +40,10 @@ class Client extends Model
         return $this->hasOne('App\Hauler', 'id', 'hauler_id');
     }
 
+    public function lead()
+    {
+        return $this->hasOne('App\Lead', 'id', 'lead_id');
+    }
+
+
 }

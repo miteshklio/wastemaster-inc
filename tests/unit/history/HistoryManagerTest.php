@@ -50,13 +50,10 @@ class HistoryManagerTest extends UnitTestCase
         $this->history->shouldReceive('where')
             ->with('lead_id', 1)
             ->andReturn($this->history);
-        $this->history->shouldReceive('where')
-            ->with('type', 'foo')
-            ->andReturn($this->history);
         $this->history->shouldReceive('delete')
             ->once();
 
-        $this->manager->deleteForLead(1, 'foo');
+        $this->manager->deleteForLead(1);
     }
 
     public function testCreateSuccess()

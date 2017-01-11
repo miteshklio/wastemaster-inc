@@ -28,6 +28,18 @@
             <br>
 
             <input type="submit" class="btn btn-primary btn-block" value="Send Bid Requests">
+
+            @if ($bidRequestHistory)
+                <?php
+                    $haulers = [];
+                    foreach ($bidRequestHistory as $item)
+                    {
+                        $haulers[] = $item->hauler->name;
+                    }
+                ?>
+                <br>
+                <div class="label label-default" title="{{ implode("\n", $haulers) }}">Requested on {{ date('M j, Y g:ia', strtotime($bidRequestHistory[0]->created_at)) }}</div>
+            @endif
         </form>
     </div>
 
@@ -44,6 +56,18 @@
         {{--<a href="#" class="btn btn-primary btn-block">--}}
             {{--Send Match Request<br>to Current Hauler--}}
         {{--</a>--}}
+
+        @if (! empty($preMatchHistory) && $preMatchHistory->count())
+            <?php
+            $haulers = [];
+            foreach ($preMatchHistory as $item)
+            {
+                $haulers[] = $item->hauler->name;
+            }
+            ?>
+            <br>
+            <div class="label label-default" title="{{ implode("\n", $haulers) }}">Requested on {{ date('M j, Y g:ia', strtotime($preMatchHistory[0]->created_at)) }}</div>
+        @endif
     </div>
 
     {{--Post-Bid Price--}}
@@ -69,8 +93,16 @@
                 Send Match Request<br>to Current Hauler
             </a>
 
-            @if (! empty($lead->post_match_sent))
-                <p class="small" style="margin-top: 0.5em;">Request sent on {{ date('M j, Y g:ia') }}</p>
+            @if (! empty($postMatchHistory) && $postMatchHistory->count())
+                <?php
+                $haulers = [];
+                foreach ($postMatchHistory as $item)
+                {
+                    $haulers[] = $item->hauler->name;
+                }
+                ?>
+                <br>
+                <div class="label label-default" title="{{ implode("\n", $haulers) }}">Requested on {{ date('M j, Y g:ia', strtotime($postMatchHistory[0]->created_at)) }}</div>
             @endif
         @endif
     </div>
@@ -79,3 +111,5 @@
     <p class="notice">Submit the lead information form on the left to automate bid request emails.</p>
 
 @endif
+
+

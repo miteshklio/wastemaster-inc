@@ -25,6 +25,6 @@ class History extends Model
      */
     public function hauler()
     {
-        return $this->hasOne('App\Hauler');
+        return $this->hasOne('App\Hauler', 'id', 'hauler_id');
     }
 }

@@ -41,11 +41,10 @@ class HistoryManager
      *
      * @return mixed
      */
-    public function deleteForLead(int $leadID, string $type)
+    public function deleteForLead(int $leadID)
     {
         return $this->histories
             ->where('lead_id', $leadID)
-            ->where('type', strtolower($type))
             ->delete();
     }
 

@@ -106,6 +106,7 @@ class Lead extends Model
     }
 
 
+
     public function status()
     {
         switch ($this->status)
