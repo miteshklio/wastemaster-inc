@@ -322,6 +322,17 @@ class LeadManager
         $lead->archived = 1;
         $lead->save();
 
+        // Archive the bids
+        $bids = $lead->bids;
+
+        foreach ($bids as $b)
+        {
+            if ($b->id == $bid->id) continue;
+
+            $b->archived = 1;
+            $b->save();
+        }
+
         // Get or create the client
         $client = $clients->findOrCreate([
             'company' => $lead->company,

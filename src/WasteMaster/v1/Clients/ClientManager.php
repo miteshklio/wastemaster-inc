@@ -433,24 +433,31 @@ class ClientManager
         return $this->clients->firstOrCreate($params);
     }
 
+    /**
+     * Given a client, will set things up for a rebid
+     * scenario.
+     *
+     * @param int $clientID
+     */
     public function rebidClient(int $clientID)
     {
         $client = $this->find($clientID);
         $lead = $client->lead;
 
-        // Un-archive the lead
-        if ($lead !== null)
-        {
-            $lead->archived = 0;
-            $lead->save();
-        }
-
-        // Archive the client
+        return $this->rebid($client, $lead);
     }
 
+    /**
+     * Given a lead will set things up for a rebid
+     * scenario.
+     *
+     * @param Lead $lead
+     */
     public function rebidLead(Lead $lead)
     {
+        $client = $this->clients->where('lead_id', $lead->id)->first();
 
+        $this->rebid($client, $lead);
     }
 
     /**
@@ -459,8 +466,31 @@ class ClientManager
      * @param \App\Client $client
      * @param \App\Lead   $lead
      */
-    protected function rebid(Client $client, Lead $lead)
+    protected function rebid(Client $client = null, Lead $lead = null)
     {
+        // Un-archive the lead and fix status.
+        if ($lead !== null)
+        {
+            $lead->archived = 0;
+            $lead->status = Lead::REBIDDING;
+            $lead->save();
+
+            // Archive the bids
+            $bids = $lead->bids;
+
+            if ($bids !== null)
+            {
+                foreach ($bids as $bid)
+                {
+                    $bid->archived = 1;
+                    $bid->save();
+                }
+            }
+
+            // Reset the History
+            // @todo reset history/timestamps.
+        }
+
 
     }
 

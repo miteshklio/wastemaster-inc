@@ -317,7 +317,7 @@ class ClientController extends Controller
         try {
             $this->clients->rebidClient($clientID);
 
-            die('here');
+            return redirect()->back()->with(['message' => trans('messages.leadRebid')]);
         }
         catch (\Exception $e)
         {

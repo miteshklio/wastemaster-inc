@@ -214,4 +214,37 @@ class ClientManagerTest extends UnitTestCase
 
         $this->manager->archive(12);
     }
+
+    public function testRebidClient()
+    {
+        $lead = m::mock('App\Lead');
+        $client = m::mock('App\Client');
+        $bid = m::mock('App\Bid');
+
+        $this->clients->shouldReceive('with->find')
+            ->once()
+            ->andReturn($client);
+        $client->shouldReceive('getAttribute')
+            ->with('lead')
+            ->andReturn($lead);
+
+        // Archive Lead
+        $lead->shouldReceive('setAttribute')
+            ->with('archived', 0);
+        $lead->shouldReceive('setAttribute')
+            ->with('status', \App\Lead::REBIDDING);
+        $lead->shouldReceive('save');
+
+        // Archive Bids
+        $lead->shouldReceive('getAttribute')
+            ->with('bids')
+            ->andReturn([$bid]);
+        $bid->shouldReceive('setAttribute')
+            ->with('archived', 1);
+        $bid->shouldReceive('save');
+
+
+        $this->manager->rebidClient(1);
+    }
+
 }

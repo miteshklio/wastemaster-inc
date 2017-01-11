@@ -48,6 +48,17 @@ class Lead extends Model
     }
 
     /**
+     * Grab the bids for this lead.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bids()
+    {
+        return $this->hasMany('App\Bid');
+    }
+
+
+    /**
      * Increments the bid count by one.
      * We keep the count separate here because count() in MySQL
      * can be slow and, at times, inaccurate.

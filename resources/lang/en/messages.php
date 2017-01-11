@@ -49,6 +49,7 @@ return [
     'leadNoHaulers' => 'No Haulers were selected to send bid requests to.',
     'leadBidsSent' => 'Your bids have been sent to the haulers.',
     'leadConverted' => 'The lead was successfully converted to a Client.',
+    'leadRebid' => 'The Lead/Client have entered re-bidding process.',
 
     // Clients
     'clientValidationErrors' => 'The following fields are required to create a new Client: :fields',

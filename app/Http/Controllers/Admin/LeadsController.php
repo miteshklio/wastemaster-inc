@@ -335,10 +335,23 @@ class LeadsController extends Controller
         }
     }
 
+    /**
+     * Rebid this lead and associated client.
+     *
+     * @param ClientManager $clients
+     * @param LeadManager   $leads
+     * @param int           $leadID
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function rebid(ClientManager $clients, LeadManager $leads, int $leadID)
     {
+        $lead = $leads->find($leadID);
+
         try {
-            $clients->rebidLead($leadID, $leads);
+            $clients->rebidLead($lead);
+
+            return redirect()->back()->with(['message' => trans('messages.leadRebid')]);
         }
         catch (\Exception $e)
         {
