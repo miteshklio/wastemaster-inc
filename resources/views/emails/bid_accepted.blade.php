@@ -2,5 +2,6 @@
 
 <p>Thank you for your interest in servicing the following address {{ $lead->address . $lead->city->name }}.</p>
 
-<p>Congratulations!  We have decided that your bid is the best for the customer
-so please forward to me a service agreement that we can sign and begin service.</p>
+<p>Congratulations! We have decided that your bid is the best for the customer. Please forward a service agreement
+    to <a href="wastemastercorp@gmail.com">wastemastercorp@gmail.com</a> that we can sign to begin service. To review
+    what your offer was, click here: <a href="{{ $url }}">{{ $url }}</a></p>

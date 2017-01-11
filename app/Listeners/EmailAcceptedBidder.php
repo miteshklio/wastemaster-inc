@@ -34,11 +34,12 @@ class EmailAcceptedBidder
 
         $data = [
             'hauler' => $hauler,
-            'lead'   => $lead
+            'lead'   => $lead,
+            'url'    => route('bids::externalForm', ['id' =>base64_encode($lead->id .'::'. $hauler->id)])
         ];
 
         $this->mailer->send('emails.bid_accepted', $data, function ($m) use($hauler) {
-            $m->subject('Your bid request from Wastemaster has been accepted')
+            $m->subject('Your Wastemaster bid has been accepted')
               ->to(unserialize($hauler->emails));
         });
     }
