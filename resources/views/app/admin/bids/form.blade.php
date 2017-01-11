@@ -216,10 +216,13 @@
     <div class="row">
         <div class="text-center">
             <input type="submit" class="btn btn-success" value="Save Bid">
+            <a href="#" class="btn btn-primary" id="accept" data-id="{{ $bid->id }}">Accept Bid</a>
         </div>
     </div>
 
 </form>
+
+<div id="modal-wrap"></div>
 @endsection
 
 @section('scripts')
@@ -254,5 +257,32 @@
 
             $(this).val(amount ? amount.toFixed(2) : 0.00);
         });
-    </script>
+
+        /*
+         Accept Bid Modal
+         */
+        $('#accept').click(function(el){
+            el.preventDefault();
+
+            var bidID = $(this).attr('data-id');
+
+            // Load the customized modal
+            $('#modal-wrap').load(
+                '/admin/bid/'+bidID+'/get_accept_modal',
+                function()
+                {
+                    $('#accept-modal').modal().modal('show');
+                }
+            )
+        });
+
+        $('body').on('keyup', '.profit', function()
+        {
+            var net = $('#net').text();
+            var profit = $('#gross').val();
+
+            $('#modal-total').text(parseFloat(net) + parseFloat(profit));
+        });
+
 @endsection
+
