@@ -73,7 +73,7 @@ class DataTable
     protected $joins = [];
     protected $wheres = [];
     protected $select;
-    protected $pageTitle;
+    protected $with;
 
     protected $eagerLoad;
 
@@ -145,7 +145,7 @@ class DataTable
 
         if ($this->eagerLoad !== null)
         {
-            $this->model = $this->model->with($this->eagerLoad);
+            $this->model = $this->model->with(...$this->eagerLoad);
         }
 
         if (! empty($this->select) && is_array($this->select))
@@ -325,20 +325,6 @@ class DataTable
 
     //--------------------------------------------------------------------
 
-    /**
-     * Sets the page title so it can be built into the header.
-     *
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function withPageTitle(string $title)
-    {
-        $this->pageTitle = $title;
-
-        return $this;
-    }
-
 
     //--------------------------------------------------------------------
     // Results
@@ -385,11 +371,11 @@ class DataTable
     /**
      * If set, will pass this string to the with() method on the model.
      *
-     * @param string $children
+     * @param array $children
      *
      * @return $this
      */
-    public function eagerLoad(string $children)
+    public function eagerLoad(...$children)
     {
         $this->eagerLoad = $children;
 
