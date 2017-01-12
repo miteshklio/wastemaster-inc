@@ -231,6 +231,9 @@ class ClientManagerTest extends UnitTestCase
         $client->shouldReceive('getAttribute')
             ->with('lead')
             ->andReturn($lead);
+        $client->shouldReceive('getAttribute')
+            ->with('total')
+            ->andReturn(50);
 
         // Archive Lead
         $lead->shouldReceive('setAttribute')
@@ -238,6 +241,10 @@ class ClientManagerTest extends UnitTestCase
         $lead->shouldReceive('setAttribute')
             ->with('status', \App\Lead::REBIDDING);
         $lead->shouldReceive('save');
+        $lead->shouldReceive('setAttribute')
+            ->with('bid_count', 0);
+        $lead->shouldReceive('setAttribute')
+            ->with('monthly_price', 50);
 
         // Archive Bids
         $lead->shouldReceive('getAttribute')
