@@ -30,8 +30,8 @@
                     <td>{{ $row->describeStatus() }}</td>
                     <td>
                         {{ $row->hauler_name }}
-                        <?php $lead = $row->lead; ?>
-                        @if (isset($lead->hauler) && $lead->hauler->name == $row->hauler_name)
+                        <?php $lead = $row->lead; $hauler = $lead->hauler; ?>
+                        @if (isset($lead->hauler) && $hauler->name == $row->hauler_name)
                             <img src="/img/star.png" class="hauler_star" alt="Current Hauler">
                         @endif
                     </td>
