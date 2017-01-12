@@ -22,6 +22,8 @@ class ClientManager
 
     protected $history;
 
+    protected $leads;
+
     /**
      * DB Columns
      */
@@ -53,11 +55,12 @@ class ClientManager
     protected $archived;
     protected $lead_id;
 
-    public function __construct(Client $clients, City $cities, HistoryManager $history)
+    public function __construct(Client $clients, City $cities, HistoryManager $history, LeadManager $leads)
     {
         $this->clients = $clients;
         $this->cities  = $cities;
         $this->history = $history;
+        $this->leads   = $leads;
     }
 
     public function setCompany(string $company)
@@ -486,16 +489,31 @@ class ClientManager
         // Un-archive the lead and fix status.
         if ($lead !== null)
         {
-            $lead->archived = 0;
-            $lead->status = Lead::REBIDDING;
-            $lead->bid_count = 0;
+            $data = [
+                'archived' => 0,
+                'status' => Lead::REBIDDING,
+                'bid_count' => 0,
+            ];
 
             if (! empty($client))
             {
-                $lead->monthly_price = $client->total;
+                $data['company'] = $client->company;
+                $data['address'] = $client->address;
+                $data['city_id'] = $client->city_id;
+                $data['contact_name'] = $client->contact_name;
+                $data['contact_email'] = $client->contact_email;
+                $data['account_num'] = $client->account_num;
+                $data['hauler_id'] = $client->hauler_id;
+                $data['msw_qty'] = $client->msw_qty;
+                $data['msw_yards'] = $client->msw_yards;
+                $data['msw_per_week'] = $client->msw_per_week;
+                $data['rec_qty'] = $client->rec_qty;
+                $data['rec_yards'] = $client->rec_yards;
+                $data['rec_per_week'] = $client->rec_per_week;
+                $data['monthly_price'] = $client->total;
             }
 
-            $lead->save();
+            $lead->update($data);
 
             // Reset the History
             $this->history->deleteForLead($lead->id);
