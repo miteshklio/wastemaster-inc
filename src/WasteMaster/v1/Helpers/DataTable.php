@@ -121,10 +121,15 @@ class DataTable
 
         if(!empty($this->searchTerm))
         {
-            foreach ($this->searchable as $column)
-            {
-                $this->model = $this->model->orWhere($column, 'like', '%'.$this->searchTerm.'%');
-            }
+            // Since we can search multiple columns,
+            // we need to group them together so they play
+            // nice with any other wheres.
+            $this->model = $this->model->where(function($query) {
+                foreach ($this->searchable as $column)
+                {
+                    $query = $query->orWhere($column, 'like', '%'.$this->searchTerm.'%');
+                }
+            });
         }
 
         if(count($this->joins))
