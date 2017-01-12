@@ -235,16 +235,35 @@ class ClientManagerTest extends UnitTestCase
             ->with('total')
             ->andReturn(50);
 
-        // Archive Lead
-        $lead->shouldReceive('setAttribute')
-            ->with('archived', 0);
-        $lead->shouldReceive('setAttribute')
-            ->with('status', \App\Lead::REBIDDING);
-        $lead->shouldReceive('save');
-        $lead->shouldReceive('setAttribute')
-            ->with('bid_count', 0);
-        $lead->shouldReceive('setAttribute')
-            ->with('monthly_price', 50);
+        // Update Lead
+        $lead->shouldReceive('update');
+        $client->shouldReceive('getAttribute')
+            ->with('company');
+        $client->shouldReceive('getAttribute')
+               ->with('address');
+        $client->shouldReceive('getAttribute')
+               ->with('city_id');
+        $client->shouldReceive('getAttribute')
+               ->with('contact_name');
+        $client->shouldReceive('getAttribute')
+               ->with('contact_email');
+        $client->shouldReceive('getAttribute')
+               ->with('account_num');
+        $client->shouldReceive('getAttribute')
+               ->with('hauler_id');
+        $client->shouldReceive('getAttribute')
+               ->with('msw_qty');
+        $client->shouldReceive('getAttribute')
+               ->with('msw_yards');
+        $client->shouldReceive('getAttribute')
+               ->with('msw_per_week');
+        $client->shouldReceive('getAttribute')
+               ->with('rec_qty');
+        $client->shouldReceive('getAttribute')
+               ->with('rec_yards');
+        $client->shouldReceive('getAttribute')
+               ->with('rec_per_week');
+
 
         // Archive Bids
         $lead->shouldReceive('getAttribute')

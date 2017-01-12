@@ -22,8 +22,6 @@ class ClientManager
 
     protected $history;
 
-    protected $leads;
-
     /**
      * DB Columns
      */
@@ -55,12 +53,11 @@ class ClientManager
     protected $archived;
     protected $lead_id;
 
-    public function __construct(Client $clients, City $cities, HistoryManager $history, LeadManager $leads)
+    public function __construct(Client $clients, City $cities, HistoryManager $history)
     {
         $this->clients = $clients;
         $this->cities  = $cities;
         $this->history = $history;
-        $this->leads   = $leads;
     }
 
     public function setCompany(string $company)
