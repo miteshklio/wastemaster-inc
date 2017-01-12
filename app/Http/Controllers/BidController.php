@@ -62,7 +62,7 @@ class BidController extends Controller
             'code' => base64_encode($code),
             'lead' => $lead,
             'hauler' => $hauler,
-            'bid' => $bid
+            'bid' => $bid,
         ]);
     }
 
