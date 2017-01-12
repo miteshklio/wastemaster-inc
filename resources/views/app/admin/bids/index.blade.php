@@ -5,10 +5,13 @@
 @stop
 
 @section('content')
-    <h2>Manage Bids</h2>
+    <br><br>
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-9">
+            <h2 style="margin-top: 0">Manage Bids</h2>
+        </div>
+        <div class="col-sm-3 tex-right">
             {!! $datatable->renderSearch() !!}
         </div>
     </div>

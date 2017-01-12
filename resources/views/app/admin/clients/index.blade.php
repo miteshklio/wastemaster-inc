@@ -5,14 +5,17 @@
 @stop
 
 @section('content')
-    <h2>Manage Clients</h2>
+    <br><br>
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-7">
+            <h2 style="margin-top: 0">Manage Clients</h2>
+        </div>
+        <div class="col-sm-3">
             {!! $datatable->renderSearch() !!}
         </div>
-        <div class="col-sm-6 text-right">
-             <a href="{{ route('clients::new') }}" class="btn btn-sm btn-success">New Client</a>
+        <div class="col-sm-2">
+             <a href="{{ route('clients::new') }}" class="btn btn-sm btn-success btn-block">New Client</a>
         </div>
     </div>
 

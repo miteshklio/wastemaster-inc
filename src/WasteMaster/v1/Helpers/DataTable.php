@@ -73,6 +73,7 @@ class DataTable
     protected $joins = [];
     protected $wheres = [];
     protected $select;
+    protected $pageTitle;
 
     protected $eagerLoad;
 
@@ -323,6 +324,21 @@ class DataTable
     }
 
     //--------------------------------------------------------------------
+
+    /**
+     * Sets the page title so it can be built into the header.
+     *
+     * @param string $title
+     *
+     * @return $this
+     */
+    public function withPageTitle(string $title)
+    {
+        $this->pageTitle = $title;
+
+        return $this;
+    }
+
 
     //--------------------------------------------------------------------
     // Results
