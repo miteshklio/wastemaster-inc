@@ -414,7 +414,7 @@ class BidManager
             throw new LeadNotFound(trans('messages.leadNotFound'));
         }
 
-        $lead->status = Lead::REBIDDING;
+        $lead->status = Lead::BIDS_REQUESTED;
         $lead->save();
 
         return $this;
