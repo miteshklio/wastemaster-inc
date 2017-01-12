@@ -25,18 +25,21 @@
   position: relative;
 }
 
-.navbar-default .navbar-nav>.active>a:after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -10px;
-  width: 0;
-  height: 5px;
-  margin-left: -12px;
-  border: 12px solid transparent;
-  border-top-width: 0;
-  border-bottom-color: #fff;
+// Nav "Here I am" white arrows for non-mobile
+@media(min-width: $mobile-breakpoint+1) {
+  .navbar-default .navbar-nav > .active > a:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    width: 0;
+    height: 5px;
+    margin-left: -12px;
+    border: 12px solid transparent;
+    border-top-width: 0;
+    border-bottom-color: #fff;
 
+  }
 }
 
 // Mobile Nav
