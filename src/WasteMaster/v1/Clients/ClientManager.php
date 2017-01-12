@@ -488,6 +488,13 @@ class ClientManager
         {
             $lead->archived = 0;
             $lead->status = Lead::REBIDDING;
+            $lead->bid_count = 0;
+
+            if (! empty($client))
+            {
+                $lead->monthly_price = $client->total;
+            }
+
             $lead->save();
 
             // Reset the History

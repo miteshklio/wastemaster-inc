@@ -239,7 +239,7 @@ class BidManager
 
         // Does a Lead with this address
         // already exist?
-        if ($this->bids->where(['lead_id' => $this->lead_id, 'hauler_id' => $this->hauler_id])->count())
+        if ($this->bids->where(['lead_id' => $this->lead_id, 'hauler_id' => $this->hauler_id, 'archived' => 0])->count())
         {
             throw new BidExists(trans('messages.bidExists'));
         }
@@ -329,6 +329,7 @@ class BidManager
         $bid = $this->bids->with(['lead', 'hauler'])
             ->where('lead_id', $leadID)
             ->where('hauler_id', $haulerID)
+            ->where('archived', 0)
             ->first();
 
         return $bid;

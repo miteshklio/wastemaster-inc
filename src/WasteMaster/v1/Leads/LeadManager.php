@@ -355,11 +355,11 @@ class LeadManager
             ->setRecoveryFee($bid->recovery_fee)
             ->setAdminFee($bid->admin_fee)
             ->setOtherFees($bid->other_fees)
-            ->setTotal($bid->net_monthly)
             ->setHaulerID($bid->hauler_id)
             ->setLeadID($lead->id)
             ->setGross($bid->gross_profit)
             ->setNet($bid->net_monthly)
+            ->setTotal($bid->net_monthly + $bid->gross_profit)
             ->update($client->id);
     }
 
