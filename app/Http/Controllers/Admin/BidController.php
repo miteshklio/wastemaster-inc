@@ -47,6 +47,7 @@ class BidController extends Controller
         ])
             ->searchColumns(['leads.id', 'leads.company', 'haulers.name'])
             ->setDefaultSort('created_at', 'desc')
+            ->where('bids.archived', 0)
             ->join('leads', 'leads.id', '=', 'bids.lead_id')
             ->join('haulers', 'haulers.id', '=', 'bids.hauler_id')
             ->select('bids.*', 'leads.company as lead_name', 'leads.monthly_price as current_total', 'haulers.name as hauler_name')
