@@ -21,7 +21,7 @@
         </div>
     @else
         <div class="row">
-            <div class="col-sm-8 col-sm-offset-2">
+            <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
 
                 <h2 class="text-center">Submit a bid for {{ $lead->company }}</h2>
 
