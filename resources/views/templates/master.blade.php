@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Vault Innovation">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 
     @yield('title', '<title>Vault App</title>')
 
