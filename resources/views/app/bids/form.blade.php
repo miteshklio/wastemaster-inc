@@ -6,7 +6,7 @@
 
 @section('content')
 
-    @if ($lead->status > 3)
+    @if ($lead->status > 3 && $acceptedBid && $acceptedBid->hauler_id != $hauler->id)
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2">
                 <h2 class="text-center">Submit a bid for {{ $lead->company }}</h2>

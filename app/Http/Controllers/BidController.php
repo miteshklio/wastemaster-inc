@@ -63,6 +63,7 @@ class BidController extends Controller
             'lead' => $lead,
             'hauler' => $hauler,
             'bid' => $bid,
+            'acceptedBid' => $lead->acceptedBid(),
         ]);
     }
 

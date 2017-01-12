@@ -105,6 +105,15 @@ class Lead extends Model
         return $bids->cheapestForLead($this->id);
     }
 
+    public function acceptedBid()
+    {
+        return \DB::table('bids')
+                    ->where('status', Bid::STATUS_ACCEPTED)
+                    ->where('lead_id', $this->id)
+                    ->where('archived', 0)
+                    ->first();
+    }
+
 
 
     public function status()
