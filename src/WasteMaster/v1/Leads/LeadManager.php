@@ -357,6 +357,9 @@ class LeadManager
             ->setOtherFees($bid->other_fees)
             ->setTotal($bid->net_monthly)
             ->setHaulerID($bid->hauler_id)
+            ->setLeadID($lead->id)
+            ->setGross($bid->gross_profit)
+            ->setNet($bid->net_monthly)
             ->update($client->id);
     }
 

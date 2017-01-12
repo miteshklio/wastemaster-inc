@@ -51,6 +51,7 @@ class ClientManager
     protected $gross_profit;
     protected $total;
     protected $archived;
+    protected $lead_id;
 
     public function __construct(Client $clients, City $cities, HistoryManager $history)
     {
@@ -140,6 +141,14 @@ class ClientManager
 
         return $this;
     }
+
+    public function setLeadID(int $id)
+    {
+        $this->lead_id = $id;
+
+        return $this;
+    }
+
 
     public function setWaste(int $qty, int $yards, int $frequency)
     {
@@ -348,6 +357,7 @@ class ClientManager
             'gross_profit' => $this->gross_profit,
             'total' => $this->total,
             'archived' => 0,
+            'lead_id' => (int)$this->lead_id
         ]);
 
         $this->reset();
@@ -391,6 +401,7 @@ class ClientManager
         if ($this->gross_profit !== null) $fields['gross_profit'] = $this->gross_profit;
         if ($this->total !== null) $fields['total'] = $this->total;
         if ($this->archived !== null) $fields['archived'] = $this->archived;
+        if ($this->lead_id !== null) $fields['lead_id'] = $this->lead_id;
 
         if (! count($fields))
         {
@@ -494,8 +505,6 @@ class ClientManager
                 }
             }
         }
-
-
     }
 
 
@@ -531,6 +540,7 @@ class ClientManager
         $this->gross_profit = null;
         $this->total = null;
         $this->archived = null;
+        $this->lead_id = null;
     }
 
     /**
