@@ -20,7 +20,15 @@ class ClientManager
      */
     protected $cities;
 
+    /**
+     * @var \WasteMaster\v1\History\HistoryManager
+     */
     protected $history;
+
+    /**
+     * @var \WasteMaster\v1\Leads\LeadManager
+     */
+    protected $leads;
 
     /**
      * DB Columns
@@ -53,11 +61,12 @@ class ClientManager
     protected $archived;
     protected $lead_id;
 
-    public function __construct(Client $clients, City $cities, HistoryManager $history)
+    public function __construct(Client $clients, City $cities, HistoryManager $history, LeadManager $leads)
     {
         $this->clients = $clients;
         $this->cities  = $cities;
         $this->history = $history;
+        $this->leads   = $leads;
     }
 
     public function setCompany(string $company)
@@ -458,6 +467,15 @@ class ClientManager
     {
         $client = $this->find($clientID);
         $lead = $client->lead;
+
+        // No lead? We need to make one.
+        $lead = $this->leads->findOrCreate([
+            'company' => $client->company,
+            'city_id' => $client->city_id
+        ]);
+
+        $client->lead_id = $lead->id;
+        $client->save();
 
         return $this->rebid($client, $lead);
     }

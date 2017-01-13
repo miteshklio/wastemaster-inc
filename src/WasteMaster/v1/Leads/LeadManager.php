@@ -419,6 +419,11 @@ class LeadManager
         return false;
     }
 
+    public function findOrCreate(array $params)
+    {
+        return $this->leads->firstOrCreate($params);
+    }
+
 
     /**
      * Used internally after a create or udpate
