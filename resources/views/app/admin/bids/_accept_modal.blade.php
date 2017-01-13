@@ -24,21 +24,30 @@
 
                     <br>
 
+                    <?php $colSize = ! empty($lead->gross_profit) ? 3 : 4; ?>
                     <div class="row">
-                        <div class="col-sm-4 text-center">
+                        <div class="col-sm-{{ $colSize }} text-center">
                             <p>Currently Paying</p>
 
                             <h3>${{ number_format($lead->monthly_price,2) }}</h3>
                         </div>
 
-                        <div class="col-sm-4 text-center">
+                        @if (! empty($lead->gross_profit))
+                            <div class="col-sm-{{ $colSize }} text-center">
+                                <p>Current Profit</p>
+
+                                <h3>${{ number_format($lead->gross_profit,2) }}</h3>
+                            </div>
+                        @endif
+
+                        <div class="col-sm-{{ $colSize }} text-center">
                             <p>Bid</p>
 
                             <h3>$<span id="net">{{ number_format($bid->net_monthly,2) }}</span></h3>
                         </div>
 
-                        <div class="col-sm-4 text-center">
-                            <p>Total Monthly Price w/ GP</p>
+                        <div class="col-sm-{{ $colSize }} text-center">
+                            <p>Total w/ GP</p>
 
                             <h3>$<span id="modal-total">{{ number_format($total,2) }}</span></h3>
                         </div>

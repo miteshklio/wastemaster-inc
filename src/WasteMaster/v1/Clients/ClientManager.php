@@ -526,6 +526,7 @@ class ClientManager
                 $data['rec_yards'] = $client->rec_yards;
                 $data['rec_per_week'] = $client->rec_per_week;
                 $data['monthly_price'] = $client->total;
+                $data['gross_profit'] = $client->gross_profit;
             }
 
             $lead->update($data);

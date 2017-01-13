@@ -277,6 +277,8 @@ class ClientManagerTest extends UnitTestCase
                ->with('rec_yards');
         $client->shouldReceive('getAttribute')
                ->with('rec_per_week');
+        $client->shouldReceive('getAttribute')
+               ->with('gross_profit');
 
 
         // Archive Bids
