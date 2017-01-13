@@ -8,6 +8,7 @@ class ClientManagerTest extends UnitTestCase
     protected $clients;
     protected $cities;
     protected $history;
+    protected $leads;
     protected $histories;
 
     /**
@@ -23,7 +24,9 @@ class ClientManagerTest extends UnitTestCase
         $this->cities  = m::mock('\App\City');
         $this->history = m::mock('App\History');
         $this->histories  = new \WasteMaster\v1\History\HistoryManager($this->history);
-        $this->manager = new ClientManager($this->clients, $this->cities, $this->histories);
+        $this->lead = m::mock('\App\Lead');
+        $this->leads = new \WasteMaster\v1\Leads\LeadManager($this->lead, $this->cities);
+        $this->manager = new ClientManager($this->clients, $this->cities, $this->histories, $this->leads);
     }
 
     public function tearDown()
@@ -234,6 +237,17 @@ class ClientManagerTest extends UnitTestCase
         $client->shouldReceive('getAttribute')
             ->with('total')
             ->andReturn(50);
+
+        $this->lead->shouldReceive('firstOrCreate')
+            ->once()
+            ->andReturn($lead);
+        $lead->shouldReceive('getAttribute')
+            ->with('id')
+            ->andReturn(1);
+        $client->shouldReceive('setAttribute')
+            ->with('lead_id', 1);
+        $client->shouldReceive('save')
+            ->andReturn($client);
 
         // Update Lead
         $lead->shouldReceive('update');

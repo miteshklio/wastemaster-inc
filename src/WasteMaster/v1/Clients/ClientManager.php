@@ -547,8 +547,6 @@ class ClientManager
         }
     }
 
-
-
     /**
      * Used internally after a create or udpate
      * to reset the class properties.
