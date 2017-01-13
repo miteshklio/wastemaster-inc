@@ -15,7 +15,7 @@
             {!! $datatable->renderSearch() !!}
         </div>
         <div class="col-sm-2 text-right">
-             <a href="/admin/user" class="btn btn-sm btn-success btn-block">New User</a>
+             <a href="/admin/user" class="btn btn-sm btn-success btn-block btn-new">New User</a>
         </div>
     </div>
 

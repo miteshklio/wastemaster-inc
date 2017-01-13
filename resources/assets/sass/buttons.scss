@@ -19,3 +19,13 @@
 .btn-rebid {
   margin-left: 1em !important;
 }
+
+@media(max-width: $mobile-breakpoint)  {
+  tr td .btn-xs {
+    margin: 0 0 5px 0 !important;
+    width: 100%;
+  }
+  .btn-new {
+    margin-top: 10px;
+  }
+}

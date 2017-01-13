@@ -15,7 +15,7 @@
             {!! $datatable->renderSearch() !!}
         </div>
         <div class="col-sm-2 text-right">
-             <a href="{{ route('haulers::new') }}" class="btn btn-sm btn-success btn-block">New Hauler</a>
+             <a href="{{ route('haulers::new') }}" class="btn btn-sm btn-success btn-block btn-new">New Hauler</a>
         </div>
     </div>
 
