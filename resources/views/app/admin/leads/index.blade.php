@@ -35,13 +35,17 @@
                         <a href="{{ route('leads::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
                     </td>
                     <td class="text-center">
+                        @if ($row->bid_count > 0)
                         <a href="{{ route('bids::home').'?search='. $row->id }}">
                             {{ (int)$row->bid_count }}
                         </a>
+                        @else
+                            0
+                        @endif
                     </td>
                     <td>
-                        @if ($row->status == \App\Lead::BID_ACCEPTED)
-                            <a href="{{ route('bids::show', ['id' => $row->cheapestBidObject()->id]) }}">Bid Accepted</a>
+                        @if ((int)$row->status === \App\Lead::BID_ACCEPTED && is_object($row->acceptedBid()))
+                            <a href="{{ route('bids::show', ['id' => $row->acceptedBid()->id]) }}">Bid Accepted</a>
                         @else
                             {{ $row->status() }}
                         @endif

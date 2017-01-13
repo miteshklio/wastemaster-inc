@@ -19,6 +19,12 @@ class Lead extends Model
 
     protected $table = 'leads';
 
+    /**
+     * Cache for bid so we don't keep hitting db.
+     * @var Bid
+     */
+    protected $acceptedBid;
+
     public $fillable = [
         'company', 'address', 'city_id', 'contact_name', 'contact_email', 'account_num',
         'hauler_id', 'msw_qty', 'msw_yards', 'msw_per_week', 'rec_qty', 'rec_yards', 'rec_per_week',
@@ -105,13 +111,38 @@ class Lead extends Model
         return $bids->cheapestForLead($this->id);
     }
 
+    /**
+     * Returns the lead's accepted bid object, if any.
+     *
+     * @return \App\Bid
+     */
     public function acceptedBid()
     {
-        return \DB::table('bids')
+        if ($this->acceptedBid instanceof Bid) return $this->acceptedBid;
+
+        $bid = \DB::table('bids')
                     ->where('status', Bid::STATUS_ACCEPTED)
                     ->where('lead_id', $this->id)
                     ->where('archived', 0)
                     ->first();
+
+        $this->acceptedBid = $bid;
+
+        return $bid;
+    }
+
+    /**
+     * Returns the amount of the accepted bid.
+     *
+     * @return string
+     */
+    public function acceptedBidAmount()
+    {
+        $bid = $this->acceptedBid();
+
+        return $bid === null
+            ? 'N/A'
+            : '$'. number_format($bid->net_monthly, 2);
     }
 
 
