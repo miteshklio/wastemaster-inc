@@ -10,7 +10,7 @@
             @if(request()->is('admin/user'))
                 <h2>Create New User</h2>
             @else
-                <h2>Update {{ $user->email }}</h2>
+                <h2>Update User</h2>
             @endif
 
             <form method="post" autocomplete="off">

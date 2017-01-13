@@ -18,7 +18,7 @@
             @if(! $editMode)
                 <h2>Create New Client</h2>
             @else
-                <h2>Update {{ $client->name }}</h2>
+                <h2>Update Client</h2>
             @endif
 
                 <br>

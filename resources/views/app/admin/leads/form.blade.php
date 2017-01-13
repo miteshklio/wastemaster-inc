@@ -12,10 +12,16 @@
             @if(! $editMode)
                 <h2>Create New Lead</h2>
             @else
-                <h2>Update {{ $lead->name }}</h2>
+                <h2>Update Lead</h2>
             @endif
 
                 <br>
+
+            @if($lead->archived)
+                <div class="alert alert-warning">
+                    This Lead has been archived.
+                </div>
+            @endif
 
             @if(! $editMode)
                 <form action="{{ route('leads::create') }}" method="post" class="form-horizontal">

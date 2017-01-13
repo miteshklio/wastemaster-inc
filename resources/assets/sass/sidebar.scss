@@ -31,4 +31,12 @@ p.notice {
     padding: 0 10%;
     text-align: left;
   }
+
+  &.archived {
+    color: #ccc;
+
+    .amt-lg {
+      color: $light-gray;
+    }
+  }
 }

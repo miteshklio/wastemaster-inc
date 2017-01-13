@@ -10,7 +10,7 @@
             @if(request()->is('admin/hauler'))
                 <h2>Create New Hauler</h2>
             @else
-                <h2>Update {{ $hauler->name }}</h2>
+                <h2>Update Hauler</h2>
             @endif
 
                 @if(request()->is('admin/hauler'))

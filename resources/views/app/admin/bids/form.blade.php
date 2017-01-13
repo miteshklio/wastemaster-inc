@@ -11,7 +11,7 @@
 
         <!-- Details Column -->
         <div class="col-sm-5">
-            <h2>Update {{ $bid->name }}</h2>
+            <h2>Update Bid</h2>
 
                 <br>
 

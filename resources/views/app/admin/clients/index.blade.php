@@ -34,7 +34,7 @@
                     <td>
                         <a href="{{ route('clients::show', ['id' => $row->id]) }}">{{ $row->company }}</a>
                     </td>
-                    <td>{{ $row->city->name }}</td>
+                    <td>{{ $row->city->name ?? 'Unknown' }}</td>
                     <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
                     <td class="hidden-xs">{{ number_format($row->prior_total, 2) }}</td>
                     <td>${{ number_format($row->net_monthly, 2) }}</td>

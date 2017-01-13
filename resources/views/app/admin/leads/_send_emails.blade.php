@@ -5,7 +5,7 @@
 @if (isset($lead) && $lead->created_at)
 
     {{--Applicable Haulers--}}
-    <div class="side-block">
+    <div class="side-block @if($lead->archived) archived @endif">
         <form action="{{ route('leads::sendBidRequest', ['id' => $lead->id]) }}" method="post">
             {{ csrf_field() }}
 
@@ -27,7 +27,7 @@
 
             <br>
 
-            <input type="submit" class="btn btn-primary btn-block" value="Send Bid Requests">
+            <input type="submit" class="btn btn-primary btn-block" value="Send Bid Requests" @if($lead->archived) disabled @endif>
 
             @if (! empty($bidRequestHistory) && $bidRequestHistory->count())
                 <?php
@@ -44,7 +44,7 @@
     </div>
 
     {{--Pre-Bid Price--}}
-    <div class="side-block">
+    <div class="side-block @if($lead->archived) archived @endif">
         <h3>Pre-Bid Matching Price</h3>
 
         {{--<p class="amt-lg">$368</p>--}}
@@ -71,7 +71,7 @@
     </div>
 
     {{--Post-Bid Price--}}
-    <div class="side-block">
+    <div class="side-block @if($lead->archived) archived @endif">
         <h3>Post-Bid Matching Price</h3>
 
         @if ($lowBid === null)
@@ -92,7 +92,7 @@
             @if ($lowBid->hauler_id == $lead->hauler_id)
                 <p class="text-center"><b>A bid has been submitted by the current hauler.</b></p>
             @else
-                <a href="{{ route('bids::postMatchRequest', ['id' => $lowBid->id]) }}" class="btn btn-primary btn-block">
+                <a href="{{ route('bids::postMatchRequest', ['id' => $lowBid->id]) }}" class="btn btn-primary btn-block" @if($lead->archived) disabled @endif>
                     Send Match Request<br>to Current Hauler
                 </a>
             @endif
