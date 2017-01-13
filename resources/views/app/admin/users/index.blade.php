@@ -5,14 +5,17 @@
 @stop
 
 @section('content')
-    <h2>Manage Users</h2>
+    <br><br>
 
     <div class="row">
-        <div class="col-sm-6 text-left">
+        <div class="col-sm-7">
+            <h2 style="margin-top: 0">Manage Users</h2>
+        </div>
+        <div class="col-sm-3">
             {!! $datatable->renderSearch() !!}
         </div>
-        <div class="col-sm-6 text-right">
-             <a href="/admin/user" class="btn btn-sm btn-success">New User</a>
+        <div class="col-sm-2 text-right">
+             <a href="/admin/user" class="btn btn-sm btn-success btn-block">New User</a>
         </div>
     </div>
 
