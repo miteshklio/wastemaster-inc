@@ -145,6 +145,24 @@ class Lead extends Model
             : '$'. number_format($bid->net_monthly, 2);
     }
 
+    /**
+     * Gets the bid that belongs this Lead's current hauler.
+     *
+     * @return mixed
+     */
+    public function currentHaulersBid()
+    {
+        $hauler = $this->hauler;
+
+        $bid = \DB::table('bids')
+                  ->where('hauler_id', $hauler->id)
+                  ->where('lead_id', $this->id)
+                  ->where('archived', 0)
+                  ->first();
+
+        return $bid;
+    }
+
 
 
     public function status()

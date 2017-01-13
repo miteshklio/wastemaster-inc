@@ -154,6 +154,7 @@ class LeadsController extends Controller
             'bidRequestHistory' => $history->findForLead($leadID, 'bid_request'),
             'preMatchHistory' => $history->findForLead($leadID, 'pre_match_request'),
             'postMatchHistory' => $history->findForLead($leadID, 'post_match_request'),
+            'isCurrentMatching' => $this->leads->doesCurrentHaulerMatch($lead),
         ]);
     }
 

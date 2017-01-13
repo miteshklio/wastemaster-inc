@@ -89,7 +89,7 @@
 
             <br>
 
-            @if ($lowBid->hauler_id == $lead->hauler_id)
+            @if ($isCurrentMatching)
                 <p class="text-center"><b>A bid has been submitted by the current hauler.</b></p>
             @else
                 <a href="{{ route('bids::postMatchRequest', ['id' => $lowBid->id]) }}" class="btn btn-primary btn-block" @if($lead->archived) disabled @endif>

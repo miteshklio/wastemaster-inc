@@ -399,6 +399,26 @@ class LeadManager
         return $lead;
     }
 
+    /**
+     * Determines if the current hauler either has the lowest bid
+     * or has a matching bid.
+     *
+     * @param \App\Lead $lead
+     *
+     * @return bool
+     */
+    public function doesCurrentHaulerMatch(Lead $lead): bool
+    {
+        $cheapest = $lead->cheapestBidObject();
+        $current  = $lead->currentHaulersBid();
+
+        if (empty($current) || empty($cheapest)) return false;
+
+        if (round($current->net_monthly, 0) === round($cheapest->net_monthly,0)) return true;
+
+        return false;
+    }
+
 
     /**
      * Used internally after a create or udpate
