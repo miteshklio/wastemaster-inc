@@ -230,7 +230,7 @@
 @section('scripts')
     <script>
         // Calculates the Net monthly costs and updates the form.
-        $('.fee').change(function(){
+        $('.fee').change(function () {
             var mswPrice = parseFloat($('#msw_price').val());
             var recPrice = parseFloat($('#rec_price').val());
             var recOffset = parseFloat($('#rec_offset').val());
@@ -241,7 +241,7 @@
             var other = parseFloat($('#other_fees').val());
 
             var net =
-                (mswPrice ? mswPrice : 0)+
+                (mswPrice ? mswPrice : 0) +
                 (recPrice ? recPrice : 0) +
                 (recOffset ? recOffset : 0) +
                 (fuelSurcharge ? fuelSurcharge : 0) +
@@ -254,7 +254,7 @@
         });
 
         // Format the fee and update the Net Value
-        $('.fee, .number').change(function(){
+        $('.fee, .number').change(function () {
             var amount = parseFloat($(this).val())
 
             $(this).val(amount ? amount.toFixed(2) : 0.00);
@@ -263,28 +263,26 @@
         /*
          Accept Bid Modal
          */
-        $('#accept').click(function(el){
+        $('#accept').click(function (el) {
             el.preventDefault();
 
             var bidID = $(this).attr('data-id');
 
             // Load the customized modal
             $('#modal-wrap').load(
-                '/admin/bid/'+bidID+'/get_accept_modal',
-                function()
-                {
+                '/admin/bid/' + bidID + '/get_accept_modal',
+                function () {
                     $('#accept-modal').modal().modal('show');
                 }
             )
         });
 
-        $('body').on('keyup', '.profit', function()
-        {
+        $('body').on('keyup', '.profit', function () {
             var net = $('#net').text();
             var profit = $('#gross').val();
 
             $('#modal-total').text(parseFloat(net) + parseFloat(profit));
         });
-
+    </script>
 @endsection
 
