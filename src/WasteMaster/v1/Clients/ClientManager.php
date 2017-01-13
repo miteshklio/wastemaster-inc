@@ -398,8 +398,8 @@ class ClientManager
         if ($this->admin_fee !== null) $fields['admin_fee'] = $this->admin_fee;
         if ($this->other_fees !== null) $fields['other_fees'] = $this->other_fees;
         if ($this->net_monthly !== null) $fields['net_monthly'] = $this->net_monthly;
-        if ($this->gross_profit !== null) $fields['gross_profit'] = $this->gross_profit;
-        if ($this->total !== null) $fields['total'] = $this->total;
+        if ($this->gross_profit !== null) $fields['gross_profit'] = (float)$this->gross_profit;
+        if ($this->total !== null) $fields['total'] = (float)$this->total;
         if ($this->archived !== null) $fields['archived'] = $this->archived;
         if ($this->lead_id !== null) $fields['lead_id'] = $this->lead_id;
 

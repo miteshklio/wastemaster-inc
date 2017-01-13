@@ -311,7 +311,7 @@ class LeadManager
         }
 
         // Get the lowest bid
-        $bid = $lead->cheapestBidObject();
+        $bid = $lead->acceptedBid();
 
         if ($bid === null)
         {
