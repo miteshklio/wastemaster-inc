@@ -17,7 +17,7 @@
 
                 <br>
 
-            @if($lead->archived)
+            @if(isset($lead) && $lead->archived)
                 <div class="alert alert-warning">
                     This Lead has been archived.
                 </div>
