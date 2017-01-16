@@ -155,6 +155,8 @@ class Lead extends Model
     {
         $hauler = $this->hauler;
 
+        if (empty($hauler)) return null;
+
         $bid = \DB::table('bids')
                   ->where('hauler_id', $hauler->id)
                   ->where('lead_id', $this->id)
