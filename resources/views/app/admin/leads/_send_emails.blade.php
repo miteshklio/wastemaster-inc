@@ -34,7 +34,12 @@
                     $haulers = [];
                     foreach ($bidRequestHistory as $item)
                     {
-                        $haulers[] = $item->hauler->name;
+                        if (empty($item)) continue;
+
+                        $h = $item->hauler;
+                        if (empty($h)) continue;
+
+                        $haulers[] = $h->name;
                     }
                 ?>
                 <br>
