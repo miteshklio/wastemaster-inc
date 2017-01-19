@@ -27,7 +27,8 @@
 
             <br>
 
-            <input type="submit" class="btn btn-primary btn-block" value="Send Bid Requests" @if($lead->archived) disabled @endif>
+            <input type="submit" class="btn btn-primary btn-block" value="Send Bid Requests"
+                   onclick="return confirm('Send bid request emails now?');" @if($lead->archived) disabled @endif>
 
             @if (! empty($bidRequestHistory) && $bidRequestHistory->count())
                 <?php
@@ -97,7 +98,8 @@
             @if ($isCurrentMatching)
                 <p class="text-center"><b>A bid has been submitted by the current hauler.</b></p>
             @else
-                <a href="{{ route('bids::postMatchRequest', ['id' => $lowBid->id]) }}" class="btn btn-primary btn-block" @if($lead->archived) disabled @endif>
+                <a href="{{ route('bids::postMatchRequest', ['id' => $lowBid->id]) }}" class="btn btn-primary btn-block"
+                   onclick="return confirm('Send bid request emails now?');" @if($lead->archived) disabled @endif>
                     Send Match Request<br>to Current Hauler
                 </a>
             @endif
