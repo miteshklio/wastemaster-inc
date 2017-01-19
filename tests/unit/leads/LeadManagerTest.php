@@ -190,4 +190,46 @@ class LeadManagerTest extends UnitTestCase
 
         $this->manager->archive(12);
     }
+
+    public function testShouldShowMonthlyBidReturnsTrueIfLeadHigherThanBid()
+    {
+        $lead = new class() extends \App\Lead {
+            protected $status = \App\Lead::BIDS_REQUESTED;
+            protected $monthly_price = 200;
+            protected $gross_profit = 0;
+        };
+        $bid = new class() extends \App\Bid {
+            protected $net_monthly = 100;
+        };
+
+        $this->assertTrue($this->manager->shouldShowPostMatchBid($lead, $bid));
+    }
+
+    public function testShouldShowMonthlyBidReturnsTrueIfLeadHigherThanBidRebidding()
+    {
+        $lead = new class() extends \App\Lead {
+            protected $status = \App\Lead::REBIDDING;
+            protected $monthly_price = 200;
+            protected $gross_profit = 50;
+        };
+        $bid = new class() extends \App\Bid {
+            protected $net_monthly = 110;
+        };
+
+        $this->assertTrue($this->manager->shouldShowPostMatchBid($lead, $bid));
+    }
+
+    public function testShouldShowMonthlyBidReturnsFalseIfLeadHigherThanBidRebidding()
+    {
+        $lead = new class() extends \App\Lead {
+            protected $status = \App\Lead::REBIDDING;
+            protected $monthly_price = 200;
+            protected $gross_profit = 50;
+        };
+        $bid = new class() extends \App\Bid {
+            protected $net_monthly = 160;
+        };
+
+        $this->assertTrue($this->manager->shouldShowPostMatchBid($lead, $bid));
+    }
 }

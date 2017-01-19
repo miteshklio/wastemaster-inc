@@ -145,16 +145,23 @@ class LeadsController extends Controller
 
         $cityHaulers = $haulers->applicableForLead($lead);
 
+        // Show Post Bid Matching? Only show if lowest bid is lower than
+        // current monthly total - unless rebidding, than ignore gross_profit
+        // and work off of net_monthly here.
+        $lowBid = $lead->cheapestBidObject();
+        $showPostBid = $this->leads->shouldShowPostMatchBid($lead, $lowBid);
+
         return view('app.admin.leads.form', [
             'lead' => $lead,
             'editMode' => true,
             'haulers' => $haulers->all(),
             'cityHaulers' => $cityHaulers,
-            'lowBid' => $lead->cheapestBidObject(),
+            'lowBid' => $lowBid,
             'bidRequestHistory' => $history->findForLead($leadID, 'bid_request'),
             'preMatchHistory' => $history->findForLead($leadID, 'pre_match_request'),
             'postMatchHistory' => $history->findForLead($leadID, 'post_match_request'),
             'isCurrentMatching' => $this->leads->doesCurrentHaulerMatch($lead),
+            'showPostMatchBid' => $showPostBid,
         ]);
     }
 

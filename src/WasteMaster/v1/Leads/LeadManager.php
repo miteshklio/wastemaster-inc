@@ -1,5 +1,6 @@
 <?php namespace WasteMaster\v1\Leads;
 
+use App\Bid;
 use App\City;
 use App\Lead;
 use WasteMaster\v1\Bids\BidManager;
@@ -418,6 +419,33 @@ class LeadManager
 
         return false;
     }
+
+    /**
+     * Show Post Bid Matching? Only show if lowest bid is lower than
+     * current monthly total - unless rebidding, than ignore gross_profit
+     * and work off of net_monthly here.
+     *
+     * @param \App\Lead $lead
+     *
+     * @return bool
+     */
+    public function shouldShowPostMatchBid(Lead $lead, Bid $lowBid)
+    {
+        // If bids have already been sent, then yes,
+        // we should show. :)
+        if (! empty($lead->post_match_sent) || empty($lead->bid_count)) return true;
+
+        // If lowest Bid is higher than current total, don't show.
+        if ($lead->status === Lead::REBIDDING)
+        {
+            return ($lead->monthly_price - $lead->gross_profit) > $lowBid->net_monthly;
+        }
+        else
+        {
+            return $lead->monthly_price > $lowBid->net_monthly;
+        }
+    }
+
 
     public function findOrCreate(array $params)
     {

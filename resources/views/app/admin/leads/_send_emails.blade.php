@@ -80,9 +80,9 @@
     <div class="side-block @if($lead->archived) archived @endif">
         <h3>Post-Bid Matching Price</h3>
 
-        @if ($lowBid === null)
+        @if (! $showPostMatchBid)
             <br>
-            <p class="notice">This option will display once bids have been received.</p>
+            <p class="notice">This option will display once lower bids have been received.</p>
         @else
             <p class="amt-lg">${{ number_format($lowBid->net_monthly,2) }}</p>
 
