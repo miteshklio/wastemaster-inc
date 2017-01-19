@@ -81,8 +81,8 @@
                                 </div>
                             </div>
 
-                            <p class="small text-center">
-                                {{ $lead->msw_qty }} dumpsters, {{ $lead->msw_yards }} yds, {{ $lead->msw_per_week }}/week
+                            <p class="text-center green">
+                                {{ $lead->msw_qty }} dumpsters, {{ $lead->msw_yards }} yds, {{ $lead->msw_per_week }}/month
                             </p>
 
                         </div>
@@ -99,8 +99,8 @@
                                 </div>
                             </div>
 
-                            <p class="small text-center">
-                                {{ $lead->rec_qty }} dumpsters, {{ $lead->rec_yards }} yds, {{ $lead->rec_per_week }}/week
+                            <p class="green text-center">
+                                {{ $lead->rec_qty }} dumpsters, {{ $lead->rec_yards }} yds, {{ $lead->rec_per_week }}/month
                             </p>
 
                         </div>
