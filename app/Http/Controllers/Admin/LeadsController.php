@@ -86,11 +86,11 @@ class LeadsController extends Controller
             'account_num' => 'required|max:255',
             'hauler_id' => 'required|integer',
             'msw_qty' => 'integer',
-            'msw_yards' => 'integer',
-            'msw_per_week' => 'integer',
+            'msw_yards' => 'numeric',
+            'msw_per_week' => 'numeric',
             'rec_qty' => 'integer',
-            'rec_yards' => 'integer',
-            'rec_per_week' => 'integer',
+            'rec_yards' => 'numeric',
+            'rec_per_week' => 'numeric',
             'monthly_price' => 'numeric',
         ]);
 
@@ -177,11 +177,11 @@ class LeadsController extends Controller
             'account_num' => 'required|max:255',
             'hauler_id' => 'required|integer',
             'msw_qty' => 'integer',
-            'msw_yards' => 'integer',
-            'msw_per_week' => 'integer',
+            'msw_yards' => 'numeric',
+            'msw_per_week' => 'numeric',
             'rec_qty' => 'integer',
-            'rec_yards' => 'integer',
-            'rec_per_week' => 'integer',
+            'rec_yards' => 'numeric',
+            'rec_per_week' => 'numeric',
             'monthly_price' => 'numeric'
         ]);
 

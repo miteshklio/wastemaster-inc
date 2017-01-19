@@ -128,7 +128,7 @@ class LeadManager
         return $this;
     }
 
-    public function setWaste(int $qty=null, int $yards=null, int $frequency=null)
+    public function setWaste(int $qty=null, $yards=null, $frequency=null)
     {
         $this->msw_qty      = $qty;
         $this->msw_yards    = $yards;
@@ -137,7 +137,7 @@ class LeadManager
         return $this;
     }
 
-    public function setRecycling(int $qty=null, int $yards=null, int $frequency=null)
+    public function setRecycling(int $qty=null, $yards=null, $frequency=null)
     {
         $this->rec_qty      = $qty;
         $this->rec_yards    = $yards;
@@ -146,7 +146,7 @@ class LeadManager
         return $this;
     }
 
-    public function setMonthlyPrice(int $price)
+    public function setMonthlyPrice(float $price)
     {
         $this->monthly_price = $price;
 

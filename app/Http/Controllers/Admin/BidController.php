@@ -95,11 +95,11 @@ class BidController extends Controller
     {
         $this->validate($request, [
             'msw_qty' => 'integer',
-            'msw_yards' => 'integer',
-            'msw_per_week' => 'integer',
+            'msw_yards' => 'numeric',
+            'msw_per_week' => 'numeric',
             'rec_qty' => 'integer',
-            'rec_yards' => 'integer',
-            'rec_per_week' => 'integer',
+            'rec_yards' => 'numeric',
+            'rec_per_week' => 'numeric',
             'prior_total' => 'numeric',
             'msw_price' => 'numeric',
             'rec_price' => 'numeric',

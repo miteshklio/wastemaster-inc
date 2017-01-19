@@ -106,7 +106,7 @@ class BidManager
     }
 
 
-    public function setWaste(int $qty, int $yards, int $frequency)
+    public function setWaste(int $qty, $yards, $frequency)
     {
         $this->msw_qty      = $qty;
         $this->msw_yards    = $yards;
@@ -115,7 +115,7 @@ class BidManager
         return $this;
     }
 
-    public function setRecycling(int $qty, int $yards, int $frequency)
+    public function setRecycling(int $qty, $yards, $frequency)
     {
         $this->rec_qty      = $qty;
         $this->rec_yards    = $yards;
