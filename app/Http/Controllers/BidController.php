@@ -58,12 +58,24 @@ class BidController extends Controller
         $hauler = $this->haulers->find($haulerID);
         $bid    = $this->bids->findExisting($leadID, $haulerID);
 
+        $displayNumber = function($number)
+        {
+            $number = number_format($number, 2);
+
+            list($left, $right) = explode('.', $number);
+
+            return $right == 0
+                ? number_format($number, 0)
+                : number_format($number, 1);
+        };
+
         return view('app.bids.form', [
             'code' => base64_encode($code),
             'lead' => $lead,
             'hauler' => $hauler,
             'bid' => $bid,
             'acceptedBid' => $lead->acceptedBid(),
+            'displayNumber' => $displayNumber
         ]);
     }
 
