@@ -72,4 +72,12 @@ return [
     'bidAccepted' => 'The bid was accepted and all other bids for this lead have been closed.',
     'bidRescinded' => 'The bid was rescinded and all other bids for this lead have been re-opened.',
     'bidsNotFound' => 'Unable to locate any bids for that lead.',
+
+    // Service Areas
+    'serviceAreaValidationErrors' => 'The following fields are required to create a new Service Area: :fields',
+    'serviceAreaExists' => 'A Service Area already exists with that name.',
+    'serviceAreaNotFound' => 'Unable to locate a Service Area with matching id: :id',
+    'serviceAreaCreated' => 'The Service Area was successfully created.',
+    'serviceAreaUpdated' => 'The changes to the Service Area were successfully saved.',
+    'serviceAreaDeleted' => 'The Service Area has been deleted.',
 ];

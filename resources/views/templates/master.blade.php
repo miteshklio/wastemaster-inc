@@ -64,6 +64,7 @@
                     <li class="{{ request()->is('admin/hauler*') ? 'active':'' }}"><a href="/admin/haulers">Haulers</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="{{ request()->is('admin/areas*') ? 'active':'' }}"><a href="{{ route('areas::home') }}">Areas</a></li>
                     <li class="{{ request()->is('admin/user*') ? 'active':'' }}"><a href="/admin/users">Users</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
