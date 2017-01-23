@@ -431,9 +431,8 @@ class LeadManager
      */
     public function shouldShowPostMatchBid(Lead $lead, Bid $lowBid=null)
     {
-        // If bids have already been sent, then yes,
-        // we should show. :)
-        if (! empty($lead->post_match_sent) || empty($lead->bid_count)) return true;
+        // If no bids have been received then it's an easy out.
+        if ($lead->bid_count == 0) return false;
 
         // If lowest Bid is higher than current total, don't show.
         if ($lead->status === Lead::REBIDDING)
