@@ -429,7 +429,7 @@ class LeadManager
      *
      * @return bool
      */
-    public function shouldShowPostMatchBid(Lead $lead, Bid $lowBid)
+    public function shouldShowPostMatchBid(Lead $lead, Bid $lowBid=null)
     {
         // If bids have already been sent, then yes,
         // we should show. :)
