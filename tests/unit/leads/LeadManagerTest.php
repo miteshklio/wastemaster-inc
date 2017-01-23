@@ -83,7 +83,7 @@ class LeadManagerTest extends UnitTestCase
         $expects = [
             'company' => 'companya',
             'address' => '123AlphabetSt',
-            'city_id' => 2,
+            'service_area_id' => 2,
             'contact_name' => 'contactperson',
             'contact_email' => 'foo@example.com',
             'account_num' => 'abc123',
@@ -112,7 +112,7 @@ class LeadManagerTest extends UnitTestCase
         $lead = $this->manager
             ->setCompany('companya')
             ->setAddress('123AlphabetSt')
-            ->setCityID(2)
+            ->setServiceAreaID(2)
             ->setContactName('contactperson')
             ->setContactEmail('foo@example.com')
             ->setAccountNum('abc123')

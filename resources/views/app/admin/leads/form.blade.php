@@ -59,14 +59,14 @@
 
                 <!-- Service Area -->
                 <div class="form-group">
-                    <label for="city" class="control-label col-sm-4">Service Area:</label>
+                    <label for="service_area_id" class="control-label col-sm-4">Service Area:</label>
                     <div class="col-sm-8">
-                        <select name="hauler_id" class="form-control" @if (isset($lead) && $lead->archived) disabled @endif>
+                        <select name="service_area_id" class="form-control" @if (isset($lead) && $lead->archived) disabled @endif>
                             <option value="0">Select a Service Area...</option>
                             @if ($serviceAreas)
                                 @foreach ($serviceAreas as $area)
-                                    <option value="{{ $area->id }}" @if (isset($area) && $lead->service_area_id == $area->id) selected @endif>
-                                        {{ $area->display_name }}
+                                    <option value="{{ $area->id }}" @if (isset($lead) && $lead->service_area_id == $area->id) selected @endif>
+                                        {{ $area->name }}
                                     </option>
                                 @endforeach
                             @endif
@@ -187,9 +187,9 @@
 
                 <div class="text-center">
                     @if(request()->is('admin/hauler'))
-                        <input type="submit" class="btn btn-success" value="Create Lead" @if (isset($lead) && $lead->archived) disabled @endif>
+                        <input type="submit" name="submit" class="btn btn-success" value="Create Lead" @if (isset($lead) && $lead->archived) disabled @endif>
                     @else
-                        <input type="submit" class="btn btn-success" value="Save Lead" @if (isset($lead) && $lead->archived) disabled @endif>
+                        <input type="submit" name="submit" class="btn btn-success" value="Save Lead" @if (isset($lead) && $lead->archived) disabled @endif>
                     @endif
                 </div>
 

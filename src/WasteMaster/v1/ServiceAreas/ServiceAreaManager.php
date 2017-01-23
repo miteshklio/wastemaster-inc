@@ -93,6 +93,12 @@ class ServiceAreaManager {
         return $area;
     }
 
+    public function all()
+    {
+        return $this->areas->get();
+    }
+
+
     public function delete(int $id)
     {
         $area = $this->find($id);

@@ -15,22 +15,22 @@ class CreateServiceAreaTable extends Migration
         // Create the table itself
         Schema::create('service_area', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->default('Unknown');
         });
 
         // Add it to our Lead, Client, and Haulers.
         Schema::table('leads', function(Blueprint $table) {
-            $table->integer('service_area_id')->after('city_id');
-            $table->text('address')->change();
+            $table->integer('service_area_id')->nullable()->after('city_id');
+            $table->text('address')->nullable()->change();
         });
 
         Schema::table('clients', function(Blueprint $table) {
-            $table->integer('service_area_id')->after('city_id');
-            $table->text('address')->change();
+            $table->integer('service_area_id')->nullable()->after('city_id');
+            $table->text('address')->nullable()->change();
         });
 
         Schema::table('haulers', function(Blueprint $table) {
-            $table->integer('service_area_id')->after('city_id');
+            $table->integer('service_area_id')->nullable()->after('city_id');
         });
     }
 

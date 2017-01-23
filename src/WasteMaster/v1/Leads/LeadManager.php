@@ -40,6 +40,7 @@ class LeadManager
     protected $archived;
     protected $bid_count;
     protected $notes;
+    protected $service_area_id;
 
     public function __construct(Lead $leads, City $cities)
     {
@@ -62,7 +63,7 @@ class LeadManager
     }
 
     /**
-     * Sets the city_id to use when creating/updating a Hauler.
+     * Sets the city_id to use when creating/updating a Lead.
      *
      * @param int $id
      *
@@ -74,6 +75,21 @@ class LeadManager
 
         return $this;
     }
+
+    /**
+     * Sets the service_area_id to use when creating/updating a Lead.
+     *
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setServiceAreaID(int $id)
+    {
+        $this->service_area_id = $id;
+
+        return $this;
+    }
+
 
     /**
      * Looks up the appropriate city based on the city name.
@@ -196,7 +212,8 @@ class LeadManager
         $lead = $this->leads->create([
             'company' => $this->company,
             'address' => $this->address,
-            'city_id' => $this->city_id,
+            'city_id' => (int)$this->city_id,
+            'service_area_id' => (int)$this->service_area_id,
             'contact_name' => $this->contact_name,
             'contact_email' => $this->contact_email,
             'account_num' => $this->account_num,
@@ -232,6 +249,7 @@ class LeadManager
 
         if ($this->company !== null) $fields['company'] = $this->company;
         if ($this->address !== null) $fields['address'] = $this->address;
+        if ($this->service_area_id !== null) $fields['service_area_id'] = $this->service_area_id;
         if ($this->contact_name !== null) $fields['contact_name'] = $this->contact_name;
         if ($this->contact_email !== null) $fields['contact_email'] = $this->contact_email;
         if ($this->account_num !== null) $fields['account_num'] = $this->account_num;
@@ -461,6 +479,7 @@ class LeadManager
         $this->company = null;
         $this->address = null;
         $this->city_id = null;
+        $this->service_area_id = null;
         $this->contact_name = null;
         $this->contact_email = null;
         $this->account_num = null;
