@@ -235,7 +235,7 @@ class HaulerManager
      */
     public function find(int $id)
     {
-        $hauler = $this->haulers->with('city')->find($id);
+        $hauler = $this->haulers->with('serviceArea')->find($id);
 
         if ($hauler === null)
         {
@@ -272,7 +272,9 @@ class HaulerManager
      */
     public function all()
     {
-        return $this->haulers->orderBy('name', 'asc')->get();
+        return $this->haulers->with('serviceArea')
+                ->orderBy('name', 'asc')
+                ->get();
     }
 
     /**

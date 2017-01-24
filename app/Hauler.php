@@ -54,4 +54,9 @@ class Hauler extends Model
         return $this->hasOne('App\City', 'id', 'city_id');
     }
 
+    public function serviceArea()
+    {
+        return $this->hasOne('App\ServiceArea', 'id', 'service_area_id');
+    }
+
 }
