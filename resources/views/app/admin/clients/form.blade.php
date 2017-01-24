@@ -47,15 +47,24 @@
                 <div class="form-group">
                     <label for="address" class="control-label col-sm-4">Address</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="address" value="{{ $client->address or old('address') }}" required @if (isset($client) && $client->archived) disabled @endif />
+                        <textarea name="address"  rows="4" class="form-control" required @if (isset($client) && $client->archived) disabled @endif>{{ $client->address or old('address') }}</textarea>
                     </div>
                 </div>
 
-                <!-- City/State -->
+                <!-- Service Area -->
                 <div class="form-group">
-                    <label for="city" class="control-label col-sm-4">City:</label>
+                    <label for="service_area_id" class="control-label col-sm-4">Service Area:</label>
                     <div class="col-sm-8">
-                        <input class="typeahead form-control" name="city" value="{{ $client->city->name or old('city') }}" required @if (isset($client) && $client->archived) disabled @endif>
+                        <select name="service_area_id" class="form-control" @if (isset($lead) && $lead->archived) disabled @endif>
+                            <option value="0">Select a Service Area...</option>
+                            @if ($serviceAreas)
+                                @foreach ($serviceAreas as $area)
+                                    <option value="{{ $area->id }}" @if (isset($lead) && $lead->service_area_id == $area->id) selected @endif>
+                                        {{ $area->name }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                 </div>
 

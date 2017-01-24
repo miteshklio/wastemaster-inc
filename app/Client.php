@@ -15,7 +15,7 @@ class Client extends Model
         'company', 'address', 'city_id', 'contact_name', 'contact_email', 'account_num', 'hauler_id',
         'msw_qty', 'msw_yards', 'msw_per_week', 'rec_qty', 'rec_yards', 'rec_per_week', 'prior_total',
         'msw_price', 'rec_price', 'rec_offset', 'fuel_surcharge', 'env_surcharge', 'recovery_fee',
-        'admin_fee', 'other_fees', 'net_monthly', 'gross_profit', 'total', 'archived', 'lead_id'
+        'admin_fee', 'other_fees', 'net_monthly', 'gross_profit', 'total', 'archived', 'lead_id', 'service_area_id'
     ];
 
     protected $dates = ['deleted_at'];
@@ -28,6 +28,11 @@ class Client extends Model
     public function city()
     {
         return $this->hasOne('App\City', 'id', 'city_id');
+    }
+
+    public function serviceArea()
+    {
+        return $this->hasOne('App\ServiceArea', 'id', 'service_area_id');
     }
 
     /**

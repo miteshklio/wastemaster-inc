@@ -75,7 +75,7 @@ class ClientManagerTest extends UnitTestCase
         $Client = $this->manager
             ->setCompany('company a')
             ->setAddress('123 Alphabet St')
-            ->setCityID(2)
+            ->setServiceAreaID(2)
             ->setContactName('contact person')
             ->setContactEmail('foo@example.com')
             ->setAccountNum('abc123')
@@ -85,15 +85,12 @@ class ClientManagerTest extends UnitTestCase
             ->create();
     }
 
-    /**
-     * @group single
-     */
     public function testCreateSuccess()
     {
         $expects = [
             'company' => 'companya',
             'address' => '123AlphabetSt',
-            'city_id' => 2,
+            'service_area_id' => 2,
             'contact_name' => 'contactperson',
             'contact_email' => 'foo@example.com',
             'account_num' => 'abc123',
@@ -132,7 +129,7 @@ class ClientManagerTest extends UnitTestCase
         $Client = $this->manager
             ->setCompany('companya')
             ->setAddress('123AlphabetSt')
-            ->setCityID(2)
+            ->setServiceAreaID(2)
             ->setContactName('contactperson')
             ->setContactEmail('foo@example.com')
             ->setAccountNum('abc123')
