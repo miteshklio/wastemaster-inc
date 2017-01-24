@@ -9,7 +9,7 @@ class Hauler extends Model
     protected $table = 'haulers';
 
     public $fillable = [
-        'name', 'city_id', 'svc_recycle', 'svc_waste', 'emails'
+        'name', 'city_id', 'service_area_id', 'svc_recycle', 'svc_waste', 'emails'
     ];
 
     public $timestamps = true;

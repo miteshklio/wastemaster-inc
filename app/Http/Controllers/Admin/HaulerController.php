@@ -7,6 +7,7 @@ use WasteMaster\v1\Haulers\HaulerExists;
 use WasteMaster\v1\Haulers\HaulerManager;
 use WasteMaster\v1\Haulers\HaulerNotFound;
 use WasteMaster\v1\Helpers\DataTable;
+use WasteMaster\v1\ServiceAreas\ServiceAreaManager;
 
 class HaulerController extends Controller
 {
@@ -49,9 +50,11 @@ class HaulerController extends Controller
     /**
      * Displays the create Hauler form.
      */
-    public function newHauler()
+    public function newHauler(ServiceAreaManager $areas)
     {
-        return view('app.admin.haulers.form');
+        return view('app.admin.haulers.form')->with([
+            'serviceAreas' => $areas->all()
+        ]);
     }
 
     /**

@@ -12,6 +12,35 @@ class LeadTest extends IntegrationTestCase
         $this->user = $model->find(1);
     }
 
+    public function insertLead()
+    {
+        \DB::table('leads')->insert([
+            'company' => 'Company A',
+            'address' => '123 That Street',
+            'service_area_id' => 1,
+            'contact_name' => 'Fred Durst',
+            'contact_email' => 'fred.durst@example.com',
+            'account_num' => '123abc',
+            'hauler_id' => 1,
+            'msw_qty' => 1,
+            'msw_yards' => 2,
+            'msw_per_week' => 3,
+            'rec_qty' => 4,
+            'rec_yards' => 5,
+            'rec_per_week' => 6,
+            'notes' => 'A grand scheme',
+            'monthly_price' => 200,
+            'archived' => 0,
+            'bid_count' => 0,
+            'status' => \App\Lead::NEW
+        ]);
+
+        return \DB::table('leads')
+            ->where('company', 'Company A')
+            ->first();
+    }
+
+
     public function testCanCreateLead()
     {
         $this->actingAs($this->user)
@@ -56,4 +85,21 @@ class LeadTest extends IntegrationTestCase
                 'bid_count' => 0
             ]);
     }
+
+    public function testCanEditLead()
+    {
+        $lead = $this->insertLead();
+
+        $this->actingAs($this->user)
+            ->visit(route('leads::show', ['id' => $lead->id]))
+            ->see('Update Lead')
+            ->select(2, 'service_area_id')
+            ->press('submit')
+            ->see('Update Lead')
+            ->seeInDatabase('leads', [
+                'company' => 'Company A',
+                'service_area_id' => 2
+            ]);
+    }
+
 }
