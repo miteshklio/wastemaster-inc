@@ -12,7 +12,7 @@ class LeadTest extends IntegrationTestCase
         $this->user = $model->find(1);
     }
 
-    public function insertLead()
+    public function insertLead($status = \App\Lead::NEW)
     {
         \DB::table('leads')->insert([
             'company' => 'Company A',
@@ -32,7 +32,7 @@ class LeadTest extends IntegrationTestCase
             'monthly_price' => 200,
             'archived' => 0,
             'bid_count' => 0,
-            'status' => \App\Lead::NEW
+            'status' => $status
         ]);
 
         return \DB::table('leads')
@@ -99,6 +99,36 @@ class LeadTest extends IntegrationTestCase
             ->seeInDatabase('leads', [
                 'company' => 'Company A',
                 'service_area_id' => 2
+            ]);
+    }
+
+    public function testCanConvertToClient()
+    {
+        $lead = $this->insertLead(\App\Lead::BID_ACCEPTED);
+
+        $this->actingAs($this->user)
+            ->visit(route('leads::home'))
+            ->click('Convert')
+            ->see('Update Client')
+            ->seeInDatabase('leads', [
+                'id' => $lead->id,
+                'status' => \App\Lead::CONVERTED_TO_CLIENT
+            ])
+            ->seeInDatabase('clients', [
+                'lead_id' => $lead->id,
+                'company' => 'Company A',
+                'address' => '123 That Street',
+                'service_area_id' => 1,
+                'contact_name' => 'Fred Durst',
+                'contact_email' => 'fred.durst@example.com',
+                'account_num' => '123abc',
+                'hauler_id' => 1,
+                'msw_qty' => 1,
+                'msw_yards' => 2,
+                'msw_per_week' => 3,
+                'rec_qty' => 4,
+                'rec_yards' => 5,
+                'rec_per_week' => 6,
             ]);
     }
 
