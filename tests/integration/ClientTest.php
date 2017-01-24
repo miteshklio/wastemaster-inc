@@ -1,6 +1,6 @@
 <?php
 
-class LeadTest extends IntegrationTestCase
+class ClientTest extends IntegrationTestCase
 {
     protected $user;
 
@@ -12,10 +12,10 @@ class LeadTest extends IntegrationTestCase
         $this->user = $model->find(1);
     }
 
-    public function insertClient()
+    public function insertClient(int $leadID = 1)
     {
         \DB::table('clients')->insert([
-            'lead_id' => 1,
+            'lead_id' => $leadID,
             'company' => 'Company A',
             'address' => '123 That Street',
             'service_area_id' => 1,
@@ -49,6 +49,33 @@ class LeadTest extends IntegrationTestCase
             ->first();
     }
 
+    protected function insertLead($status = \App\Lead::NEW)
+    {
+        \DB::table('leads')->insert([
+            'company' => 'Company A',
+            'address' => '123 That Street',
+            'service_area_id' => 1,
+            'contact_name' => 'Fred Durst',
+            'contact_email' => 'fred.durst@example.com',
+            'account_num' => '123abc',
+            'hauler_id' => 1,
+            'msw_qty' => 1,
+            'msw_yards' => 2,
+            'msw_per_week' => 3,
+            'rec_qty' => 4,
+            'rec_yards' => 5,
+            'rec_per_week' => 6,
+            'notes' => 'A grand scheme',
+            'monthly_price' => 200,
+            'archived' => 0,
+            'bid_count' => 0,
+            'status' => $status
+        ]);
+
+        return \DB::table('leads')
+                  ->where('company', 'Company A')
+                  ->first();
+    }
 
     public function testCanCreateClient()
     {
@@ -119,6 +146,21 @@ class LeadTest extends IntegrationTestCase
             ->seeInDatabase('clients', [
                 'company' => 'Company A',
                 'service_area_id' => 2
+            ]);
+    }
+
+    public function testRebidClientWithExistingLead()
+    {
+        $lead   = $this->insertLead();
+        $client = $this->insertClient($lead->id);
+
+        $this->actingAs($this->user)
+            ->visit(route('clients::home'))
+            ->click('Rebid')
+            ->seeInDatabase('leads', [
+                'id' => $lead->id,
+                'status' => \App\Lead::REBIDDING,
+                'service_area_id' => $client->service_area_id
             ]);
     }
 

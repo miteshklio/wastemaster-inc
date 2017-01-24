@@ -318,7 +318,7 @@ class HaulerManager
         }
 
         return $haulers
-                ->where('city_id', $lead->city_id)
+                ->where('service_area_id', $lead->service_area_id)
                 ->where('id', '!=', $lead->hauler_id)
                 ->orderBy('name', 'asc')
                 ->get();

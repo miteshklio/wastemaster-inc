@@ -95,7 +95,7 @@ class ServiceAreaManager {
 
     public function all()
     {
-        return $this->areas->get();
+        return $this->areas->orderBy('name', 'asc')->get();
     }
 
 
