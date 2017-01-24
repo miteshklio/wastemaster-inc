@@ -40,6 +40,31 @@ class LeadTest extends IntegrationTestCase
             ->first();
     }
 
+    protected function insertBid(int $leadID)
+    {
+        \DB::table('bids')->insert([
+            'hauler_id' => 2,
+            'hauler_email' => 'hauler@example.com',
+            'lead_id' => $leadID,
+            'status' => \App\Bid::STATUS_ACCEPTED,
+            'net_monthly' => 100,
+            'msw_price' => 0,
+            'rec_price' => 0,
+            'rec_offset' => 0,
+            'fuel_surcharge' => 0,
+            'env_surcharge' => 0,
+            'recovery_fee' => 0,
+            'admin_fee' => 0,
+            'other_fees' => 0,
+            'gross_profit' => 50,
+            'notes' => 'something'
+        ]);
+
+        return \DB::table('leads')
+            ->where('lead_id', $leadID)
+            ->where('status', \App\Bid::STATUS_ACCEPTED)
+            ->first();
+    }
 
     public function testCanCreateLead()
     {
@@ -102,9 +127,13 @@ class LeadTest extends IntegrationTestCase
             ]);
     }
 
+    /**
+     * @group single
+     */
     public function testCanConvertToClient()
     {
         $lead = $this->insertLead(\App\Lead::BID_ACCEPTED);
+        $bid  = $this->insertBid($lead->id);
 
         $this->actingAs($this->user)
             ->visit(route('leads::home'))
@@ -122,7 +151,7 @@ class LeadTest extends IntegrationTestCase
                 'contact_name' => 'Fred Durst',
                 'contact_email' => 'fred.durst@example.com',
                 'account_num' => '123abc',
-                'hauler_id' => 1,
+                'hauler_id' => 2,
                 'msw_qty' => 1,
                 'msw_yards' => 2,
                 'msw_per_week' => 3,

@@ -357,11 +357,12 @@ class LeadManager
         $client = $clients->findOrCreate([
             'company' => $lead->company,
             'address' => $lead->address,
-            'city_id' => $lead->city_id
+            'city_id' => $lead->city_id,
+            'archived' => 0
         ]);
 
         return $clients->setContactName($lead->contact_name)
-            ->setContactEmail($bid->hauler_email)
+            ->setContactEmail($lead->contact_email)
             ->setAccountNum($lead->account_num)
             ->setWaste($lead->msw_qty, $lead->msw_yards, $lead->msw_per_week)
             ->setRecycling($lead->rec_qty, $lead->rec_yards, $lead->rec_per_week)
@@ -379,6 +380,7 @@ class LeadManager
             ->setGross($bid->gross_profit)
             ->setNet($bid->net_monthly)
             ->setTotal($bid->net_monthly + $bid->gross_profit)
+            ->setServiceAreaID($lead->service_area_id)
             ->update($client->id);
     }
 
