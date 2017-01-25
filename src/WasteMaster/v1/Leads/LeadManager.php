@@ -429,20 +429,23 @@ class LeadManager
      *
      * @return bool
      */
-    public function shouldShowPostMatchBid(Lead $lead, Bid $lowBid)
+    public function shouldShowPostMatchBid(Lead $lead, Bid $lowBid=null)
     {
         // If bids have already been sent, then yes,
         // we should show. :)
-        if (! empty($lead->post_match_sent) || empty($lead->bid_count)) return true;
+        if (! empty($lead->post_match_sent) || ! empty($lead->bid_count)) return true;
+
+        // If no low bid, yet, then nope!
+        if ($lowBid === null) return false;
 
         // If lowest Bid is higher than current total, don't show.
-        if ($lead->status === Lead::REBIDDING)
+        if ($lead->status(true) === Lead::REBIDDING)
         {
-            return ($lead->monthly_price - $lead->gross_profit) > $lowBid->net_monthly;
+            return ($lead->monthly_price - $lead->gross_profit) >= $lowBid->net_monthly;
         }
         else
         {
-            return $lead->monthly_price > $lowBid->net_monthly;
+            return $lead->monthly_price >= $lowBid->net_monthly;
         }
     }
 

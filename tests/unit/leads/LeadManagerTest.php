@@ -191,6 +191,9 @@ class LeadManagerTest extends UnitTestCase
         $this->manager->archive(12);
     }
 
+    /**
+     * @group single
+     */
     public function testShouldShowMonthlyBidReturnsTrueIfLeadHigherThanBid()
     {
         $lead = new class() extends \App\Lead {

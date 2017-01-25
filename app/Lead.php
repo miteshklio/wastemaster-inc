@@ -168,8 +168,10 @@ class Lead extends Model
 
 
 
-    public function status()
+    public function status($raw=null)
     {
+        if ($raw === true) return $this->status;
+
         switch ($this->status)
         {
             case self::NEW:
