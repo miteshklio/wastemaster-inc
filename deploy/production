@@ -18,5 +18,7 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 salt-call --local state.sls php.php
 salt-call --local state.sls webserver.production
+salt-call --local state.sls redis.redis
+salt-call --local state.sls mariadb.mariadb
 service nginx restart
 service php7.0-fpm restart
