@@ -1,23 +1,8 @@
 server {
+
     listen 80;
-    return 301 https://$host$request_uri;
-}
-
-server {
-
-    listen 443 ssl;
     root /home/public_html/app/current/public;
     index index.php index.html;
-
-    ssl_certificate /etc/nginx/ssl/gamerz.crt;
-    ssl_certificate_key /etc/nginx/ssl/gamerz.key;
-
-    ssl_protocols TLSv1.1 TLSv1.2;
-
-    # redirect elb to https
-    if ($http_x_forwarded_proto != "https") {
-        rewrite ^(.*)$ https://$host$request_uri permanent;
-    }
 
     # serve static files directly
     location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ {

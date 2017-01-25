@@ -10,19 +10,6 @@ app-dir:
     - require:
       - cmd: html-dir
 
-ssl-dir: 
-  cmd.run:
-    - name: mkdir -p /etc/nginx/ssl
-    - require: 
-      - cmd: app-dir
-
-# Create self-signed ssl cert
-cert: 
-  cmd.run:
-    - name: openssl req -newkey rsa:4096 -x509 -days 3650 -nodes -out /etc/nginx/ssl/wastemaster.crt -keyout /etc/nginx/ssl/wastemaster.key -subj "/C=US/ST=Illinois/L=Chicago/O=IT/CN=localhost"
-    - require: 
-      - cmd: ssl-dir
-
 # Nginx install
 nginx:
   pkg:
