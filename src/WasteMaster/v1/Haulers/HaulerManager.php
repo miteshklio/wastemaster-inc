@@ -15,6 +15,7 @@ class HaulerManager
 
     protected $name;
     protected $city;
+    protected $service_area_id;
     protected $doesRecycling;
     protected $doesWaste;
     protected $emails = [];
@@ -52,6 +53,21 @@ class HaulerManager
 
         return $this;
     }
+
+    /**
+     * Sets the service_area_id to use when creating/updating a Service Area.
+     *
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setServiceAreaID(int $id)
+    {
+        $this->service_area_id = $id;
+
+        return $this;
+    }
+
 
     /**
      * Looks up the appropriate city based on the city name.
@@ -133,11 +149,11 @@ class HaulerManager
         }
 
         $hauler = $this->haulers->create([
-            'name'        => $this->name,
-            'city_id'     => $this->city,
-            'svc_recycle' => (int)$this->doesRecycling,
-            'svc_waste'   => (int)$this->doesWaste,
-            'emails'      => serialize($this->emails)
+            'name'            => $this->name,
+            'service_area_id' => $this->service_area_id,
+            'svc_recycle'     => (int)$this->doesRecycling,
+            'svc_waste'       => (int)$this->doesWaste,
+            'emails'          => serialize($this->emails)
         ]);
 
         return $hauler;
@@ -167,7 +183,7 @@ class HaulerManager
         ];
 
         if ($this->name !== null) $fields['name'] = $this->name;
-        if ($this->city !== null) $fields['city_id'] = $this->city;
+        if ($this->service_area_id !== null) $fields['service_area_id'] = $this->service_area_id;
         if (count($this->emails)) $fields['emails'] = serialize($this->parseEmails($this->emails));
 
         $hauler->fill($fields);
@@ -219,7 +235,7 @@ class HaulerManager
      */
     public function find(int $id)
     {
-        $hauler = $this->haulers->with('city')->find($id);
+        $hauler = $this->haulers->with('serviceArea')->find($id);
 
         if ($hauler === null)
         {
@@ -256,7 +272,9 @@ class HaulerManager
      */
     public function all()
     {
-        return $this->haulers->orderBy('name', 'asc')->get();
+        return $this->haulers->with('serviceArea')
+                ->orderBy('name', 'asc')
+                ->get();
     }
 
     /**
@@ -300,7 +318,7 @@ class HaulerManager
         }
 
         return $haulers
-                ->where('city_id', $lead->city_id)
+                ->where('service_area_id', $lead->service_area_id)
                 ->where('id', '!=', $lead->hauler_id)
                 ->orderBy('name', 'asc')
                 ->get();
@@ -341,7 +359,7 @@ class HaulerManager
         // doesWaste and doesRecycling will return
         // false alarm when a '0'.
         $requiredFields = [
-            'name', 'city', 'emails'
+            'name', 'service_area_id', 'emails'
         ];
 
         $errorFields = [];

@@ -8,6 +8,7 @@ use WasteMaster\v1\Haulers\HaulerManager;
 use WasteMaster\v1\Clients\ClientExists;
 use WasteMaster\v1\Clients\ClientNotFound;
 use WasteMaster\v1\Helpers\DataTable;
+use WasteMaster\v1\ServiceAreas\ServiceAreaManager;
 
 class ClientController extends Controller
 {
@@ -31,7 +32,7 @@ class ClientController extends Controller
 
         $datatable->showColumns([
             'company' => 'Name',
-            'city_id' => 'City',
+            'service_area_id' => 'Service Area',
             'created_at' => 'Created At',
             'prior_total' => 'Prior $',
             'net_monthly' => 'Net Monthly',
@@ -42,7 +43,7 @@ class ClientController extends Controller
             ->setDefaultSort('company', 'asc')
             ->setAlwaysSort('archived', 'asc')
             ->hideOnMobile(['created_at', 'prior_total'])
-            ->eagerLoad('city')
+            ->eagerLoad('serviceArea')
             ->prepare(20);
 
         return view('app.admin.clients.index')->with([
@@ -53,11 +54,12 @@ class ClientController extends Controller
     /**
      * Displays the create Lead form.
      */
-    public function newClient(HaulerManager $haulers)
+    public function newClient(HaulerManager $haulers, ServiceAreaManager $areas)
     {
         return view('app.admin.clients.form', [
             'editMode' => false,
-            'haulers' => $haulers->all()
+            'haulers' => $haulers->all(),
+            'serviceAreas' => $areas->all()
         ]);
     }
 
@@ -73,7 +75,7 @@ class ClientController extends Controller
         $this->validate($request, [
             'company' => 'required|max:255',
             'address' => 'required',
-            'city' => 'required',
+            'service_area_id' => 'required',
             'contact_name' => 'required|max:255',
             'contact_email' => 'required|email|max:255',
             'account_num' => 'required|max:255',
@@ -103,7 +105,7 @@ class ClientController extends Controller
             $this->clients
                 ->setCompany($request->input('company'))
                 ->setAddress($request->input('address'))
-                ->setCity($request->input('city'))
+                ->setServiceAreaID($request->input('service_area_id'))
                 ->setContactName($request->input('contact_name'))
                 ->setContactEmail($request->input('contact_email'))
                 ->setAccountNum($request->input('account_num'))
@@ -142,12 +144,13 @@ class ClientController extends Controller
     /**
      * Displays the edit a Lead form.
      *
-     * @param HaulerManager $haulers
-     * @param int           $clientID
+     * @param HaulerManager      $haulers
+     * @param ServiceAreaManager $areas
+     * @param int                $clientID
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show(HaulerManager $haulers, int $clientID)
+    public function show(HaulerManager $haulers, ServiceAreaManager $areas, int $clientID)
     {
         $client = $this->clients->find($clientID);
 
@@ -163,6 +166,7 @@ class ClientController extends Controller
             'editMode' => true,
             'haulers' => $haulers->all(),
             'cityHaulers' => $cityHaulers,
+            'serviceAreas' => $areas->all(),
         ]);
     }
 
@@ -179,7 +183,7 @@ class ClientController extends Controller
         $this->validate($request, [
             'company' => 'required|max:255',
             'address' => 'required',
-            'city' => 'required',
+            'service_area_id' => 'required',
             'contact_name' => 'required|max:255',
             'contact_email' => 'required|email|max:255',
             'account_num' => 'required|max:255',
@@ -209,7 +213,7 @@ class ClientController extends Controller
             $this->clients
                 ->setCompany($request->input('company'))
                 ->setAddress($request->input('address'))
-                ->setCity($request->input('city'))
+                ->setServiceAreaID($request->input('service_area_id'))
                 ->setContactName($request->input('contact_name'))
                 ->setContactEmail($request->input('contact_email'))
                 ->setAccountNum($request->input('account_num'))

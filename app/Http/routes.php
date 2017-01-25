@@ -104,6 +104,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('bid/{id}/rescind', 'BidController@rescind')->name('bids::rescind');
     Route::get('bid/{id}/post_match_request', 'BidController@postMatchRequest')->name('bids::postMatchRequest');
     Route::get('bid/{id}/get_accept_modal', 'BidController@acceptModal')->name('bids::getAcceptModal');
+
+    // Service Areas
+    Route::match(['get', 'post'], 'areas', 'AreasController@index')->name('areas::home');
+    Route::get('area', 'AreasController@newArea')->name('areas::new');
+    Route::post('area', 'AreasController@create')->name('areas::create');
+    Route::get('area/{id}', 'AreasController@show')->name('areas::show');
+    Route::post('area/{id}', 'AreasController@update')->name('areas::update');
+    Route::get('area/{id}/delete', 'AreasController@delete')->name('areas::delete');
 });
 
 /**

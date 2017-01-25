@@ -86,11 +86,11 @@ class HaulerManagerTest extends UnitTestCase
     public function testCreateSuccess()
     {
         $fields = [
-            'name'        => 'name',
-            'city_id'     => 13,
-            'svc_recycle' => 1,
-            'svc_waste'   => 0,
-            'emails'      => serialize(['foo@example.com', 'bar@example.com'])
+            'name'            => 'name',
+            'service_area_id' => 13,
+            'svc_recycle'     => 1,
+            'svc_waste'       => 0,
+            'emails'          => serialize(['foo@example.com', 'bar@example.com'])
         ];
 
         $this->haulers->shouldReceive('where->count')
@@ -104,7 +104,7 @@ class HaulerManagerTest extends UnitTestCase
             ]);
 
         $hauler = $this->manager->setName('name')
-            ->setCityID(13)
+            ->setServiceAreaID(13)
             ->setRecycling(true)
             ->setWaste(false)
             ->setEmails('foo@example.com,bar@example.com')

@@ -33,7 +33,7 @@
                     <td>
                         <a href="{{ route('haulers::show', ['id' => $row->id]) }}">{{ $row->name }}</a>
                     </td>
-                    <td>{{ $row->city->name }}</td>
+                    <td>@if (! empty($row->serviceArea)){{ $row->serviceArea->name }} @endif</td>
                     <td>{{ $row->listWasteTypes() }}</td>
                     <td class="hidden-xs">{{ $row->listEmails() }}</td>
                     <td>

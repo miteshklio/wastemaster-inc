@@ -2,11 +2,13 @@
 
 use App\Hauler;
 use App\Http\Controllers\Controller;
+use App\ServiceArea;
 use Illuminate\Http\Request;
 use WasteMaster\v1\Haulers\HaulerExists;
 use WasteMaster\v1\Haulers\HaulerManager;
 use WasteMaster\v1\Haulers\HaulerNotFound;
 use WasteMaster\v1\Helpers\DataTable;
+use WasteMaster\v1\ServiceAreas\ServiceAreaManager;
 
 class HaulerController extends Controller
 {
@@ -37,7 +39,7 @@ class HaulerController extends Controller
             ->searchColumns(['name', 'emails', 'city_id'])
             ->setDefaultSort('name', 'asc')
             ->setAlwaysSort('archived', 'asc')
-            ->eagerLoad('city')
+            ->eagerLoad('serviceArea')
             ->hideOnMobile(['emails'])
             ->prepare(20);
 
@@ -49,9 +51,11 @@ class HaulerController extends Controller
     /**
      * Displays the create Hauler form.
      */
-    public function newHauler()
+    public function newHauler(ServiceAreaManager $areas)
     {
-        return view('app.admin.haulers.form');
+        return view('app.admin.haulers.form')->with([
+            'serviceAreas' => $areas->all()
+        ]);
     }
 
     /**
@@ -65,7 +69,7 @@ class HaulerController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'city' => 'required',
+            'service_area_id' => 'required',
             'emails' => 'required|max:255'
         ]);
 
@@ -73,7 +77,7 @@ class HaulerController extends Controller
         {
             $this->haulers
                 ->setName($request->input('name'))
-                ->setCity($request->input('city'))
+                ->setServiceAreaID($request->input('service_area_id'))
                 ->setRecycling((bool)$request->input('recycle'))
                 ->setWaste((bool)$request->input('waste'))
                 ->setEmails($request->input('emails'))
@@ -93,7 +97,7 @@ class HaulerController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show(int $haulerID)
+    public function show(ServiceArea $areas, int $haulerID)
     {
         $hauler = $this->haulers->find($haulerID);
 
@@ -103,7 +107,8 @@ class HaulerController extends Controller
         }
 
         return view('app.admin.haulers.form', [
-            'hauler' => $hauler
+            'hauler' => $hauler,
+            'serviceAreas' => $areas->all()
         ]);
     }
 
@@ -119,7 +124,7 @@ class HaulerController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'city' => 'required',
+            'service_area_id' => 'required',
             'emails' => 'required|max:255'
         ]);
 
@@ -127,7 +132,7 @@ class HaulerController extends Controller
         {
             $this->haulers
                 ->setName($request->input('name'))
-                ->setCity($request->input('city'))
+                ->setServiceAreaID($request->input('service_area_id'))
                 ->setRecycling((bool)$request->input('recycle'))
                 ->setWaste((bool)$request->input('waste'))
                 ->setEmails($request->input('emails'))

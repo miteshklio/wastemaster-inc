@@ -40,6 +40,7 @@ class LeadManager
     protected $archived;
     protected $bid_count;
     protected $notes;
+    protected $service_area_id;
 
     public function __construct(Lead $leads, City $cities)
     {
@@ -62,7 +63,7 @@ class LeadManager
     }
 
     /**
-     * Sets the city_id to use when creating/updating a Hauler.
+     * Sets the city_id to use when creating/updating a Lead.
      *
      * @param int $id
      *
@@ -74,6 +75,21 @@ class LeadManager
 
         return $this;
     }
+
+    /**
+     * Sets the service_area_id to use when creating/updating a Lead.
+     *
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setServiceAreaID(int $id)
+    {
+        $this->service_area_id = $id;
+
+        return $this;
+    }
+
 
     /**
      * Looks up the appropriate city based on the city name.
@@ -196,7 +212,8 @@ class LeadManager
         $lead = $this->leads->create([
             'company' => $this->company,
             'address' => $this->address,
-            'city_id' => $this->city_id,
+            'city_id' => (int)$this->city_id,
+            'service_area_id' => (int)$this->service_area_id,
             'contact_name' => $this->contact_name,
             'contact_email' => $this->contact_email,
             'account_num' => $this->account_num,
@@ -232,6 +249,7 @@ class LeadManager
 
         if ($this->company !== null) $fields['company'] = $this->company;
         if ($this->address !== null) $fields['address'] = $this->address;
+        if ($this->service_area_id !== null) $fields['service_area_id'] = $this->service_area_id;
         if ($this->contact_name !== null) $fields['contact_name'] = $this->contact_name;
         if ($this->contact_email !== null) $fields['contact_email'] = $this->contact_email;
         if ($this->account_num !== null) $fields['account_num'] = $this->account_num;
@@ -339,11 +357,12 @@ class LeadManager
         $client = $clients->findOrCreate([
             'company' => $lead->company,
             'address' => $lead->address,
-            'city_id' => $lead->city_id
+            'city_id' => $lead->city_id,
+            'archived' => 0
         ]);
 
         return $clients->setContactName($lead->contact_name)
-            ->setContactEmail($bid->hauler_email)
+            ->setContactEmail($lead->contact_email)
             ->setAccountNum($lead->account_num)
             ->setWaste($lead->msw_qty, $lead->msw_yards, $lead->msw_per_week)
             ->setRecycling($lead->rec_qty, $lead->rec_yards, $lead->rec_per_week)
@@ -361,6 +380,7 @@ class LeadManager
             ->setGross($bid->gross_profit)
             ->setNet($bid->net_monthly)
             ->setTotal($bid->net_monthly + $bid->gross_profit)
+            ->setServiceAreaID($lead->service_area_id)
             ->update($client->id);
     }
 
@@ -429,11 +449,10 @@ class LeadManager
      *
      * @return bool
      */
-    public function shouldShowPostMatchBid(Lead $lead, Bid $lowBid)
+    public function shouldShowPostMatchBid(Lead $lead, Bid $lowBid=null)
     {
-        // If bids have already been sent, then yes,
-        // we should show. :)
-        if (! empty($lead->post_match_sent) || empty($lead->bid_count)) return true;
+        // If no bids have been received then it's an easy out.
+        if ($lead->bid_count == 0) return false;
 
         // If lowest Bid is higher than current total, don't show.
         if ($lead->status === Lead::REBIDDING)
@@ -462,6 +481,7 @@ class LeadManager
         $this->company = null;
         $this->address = null;
         $this->city_id = null;
+        $this->service_area_id = null;
         $this->contact_name = null;
         $this->contact_email = null;
         $this->account_num = null;

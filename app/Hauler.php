@@ -9,7 +9,7 @@ class Hauler extends Model
     protected $table = 'haulers';
 
     public $fillable = [
-        'name', 'city_id', 'svc_recycle', 'svc_waste', 'emails'
+        'name', 'city_id', 'service_area_id', 'svc_recycle', 'svc_waste', 'emails'
     ];
 
     public $timestamps = true;
@@ -52,6 +52,11 @@ class Hauler extends Model
     public function city()
     {
         return $this->hasOne('App\City', 'id', 'city_id');
+    }
+
+    public function serviceArea()
+    {
+        return $this->hasOne('App\ServiceArea', 'id', 'service_area_id');
     }
 
 }

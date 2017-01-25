@@ -83,7 +83,7 @@ class LeadManagerTest extends UnitTestCase
         $expects = [
             'company' => 'companya',
             'address' => '123AlphabetSt',
-            'city_id' => 2,
+            'service_area_id' => 2,
             'contact_name' => 'contactperson',
             'contact_email' => 'foo@example.com',
             'account_num' => 'abc123',
@@ -112,7 +112,7 @@ class LeadManagerTest extends UnitTestCase
         $lead = $this->manager
             ->setCompany('companya')
             ->setAddress('123AlphabetSt')
-            ->setCityID(2)
+            ->setServiceAreaID(2)
             ->setContactName('contactperson')
             ->setContactEmail('foo@example.com')
             ->setAccountNum('abc123')
@@ -191,45 +191,65 @@ class LeadManagerTest extends UnitTestCase
         $this->manager->archive(12);
     }
 
-    public function testShouldShowMonthlyBidReturnsTrueIfLeadHigherThanBid()
+    public function testShouldShowPostMatchBidReturnsFalseIfNoBids()
     {
         $lead = new class() extends \App\Lead {
             protected $status = \App\Lead::BIDS_REQUESTED;
             protected $monthly_price = 200;
             protected $gross_profit = 0;
+            protected $bid_count = 0;
         };
         $bid = new class() extends \App\Bid {
             protected $net_monthly = 100;
         };
 
-        $this->assertTrue($this->manager->shouldShowPostMatchBid($lead, $bid));
+        $this->assertFalse($this->manager->shouldShowPostMatchBid($lead, $bid));
     }
 
-    public function testShouldShowMonthlyBidReturnsTrueIfLeadHigherThanBidRebidding()
+    public function testShouldShowPostMatchBidReturnsTrueIfLeadHigherThanBid()
     {
-        $lead = new class() extends \App\Lead {
-            protected $status = \App\Lead::REBIDDING;
-            protected $monthly_price = 200;
-            protected $gross_profit = 50;
-        };
-        $bid = new class() extends \App\Bid {
-            protected $net_monthly = 110;
-        };
+        $lead = new \App\Lead([
+            'status' => \App\Lead::BIDS_REQUESTED,
+            'monthly_price' => 200,
+            'gross_profit' => 0,
+            'bid_count' => 1
+        ]);
+        $bid = new \App\Bid([
+            'net_monthly' => 100
+        ]);
 
         $this->assertTrue($this->manager->shouldShowPostMatchBid($lead, $bid));
     }
 
-    public function testShouldShowMonthlyBidReturnsFalseIfLeadHigherThanBidRebidding()
+    public function testShouldShowPostMatchBidReturnsTrueIfLeadHigherThanBidRebidding()
     {
-        $lead = new class() extends \App\Lead {
-            protected $status = \App\Lead::REBIDDING;
-            protected $monthly_price = 200;
-            protected $gross_profit = 50;
-        };
-        $bid = new class() extends \App\Bid {
-            protected $net_monthly = 160;
-        };
+        $lead = new \App\Lead([
+            'status' => \App\Lead::REBIDDING,
+            'monthly_price' => 200,
+            'gross_profit' => 50,
+            'bid_count' => 1
+        ]);
+        $bid = new \App\Bid([
+            'net_monthly' => 110
+        ]);
 
         $this->assertTrue($this->manager->shouldShowPostMatchBid($lead, $bid));
     }
+
+    public function testShouldShowPostMatchBidReturnsFalseIfLeadHigherThanBidRebidding()
+    {
+        $lead = new \App\Lead([
+            'status' => \App\Lead::REBIDDING,
+            'monthly_price' => 200,
+            'gross_profit' => 50,
+            'bid_count' => 1
+        ]);
+        $bid = new \App\Bid([
+            'net_monthly' => 160
+        ]);
+
+        $this->assertFalse($this->manager->shouldShowPostMatchBid($lead, $bid));
+    }
+
+
 }
