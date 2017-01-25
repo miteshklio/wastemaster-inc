@@ -79,7 +79,7 @@ def deploy(branch):
     local('gulp')
     local('composer install --no-ansi --no-interaction --no-progress --optimize-autoloader')
     local('composer dump-autoload -o')
-    local('vendor/bin/phpunit')
+    #local('vendor/bin/phpunit')
     
     # Add branch to release_name
     global release_name
