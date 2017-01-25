@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Auth\Guard as Auth;
 
 class HomeController extends Controller {
 
@@ -9,9 +10,15 @@ class HomeController extends Controller {
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function index()
+    protected function index(Auth $auth)
     {
-        return view('app.home');
+        // Already logged in? Take use home
+        if ($auth->check())
+        {
+            return redirect('/admin/dashboard');
+        }
+
+        return view('app.accounts.login');
     }
 
 }

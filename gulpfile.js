@@ -35,6 +35,7 @@ gulp.task('css', function() {
             assetsDir + '/components/bootstrap/dist/css/bootstrap.css',
             assetsDir + '/components/font-awesome/css/font-awesome.css',
             assetsDir + '/components/summernote/dist/summernote.css',
+            assetsDir + '/components/css-hamburgers/dist/hamburgers.css',
             assetsDir + '/sass/**/*.scss'
         ])
         .pipe(sass({
@@ -56,7 +57,8 @@ gulp.task('components', function() {
             assetsDir + '/components/jquery.payment/lib/jquery.payment.js',
             assetsDir + '/components/underscore/underscore.js',
             assetsDir + '/components/moment/min/moment.min.js',
-            assetsDir + '/components/summernote/dist/summernote.js'
+            assetsDir + '/components/summernote/dist/summernote.js',
+            assetsDir + '/components/typeahead.js/dist/typeahead.bundle.js'
         ])
         .pipe(concat('components.js'))
         .pipe(uglify())

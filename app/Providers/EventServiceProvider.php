@@ -13,8 +13,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\RequestBidsForLead' => [
+            'App\Listeners\EmailBidRequests',
+        ],
+        'App\Events\PreBidMatchRequest' => [
+            'App\Listeners\EmailPreMatchRequest',
+        ],
+        'App\Events\PostBidMatchRequest' => [
+            'App\Listeners\EmailPostMatchRequest',
+        ],
+        'App\Events\AcceptedBid' => [
+            'App\Listeners\EmailAcceptedBidder'
+        ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
         ],
     ];
 

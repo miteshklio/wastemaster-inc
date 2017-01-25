@@ -1,24 +1,28 @@
 @extends('templates.master')
 
 @section('title')
-    <title>AppName</title>
+    <title>Wastemaster</title>
 @stop
 
 @section('content')
-    <form class="form-signin" method="post">
+    <form class="form-signin" method="post" action="/login">
         {{ csrf_field() }}
 
         <h2 class="form-signin-heading">Please sign in</h2>
 
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <div class="form-group">
+            <label for="inputEmail">Email address</label>
+            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        </div>
 
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="form-group">
+            <label for="inputPassword" >Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        </div>
 
         <div class="checkbox">
             <label>
-                <input type="checkbox" value="remember-me"> Remember me
+                <input type="checkbox" name="remember-me"> Remember me
             </label>
         </div>
 
@@ -28,6 +32,6 @@
             </a>
         </p>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-green btn-block" type="submit">Sign in</button>
     </form>
 @endsection

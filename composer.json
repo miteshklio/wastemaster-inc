@@ -19,7 +19,9 @@
         "barryvdh/laravel-debugbar": "~2.0",
         "filp/whoops": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
-        "mews/purifier": "^2.0"
+        "aws/aws-sdk-php": "~3.0",
+        "mews/purifier": "^2.0",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -34,6 +36,7 @@
         ],
         "psr-4": {
             "App\\": "app/",
+            "Vault\\": "src/Vault/",
             "WasteMaster\\": "src/"
         }
     },

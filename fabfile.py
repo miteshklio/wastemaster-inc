@@ -79,7 +79,8 @@ def deploy(branch):
     local('gulp')
     local('composer install --no-ansi --no-interaction --no-progress --optimize-autoloader')
     local('composer dump-autoload -o')
-
+    local('vendor/bin/phpunit')
+    
     # Add branch to release_name
     global release_name
     release_name = branch + '-' + release_name
@@ -87,7 +88,8 @@ def deploy(branch):
     # Create tar file for production
     local('php artisan cache:clear')
     local('php artisan view:clear')
-    local('gtar -zcvf ' + release_name + '.tar.gz * --exclude=node_modules')
+    with hide('output'):
+        local('gtar -zcvf ' + release_name + '.tar.gz * --exclude=node_modules')
 
     # Deploy
     with cd(release_dir):
@@ -100,7 +102,8 @@ def deploy(branch):
                 use_sudo=True
         )
         sudo('mkdir -p ' + release_name)
-        sudo('tar -xvzf ' + release_name + '.tar.gz -C ' + release_name) 
+        with hide('output'):
+            sudo('tar -xvzf ' + release_name + '.tar.gz -C ' + release_name) 
         
         sudo('rm ' + release_name + '.tar.gz')
 
@@ -140,7 +143,7 @@ def run_salt(env_type = 'production'):
 
 
 def server():
-    local('sudo php artisan serve --host=app.dev --port=80')
+    local('sudo php artisan serve --host=0.0.0.0 --port=80')
 
 
 def dev_install():

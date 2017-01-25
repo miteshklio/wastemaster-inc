@@ -1,7 +1,7 @@
 @extends('templates.master')
 
 @section('title')
-    <title>AppName</title>
+    <title>Wastemaster</title>
 @stop
 
 @section('content')
@@ -18,23 +18,23 @@
                         @if ($errors->has('email'))
                             <div class="alert alert-danger" role="alert">{{ $errors->first('email') }}</div>
                         @endif
-                        <label for="email" class="sr-only">E-Mail Address</label>
-                        <input type="email" class="form-control" name="email" id = "inputEmail" value="{{ old('email', '') }}">
+                        <label for="email" class="control-label">Email Address</label>
+                        <input type="email" class="form-control" name="email" id="inputEmail" value="{{ old('email', '') }}" placeholder="john.doe@example.com">
                     </div>
 
                     <div class="form-group">
                         @if ($errors->has('password'))
                             <div class="alert alert-danger" role="alert">{{ $errors->first('password') }}</div>
                         @endif
-                        <label for="password" class="sr-only">Password</label>
-                        <input type="password" class="form-control" name="password" id = "inputPassword" value="{{ old('password', '') }}">
+                        <label for="password" class="control-label">Password</label>
+                        <input type="password" class="form-control" name="password" id = "inputPassword" value="{{ old('password', '') }}" >
                     </div>
 
                     <div class="form-group">
                         @if ($errors->has('password_confirmation'))
                             <div class="alert alert-danger" role="alert">{{ $errors->first('password_confirmation') }}</div>
                         @endif
-                        <label for="password_confirmation" class="sr-only">Confirm Password</label>
+                        <label for="password_confirmation" class="control-label">Confirm Password</label>
                         <input type="password" class="form-control" name="password_confirmation" id = "inputPasswordConfirmation" value="{{ old('password_confirmation', '') }}">
                     </div>
 
