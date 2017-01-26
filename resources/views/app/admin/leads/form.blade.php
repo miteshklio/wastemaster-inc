@@ -137,10 +137,12 @@
                                 <input type="text" name="msw_qty" class="form-control" value="{{ $lead->msw_qty or old('msw_qty') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="msw_yards" class="form-control" value="{{ $lead->msw_yards or old('msw_yards') }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <?php $amount = $lead->msw_yards ?? old('msw_yards'); ?>
+                                <input type="number" step=".1" name="msw_yards" class="form-control" value="{{ number_format($amount, 1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="msw_per_week" class="form-control" value="{{ $lead->msw_per_week or old('msw_per_week') }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <?php $amount = $lead->msw_per_week ?? old('msw_per_week'); ?>
+                                <input type="number" steps=".1" name="msw_per_week" class="form-control" value="{{ number_format($amount, 1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                         </tr>
                         <!-- Recycling -->
@@ -154,10 +156,12 @@
                                 <input type="text" name="rec_qty" class="form-control" value="{{ $lead->rec_qty or old('rec_qty') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="rec_yards" class="form-control" value="{{ $lead->rec_yards or old('rec_yards') }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <?php $amount = $lead->rec_yards ?? old('rec_yards'); ?>
+                                <input type="number" step=".1" name="rec_yards" class="form-control" value="{{ number_format($amount,1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="rec_per_week" class="form-control" value="{{ $lead->rec_per_week or old('rec_per_week') }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <?php $amount = $lead->rec_per_week ?? old('rec_per_week'); ?>
+                                <input type="number" step=".1" name="rec_per_week" class="form-control" value="{{ number_format($amount,1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                         </tr>
                     </tbody>
