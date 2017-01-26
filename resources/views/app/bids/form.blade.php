@@ -25,7 +25,7 @@
 
                 <h2 class="text-center">Submit a bid for {{ $lead->company }}</h2>
 
-                <p class="text-center">{{ $lead->address }} {{ $lead->city->name }}</p>
+                <p class="text-center">{{ $lead->address }}</p>
 
                 <p class="text-center">{{ $lead->notes }}</p>
 
