@@ -1,7 +1,7 @@
 <p>Dear {{ $hauler->name }},</p>
 
 <p>Your company has been servicing {{ $lead->company }} at
-    {{ $lead->address . $lead->city->name }} for the last several years.  Thank you.</p>
+    {{ $lead->address }} for the last several years.  Thank you.</p>
 
 <p>It recently came to our attention that a different waste hauler is offering a very competitive price
     of ${{ $bid->net_monthly }} for the same service levels.  Will you consider matching this price
