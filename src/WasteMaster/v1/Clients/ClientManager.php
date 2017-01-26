@@ -482,7 +482,7 @@ class ClientManager
         // No lead? We need to make one.
         $lead = $this->leads->findOrCreate([
             'company' => $client->company,
-            'city_id' => $client->city_id
+            'address' => $client->address
         ]);
 
         $client->lead_id = $lead->id;
@@ -525,7 +525,7 @@ class ClientManager
             {
                 $data['company'] = $client->company;
                 $data['address'] = $client->address;
-                $data['city_id'] = $client->city_id;
+                $data['service_area_id'] = $client->service_area_id;
                 $data['contact_name'] = $client->contact_name;
                 $data['contact_email'] = $client->contact_email;
                 $data['account_num'] = $client->account_num;

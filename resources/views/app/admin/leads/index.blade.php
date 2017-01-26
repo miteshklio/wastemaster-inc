@@ -50,7 +50,7 @@
                             {{ $row->status() }}
                         @endif
                     </td>
-                    <td>@if (! empty($row->serviceArea)){{ $row->serviceArea->name }} @endif</td>
+                    <td>@if ($row->serviceArea !== null){{ $row->serviceArea->name }} @endif</td>
                     <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
                     <td class="hidden-xs">${{ number_format($row->monthly_price, 2) }}</td>
                     <td>{{ $row->cheapestBid() }}</td>

@@ -253,7 +253,7 @@ class ClientManagerTest extends UnitTestCase
         $client->shouldReceive('getAttribute')
                ->with('address');
         $client->shouldReceive('getAttribute')
-               ->with('city_id');
+               ->with('service_area_id');
         $client->shouldReceive('getAttribute')
                ->with('contact_name');
         $client->shouldReceive('getAttribute')

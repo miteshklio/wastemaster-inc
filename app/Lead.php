@@ -46,7 +46,7 @@ class Lead extends Model
 
     public function serviceArea()
     {
-        return $this->hasOne('App\City', 'id', 'service_area_id');
+        return $this->hasOne('App\ServiceArea', 'id', 'service_area_id');
     }
 
     /**
