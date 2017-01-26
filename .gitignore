@@ -22,3 +22,6 @@ _ide_helper.php
 php_errors.log
 *.swp
 *.DS_Store
+
+master-release*
+staging-release*
