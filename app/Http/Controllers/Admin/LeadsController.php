@@ -41,14 +41,17 @@ class LeadsController extends Controller
             'status'     => 'Status',
             'service_area_id' => 'Service Area',
             'created_at'  => 'Created At',
-            'Current $',
-            'Cheapest Bid',
+            'leads.monthly_price' => 'Current $',
+            'low_bid'     => 'Cheapest Bid',
         ])
             ->searchColumns(['company', 'status'])
             ->setAlwaysSort('archived', 'asc')
             ->setDefaultSort('created_at', 'desc')
             ->hideOnMobile(['created_at', 'Current $'])
             ->eagerLoad('city')
+            ->select('leads.*',
+                \DB::raw('(SELECT net_monthly FROM bids WHERE bids.lead_id = leads.id AND bids.archived=0 ORDER BY net_monthly LIMIT 0,1) as low_bid')
+            )
             ->prepare(20);
 
         return view('app.admin.leads.index')->with([
