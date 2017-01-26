@@ -55,11 +55,11 @@
                 <div class="form-group">
                     <label for="service_area_id" class="control-label col-sm-4">Service Area:</label>
                     <div class="col-sm-8">
-                        <select name="service_area_id" class="form-control" @if (isset($lead) && $lead->archived) disabled @endif>
+                        <select name="service_area_id" class="form-control" @if (isset($client) && $client->archived) disabled @endif>
                             <option value="0">Select a Service Area...</option>
                             @if ($serviceAreas)
                                 @foreach ($serviceAreas as $area)
-                                    <option value="{{ $area->id }}" @if (isset($lead) && $lead->service_area_id == $area->id) selected @endif>
+                                    <option value="{{ $area->id }}" @if (isset($client) && $client->service_area_id == $area->id) selected @endif>
                                         {{ $area->name }}
                                     </option>
                                 @endforeach
