@@ -127,7 +127,16 @@ class DataTable
             $this->model = $this->model->where(function($query) {
                 foreach ($this->searchable as $column)
                 {
-                    $query = $query->orWhere($column, 'like', '%'.$this->searchTerm.'%');
+                    $shortColumn = trim(substr($column, strpos($column, '.')), '.');
+
+                    if ($shortColumn == 'id' && is_numeric($this->searchTerm))
+                    {
+                        $query = $query->orWhere($column, $this->searchTerm);
+                    }
+                    else
+                    {
+                        $query = $query->orWhere($column, 'like', '%'.$this->searchTerm.'%');
+                    }
                 }
             });
         }
