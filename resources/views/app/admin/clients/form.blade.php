@@ -202,7 +202,7 @@
                 <div class="col-sm-7">
                     <div class="input-group">
                         <div class="input-group-addon">$</div>
-                        <input type="text" class="form-control fee" name="rec_offset" id="rec_offset" value="{{ $client->msw_price or old('rec_offset') }}" required @if (isset($client) && $client->archived) disabled @endif />
+                        <input type="text" class="form-control fee" name="rec_offset" id="rec_offset" value="{{ $client->rec_offset or old('rec_offset') }}" required @if (isset($client) && $client->archived) disabled @endif />
                     </div>
                 </div>
             </div>
