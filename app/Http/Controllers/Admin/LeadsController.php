@@ -157,6 +157,7 @@ class LeadsController extends Controller
         $lowBid = $lead->cheapestBidObject();
         $showPostBid = $this->leads->shouldShowPostMatchBid($lead, $lowBid);
 
+
         return view('app.admin.leads.form', [
             'lead' => $lead,
             'editMode' => true,
