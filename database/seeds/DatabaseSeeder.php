@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         // Testing Seeds
         if(env('APP_ENV') == 'testing') {
             $this->call(TestUserSeeder::class);
+            $this->call(TestHaulerSeeder::class);
+            $this->call(TestServiceAreaSeeder::class);
         }
     }
 }

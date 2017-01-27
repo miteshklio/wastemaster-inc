@@ -53,15 +53,24 @@
                 <div class="form-group">
                     <label for="address" class="control-label col-sm-4">Address</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="address" value="{{ $lead->address or old('address') }}" required @if (isset($lead) && $lead->archived) disabled @endif />
+                        <textarea name="address"rows="4" class="form-control" required @if (isset($lead) && $lead->archived) disabled @endif>{{ $lead->address or old('address') }}</textarea>
                     </div>
                 </div>
 
-                <!-- City/State -->
+                <!-- Service Area -->
                 <div class="form-group">
-                    <label for="city" class="control-label col-sm-4">City:</label>
+                    <label for="service_area_id" class="control-label col-sm-4">Service Area:</label>
                     <div class="col-sm-8">
-                        <input class="typeahead form-control" name="city" value="{{ $lead->city->name or old('city') }}" required @if (isset($lead) && $lead->archived) disabled @endif>
+                        <select name="service_area_id" class="form-control" @if (isset($lead) && $lead->archived) disabled @endif>
+                            <option value="0">Select a Service Area...</option>
+                            @if ($serviceAreas)
+                                @foreach ($serviceAreas as $area)
+                                    <option value="{{ $area->id }}" @if (isset($lead) && $lead->service_area_id == $area->id) selected @endif>
+                                        {{ $area->name }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                 </div>
 
@@ -128,10 +137,12 @@
                                 <input type="text" name="msw_qty" class="form-control" value="{{ $lead->msw_qty or old('msw_qty') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="msw_yards" class="form-control" value="{{ $lead->msw_yards or old('msw_yards') }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <?php $amount = $lead->msw_yards ?? old('msw_yards'); ?>
+                                <input type="number" step=".1" name="msw_yards" class="form-control" value="{{ number_format($amount, 1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="msw_per_week" class="form-control" value="{{ $lead->msw_per_week or old('msw_per_week') }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <?php $amount = $lead->msw_per_week ?? old('msw_per_week'); ?>
+                                <input type="number" step=".1" name="msw_per_week" class="form-control" value="{{ number_format($amount, 1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                         </tr>
                         <!-- Recycling -->
@@ -145,10 +156,12 @@
                                 <input type="text" name="rec_qty" class="form-control" value="{{ $lead->rec_qty or old('rec_qty') }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="rec_yards" class="form-control" value="{{ $lead->rec_yards or old('rec_yards') }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <?php $amount = $lead->rec_yards ?? old('rec_yards'); ?>
+                                <input type="number" step=".1" name="rec_yards" class="form-control" value="{{ number_format($amount,1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="rec_per_week" class="form-control" value="{{ $lead->rec_per_week or old('rec_per_week') }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <?php $amount = $lead->rec_per_week ?? old('rec_per_week'); ?>
+                                <input type="number" step=".1" name="rec_per_week" class="form-control" value="{{ number_format($amount,1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                         </tr>
                     </tbody>
@@ -178,9 +191,9 @@
 
                 <div class="text-center">
                     @if(request()->is('admin/hauler'))
-                        <input type="submit" class="btn btn-success" value="Create Lead" @if (isset($lead) && $lead->archived) disabled @endif>
+                        <input type="submit" name="submit" class="btn btn-success" value="Create Lead" @if (isset($lead) && $lead->archived) disabled @endif>
                     @else
-                        <input type="submit" class="btn btn-success" value="Save Lead" @if (isset($lead) && $lead->archived) disabled @endif>
+                        <input type="submit" name="submit" class="btn btn-success" value="Save Lead" @if (isset($lead) && $lead->archived) disabled @endif>
                     @endif
                 </div>
 

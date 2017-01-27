@@ -13,6 +13,7 @@ use WasteMaster\v1\Leads\LeadExists;
 use WasteMaster\v1\Leads\LeadManager;
 use WasteMaster\v1\Leads\LeadNotFound;
 use WasteMaster\v1\Helpers\DataTable;
+use WasteMaster\v1\ServiceAreas\ServiceAreaManager;
 
 class LeadsController extends Controller
 {
@@ -36,18 +37,21 @@ class LeadsController extends Controller
 
         $datatable->showColumns([
             'company'    => 'Name',
-            'bid_count' => '# of Bids',
+            'bid_count'  => '# of Bids',
             'status'     => 'Status',
-            'city_id'    => 'City',
-            'created_at' => 'Created At',
-            'Current $',
-            'Cheapest Bid',
+            'service_area_id' => 'Service Area',
+            'created_at'  => 'Created At',
+            'leads.monthly_price' => 'Current $',
+            'low_bid'     => 'Cheapest Bid',
         ])
             ->searchColumns(['company', 'status'])
             ->setAlwaysSort('archived', 'asc')
             ->setDefaultSort('created_at', 'desc')
             ->hideOnMobile(['created_at', 'Current $'])
             ->eagerLoad('city')
+            ->select('leads.*',
+                \DB::raw('(SELECT net_monthly FROM bids WHERE bids.lead_id = leads.id AND bids.archived=0 ORDER BY net_monthly ASC LIMIT 0,1) as low_bid')
+            )
             ->prepare(20);
 
         return view('app.admin.leads.index')->with([
@@ -60,11 +64,12 @@ class LeadsController extends Controller
     /**
      * Displays the create Lead form.
      */
-    public function newLead(HaulerManager $haulers)
+    public function newLead(HaulerManager $haulers, ServiceAreaManager $areas)
     {
         return view('app.admin.leads.form', [
             'editMode' => false,
-            'haulers' => $haulers->all()
+            'haulers' => $haulers->all(),
+            'serviceAreas' => $areas->all()
         ]);
     }
 
@@ -80,7 +85,7 @@ class LeadsController extends Controller
         $this->validate($request, [
             'company' => 'required|max:255',
             'address' => 'required',
-            'city' => 'required',
+            'service_area_id' => 'required',
             'contact_name' => 'required|max:255',
             'contact_email' => 'required|email|max:255',
             'account_num' => 'required|max:255',
@@ -99,7 +104,7 @@ class LeadsController extends Controller
             $lead = $this->leads
                 ->setCompany($request->input('company'))
                 ->setAddress($request->input('address'))
-                ->setCity($request->input('city'))
+                ->setServiceAreaID($request->input('service_area_id'))
                 ->setContactName($request->input('contact_name'))
                 ->setContactEmail($request->input('contact_email'))
                 ->setAccountNum($request->input('account_num'))
@@ -128,13 +133,14 @@ class LeadsController extends Controller
     /**
      * Displays the edit a Lead form.
      *
-     * @param HaulerManager                          $haulers
-     * @param \WasteMaster\v1\History\HistoryManager $history
-     * @param int                                    $leadID
+     * @param HaulerManager                                   $haulers
+     * @param \WasteMaster\v1\History\HistoryManager          $history
+     * @param \WasteMaster\v1\ServiceAreas\ServiceAreaManager $areas
+     * @param int                                             $leadID
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show(HaulerManager $haulers, HistoryManager $history, int $leadID)
+    public function show(HaulerManager $haulers, HistoryManager $history, ServiceAreaManager $areas, int $leadID)
     {
         $lead = $this->leads->find($leadID);
 
@@ -163,6 +169,7 @@ class LeadsController extends Controller
             'postMatchHistory' => $history->findForLead($leadID, 'post_match_request'),
             'isCurrentMatching' => $this->leads->doesCurrentHaulerMatch($lead),
             'showPostMatchBid' => $showPostBid,
+            'serviceAreas' => $areas->all()
         ]);
     }
 
@@ -179,7 +186,7 @@ class LeadsController extends Controller
         $this->validate($request, [
             'company' => 'required|max:255',
             'address' => 'required',
-            'city' => 'required',
+            'service_area_id' => 'required',
             'contact_name' => 'required|max:255',
             'contact_email' => 'required|email|max:255',
             'account_num' => 'required|max:255',
@@ -198,7 +205,7 @@ class LeadsController extends Controller
             $this->leads
                 ->setCompany($request->input('company'))
                 ->setAddress($request->input('address'))
-                ->setCity($request->input('city'))
+                ->setServiceAreaID($request->input('service_area_id'))
                 ->setContactName($request->input('contact_name'))
                 ->setContactEmail($request->input('contact_email'))
                 ->setAccountNum($request->input('account_num'))

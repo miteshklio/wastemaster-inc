@@ -26,9 +26,19 @@
                     <input type="text" class="form-control" name="name" value="{{ $hauler->name or old('name') }}" autofocus required />
                 </div>
 
+                <!-- Service Area -->
                 <div class="form-group">
-                    <label for="city">City:</label>
-                    <input class="typeahead form-control" name="city" value="{{ $hauler->city->name or old('city') }}" required>
+                    <label for="service_area_id">Service Area:</label>
+                    <select name="service_area_id" class="form-control" @if (isset($hauler) && $hauler->archived) disabled @endif>
+                        <option value="0">Select a Service Area...</option>
+                        @if ($serviceAreas)
+                            @foreach ($serviceAreas as $area)
+                                <option value="{{ $area->id }}" @if (isset($hauler) && $hauler->service_area_id == $area->id) selected @endif>
+                                    {{ $area->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
                 </div>
 
                 <div class="row">

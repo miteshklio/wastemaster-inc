@@ -47,15 +47,24 @@
                 <div class="form-group">
                     <label for="address" class="control-label col-sm-4">Address</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="address" value="{{ $client->address or old('address') }}" required @if (isset($client) && $client->archived) disabled @endif />
+                        <textarea name="address"  rows="4" class="form-control" required @if (isset($client) && $client->archived) disabled @endif>{{ $client->address or old('address') }}</textarea>
                     </div>
                 </div>
 
-                <!-- City/State -->
+                <!-- Service Area -->
                 <div class="form-group">
-                    <label for="city" class="control-label col-sm-4">City:</label>
+                    <label for="service_area_id" class="control-label col-sm-4">Service Area:</label>
                     <div class="col-sm-8">
-                        <input class="typeahead form-control" name="city" value="{{ $client->city->name or old('city') }}" required @if (isset($client) && $client->archived) disabled @endif>
+                        <select name="service_area_id" class="form-control" @if (isset($client) && $client->archived) disabled @endif>
+                            <option value="0">Select a Service Area...</option>
+                            @if ($serviceAreas)
+                                @foreach ($serviceAreas as $area)
+                                    <option value="{{ $area->id }}" @if (isset($client) && $client->service_area_id == $area->id) selected @endif>
+                                        {{ $area->name }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                 </div>
 
@@ -122,10 +131,10 @@
                                 <input type="text" name="msw_qty" class="form-control" value="{{ $client->msw_qty or old('msw_qty') }}" @if (isset($client) && $client->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="msw_yards" class="form-control" value="{{ $client->msw_yards or old('msw_yards') }}" @if (isset($client) && $client->archived) disabled @endif>
+                                <input type="number" step=".1" name="msw_yards" class="form-control" value="{{ number_format($client->msw_yards ?? old('msw_yards'),1 ) }}" @if (isset($client) && $client->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="msw_per_week" class="form-control" value="{{ $client->msw_per_week or old('msw_per_week') }}" @if (isset($client) && $client->archived) disabled @endif>
+                                <input type="number" step=".1" name="msw_per_week" class="form-control" value="{{ number_format($client->msw_per_week ?? old('msw_per_week'),1) }}" @if (isset($client) && $client->archived) disabled @endif>
                             </td>
                         </tr>
                         <!-- Recycling -->
@@ -139,10 +148,10 @@
                                 <input type="text" name="rec_qty" class="form-control" value="{{ $client->rec_qty or old('rec_qty') }}" @if (isset($client) && $client->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="rec_yards" class="form-control" value="{{ $client->rec_yards or old('rec_yards') }}" @if (isset($client) && $client->archived) disabled @endif>
+                                <input type="number" step=".1"  name="rec_yards" class="form-control" value="{{ number_format($client->rec_yards ?? old('rec_yards'),1) }}" @if (isset($client) && $client->archived) disabled @endif>
                             </td>
                             <td>
-                                <input type="text" name="rec_per_week" class="form-control" value="{{ $client->rec_per_week or old('rec_per_week') }}" @if (isset($client) && $client->archived) disabled @endif>
+                                <input type="number" step=".1" name="rec_per_week" class="form-control" value="{{ number_format($client->rec_per_week ?? old('rec_per_week'),1) }}" @if (isset($client) && $client->archived) disabled @endif>
                             </td>
                         </tr>
                     </tbody>

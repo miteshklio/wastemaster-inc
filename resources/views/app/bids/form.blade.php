@@ -25,7 +25,7 @@
 
                 <h2 class="text-center">Submit a bid for {{ $lead->company }}</h2>
 
-                <p class="text-center">{{ $lead->address }} {{ $lead->city->name }}</p>
+                <p class="text-center">{{ $lead->address }}</p>
 
                 <p class="text-center">{{ $lead->notes }}</p>
 
@@ -82,7 +82,7 @@
                             </div>
 
                             <p class="text-center green">
-                                {{ $lead->msw_qty }} dumpsters, {{ $lead->msw_yards }} yds, {{ $lead->msw_per_week }}/week
+                                {{ $lead->msw_qty }} dumpsters, {{ $displayNumber($lead->msw_yards) }} yds, {{ $displayNumber($lead->msw_per_week) }}/week
                             </p>
 
                         </div>
@@ -100,7 +100,7 @@
                             </div>
 
                             <p class="green text-center">
-                                {{ $lead->rec_qty }} dumpsters, {{ $lead->rec_yards }} yds, {{ $lead->rec_per_week }}/week
+                                {{ $lead->rec_qty }} dumpsters, {{ $displayNumber($lead->rec_yards) }} yds, {{ $displayNumber($lead->rec_per_week) }}/week
                             </p>
 
                         </div>

@@ -36,6 +36,7 @@ class ClientManager
     protected $company;
     protected $address;
     protected $city_id;
+    protected $service_area_id;
     protected $contact_name;
     protected $contact_email;
     protected $account_num;
@@ -97,6 +98,7 @@ class ClientManager
         return $this;
     }
 
+
     /**
      * Looks up the appropriate city based on the city name.
      *
@@ -114,6 +116,13 @@ class ClientManager
         }
 
         $this->city_id = $city->id;
+
+        return $this;
+    }
+
+    public function setServiceAreaID(int $id)
+    {
+        $this->service_area_id = $id;
 
         return $this;
     }
@@ -334,7 +343,7 @@ class ClientManager
 
         // Does a Lead with this address
         // already exist?
-        if ($this->clients->where(['address' => $this->address, 'city_id' => $this->city_id])->count())
+        if ($this->clients->where(['address' => $this->address, 'service_area_id' => $this->service_area_id])->count())
         {
             throw new ClientExists(trans('messages.clientExists'));
         }
@@ -342,7 +351,8 @@ class ClientManager
         $lead = $this->clients->create([
             'company' => $this->company,
             'address' => $this->address,
-            'city_id' => $this->city_id,
+            'city_id' => (int)$this->city_id,
+            'service_area_id' => $this->service_area_id,
             'contact_name' => $this->contact_name,
             'contact_email' => $this->contact_email,
             'account_num' => $this->account_num,
@@ -411,6 +421,7 @@ class ClientManager
         if ($this->total !== null) $fields['total'] = (float)$this->total;
         if ($this->archived !== null) $fields['archived'] = $this->archived;
         if ($this->lead_id !== null) $fields['lead_id'] = $this->lead_id;
+        if ($this->service_area_id !== null) $fields['service_area_id'] = $this->service_area_id;
 
         if (! count($fields))
         {
@@ -427,7 +438,7 @@ class ClientManager
 
     public function find(int $id)
     {
-        $client = $this->clients->with(['city', 'hauler'])->find($id);
+        $client = $this->clients->with(['serviceArea', 'hauler'])->find($id);
 
         if ($client === null)
         {
@@ -471,7 +482,7 @@ class ClientManager
         // No lead? We need to make one.
         $lead = $this->leads->findOrCreate([
             'company' => $client->company,
-            'city_id' => $client->city_id
+            'address' => $client->address
         ]);
 
         $client->lead_id = $lead->id;
@@ -514,7 +525,7 @@ class ClientManager
             {
                 $data['company'] = $client->company;
                 $data['address'] = $client->address;
-                $data['city_id'] = $client->city_id;
+                $data['service_area_id'] = $client->service_area_id;
                 $data['contact_name'] = $client->contact_name;
                 $data['contact_email'] = $client->contact_email;
                 $data['account_num'] = $client->account_num;
@@ -557,6 +568,7 @@ class ClientManager
         $this->company = null;
         $this->address = null;
         $this->city_id = null;
+        $this->service_area_id = null;
         $this->contact_name = null;
         $this->contact_email = null;
         $this->account_num = null;
@@ -591,7 +603,7 @@ class ClientManager
         // doesWaste and doesRecycling will return
         // false alarm when a '0'.
         $requiredFields = [
-            'address', 'contact_name', 'contact_email', 'account_num'
+            'address', 'service_area_id', 'contact_name', 'contact_email', 'account_num'
         ];
 
         $errorFields = [];

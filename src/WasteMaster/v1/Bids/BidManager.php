@@ -341,8 +341,11 @@ class BidManager
 
         // Decrement our bid count on the lead
         $lead = $bid->lead;
-        $lead->bid_count = $lead->bid_count - 1;
-        $lead->save();
+        if (! empty($lead))
+        {
+            $lead->bid_count = $lead->bid_count-1;
+            $lead->save();
+        }
 
         return $bid->delete();
     }
