@@ -29,11 +29,11 @@
                 <!-- Service Area -->
                 <div class="form-group">
                     <label for="service_area_id">Service Area:</label>
-                    <select name="service_area_id" class="form-control" @if (isset($lead) && $lead->archived) disabled @endif>
+                    <select name="service_area_id" class="form-control" @if (isset($hauler) && $hauler->archived) disabled @endif>
                         <option value="0">Select a Service Area...</option>
                         @if ($serviceAreas)
                             @foreach ($serviceAreas as $area)
-                                <option value="{{ $area->id }}" @if (isset($lead) && $lead->service_area_id == $area->id) selected @endif>
+                                <option value="{{ $area->id }}" @if (isset($hauler) && $hauler->service_area_id == $area->id) selected @endif>
                                     {{ $area->name }}
                                 </option>
                             @endforeach
