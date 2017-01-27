@@ -142,7 +142,7 @@
                             </td>
                             <td>
                                 <?php $amount = $lead->msw_per_week ?? old('msw_per_week'); ?>
-                                <input type="number" steps=".1" name="msw_per_week" class="form-control" value="{{ number_format($amount, 1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
+                                <input type="number" step=".1" name="msw_per_week" class="form-control" value="{{ number_format($amount, 1) }}" @if (isset($lead) && $lead->archived) disabled @endif>
                             </td>
                         </tr>
                         <!-- Recycling -->
