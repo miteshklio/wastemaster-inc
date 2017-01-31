@@ -110,14 +110,14 @@ class LeadsController extends Controller
                 ->setAccountNum($request->input('account_num'))
                 ->setHaulerID($request->input('hauler_id'))
                 ->setWaste(
-                    (int)$request->input('msw_qty'),
-                    (int)$request->input('msw_yards'),
-                    (int)$request->input('msw_per_week')
+                    $request->input('msw_qty'),
+                    $request->input('msw_yards'),
+                    $request->input('msw_per_week')
                 )
                 ->setRecycling(
-                    (int)$request->input('rec_qty'),
-                    (int)$request->input('rec_yards'),
-                    (int)$request->input('rec_per_week')
+                    $request->input('rec_qty'),
+                    $request->input('rec_yards'),
+                    $request->input('rec_per_week')
                 )
                 ->setMonthlyPrice($request->input('monthly_price'))
                 ->setNotes($request->input('notes'))
