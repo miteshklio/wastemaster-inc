@@ -20,7 +20,12 @@
 
     @if ($datatable->hasResults())
 
-        <p>{!! $datatable->renderMeta() !!}</p>
+        <p>
+            {!! $datatable->renderMeta() !!}
+            @if (isset($_GET['lead']))
+                &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ route('bids::home') }}">Show for all Leads</a>
+            @endif
+        </p>
 
         <table class="table">
             {!! $datatable->renderHeader('table') !!}

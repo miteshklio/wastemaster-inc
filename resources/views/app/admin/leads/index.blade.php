@@ -36,7 +36,7 @@
                     </td>
                     <td class="text-center">
                         @if ($row->bid_count > 0)
-                        <a href="{{ route('bids::home').'?search='. $row->id }}">
+                        <a href="{{ route('bids::home').'?lead='. $row->id }}">
                             {{ (int)$row->bid_count }}
                         </a>
                         @else

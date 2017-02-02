@@ -141,6 +141,11 @@ class DataTable
             });
         }
 
+        if (isset($_GET['lead']) && is_numeric($_GET['lead']))
+        {
+            $this->model = $this->model->where('lead_id', (int)$_GET['lead']);
+        }
+
         if(count($this->joins))
         {
             foreach ($this->joins as $join)
