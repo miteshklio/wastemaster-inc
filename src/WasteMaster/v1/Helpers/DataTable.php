@@ -464,11 +464,22 @@ class DataTable
         {
             $column = is_numeric($key) ? $value : $key;
 
-            $sort = http_build_query([
+            $query = [
                 'sort' => $column,
                 'sort_dir' => $this->sortDirection == 'asc' ? 'desc' : 'asc',
-                'search'   => $this->searchTerm
-            ]);
+            ];
+
+            if (! empty($this->searchTerm))
+            {
+                $query['search'] = $this->searchTerm;
+            }
+
+            if (! empty($_GET['lead']))
+            {
+                $query['lead'] = $_GET['lead'];
+            }
+
+            $sort = http_build_query($query);
 
             $link = "<a href='{$this->url}?{$sort}'>{$value}</a>";
 
