@@ -74,6 +74,8 @@ class LeadManagerTest extends UnitTestCase
             ->setHaulerID(3)
             ->setWaste(1, 2, 3)
             ->setRecycling(4,5,6)
+            ->setWaste2(2, 3, 4)
+            ->setRecycling2(5,6,7)
             ->setMonthlyPrice(123)
             ->create();
     }
@@ -162,6 +164,8 @@ class LeadManagerTest extends UnitTestCase
 
         $response = $this->manager
             ->setCompany('company b')
+            ->setWaste2(2, 3, 4)
+            ->setRecycling2(5,6,7)
             ->update(12);
 
         $this->assertEquals($this->leads, $response);

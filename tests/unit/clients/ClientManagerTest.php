@@ -101,6 +101,12 @@ class ClientManagerTest extends UnitTestCase
             'rec_qty' => 4,
             'rec_yards' => 5,
             'rec_per_week' => 6,
+            'msw2_qty' => 2,
+            'msw2_yards' => 3,
+            'msw2_per_week' => 4,
+            'rec2_qty' => 5,
+            'rec2_yards' => 6,
+            'rec2_per_week' => 7,
             'prior_total' => 100,
             'msw_price' => 123,
             'rec_price' => 456,
@@ -136,6 +142,8 @@ class ClientManagerTest extends UnitTestCase
             ->setHaulerID(3)
             ->setWaste(1, 2, 3)
             ->setRecycling(4,5,6)
+            ->setWaste2(2, 3, 4)
+            ->setRecycling2(5,6,7)
             ->setPriorTotal(100)
             ->setWastePrice(123)
             ->setRecyclePrice(456)
