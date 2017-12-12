@@ -572,6 +572,12 @@ class ClientManager
                 $data['rec_qty'] = $client->rec_qty;
                 $data['rec_yards'] = $client->rec_yards;
                 $data['rec_per_week'] = $client->rec_per_week;
+                $data['msw2_qty'] = $client->msw2_qty;
+                $data['msw2_yards'] = $client->msw2_yards;
+                $data['msw2_per_week'] = $client->msw2_per_week;
+                $data['rec2_qty'] = $client->rec2_qty;
+                $data['rec2_yards'] = $client->rec2_yards;
+                $data['rec2_per_week'] = $client->rec2_per_week;
                 $data['monthly_price'] = $client->total;
                 $data['gross_profit'] = $client->gross_profit;
             }
