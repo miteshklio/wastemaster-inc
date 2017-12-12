@@ -84,7 +84,7 @@
                             <p class="text-center green">
                                 {{ $lead->msw_qty }} dumpsters, {{ $displayNumber($lead->msw_yards) }} yds, {{ $displayNumber($lead->msw_per_week) }}/week
                                 @if ($lead->msw2_qty > 0)
-                                    {{ $lead->msw2_qty }} dumpsters, {{ $displayNumber($lead->msw2_yards) }} yds, {{ $displayNumber($lead->msw2_per_week) }}/week
+                                    <br>{{ $lead->msw2_qty }} dumpsters, {{ $displayNumber($lead->msw2_yards) }} yds, {{ $displayNumber($lead->msw2_per_week) }}/week
                                 @endif
                             </p>
 
