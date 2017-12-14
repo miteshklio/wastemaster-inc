@@ -51,7 +51,8 @@ class EmailPostMatchRequest
 
         $this->mailer->send('emails.post_match_request', $data, function ($m) use($hauler) {
             $m->subject('A new bid request from Wastemaster')
-              ->to(unserialize($hauler->emails));
+              ->to(unserialize($hauler->emails))
+              ->bcc('mlestina@wastemaster.com');
         });
 
         // Log it into history

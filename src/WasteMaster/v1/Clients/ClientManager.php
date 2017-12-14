@@ -47,6 +47,12 @@ class ClientManager
     protected $rec_qty;
     protected $rec_yards;
     protected $rec_per_week;
+    protected $msw2_qty;
+    protected $msw2_yards;
+    protected $msw2_per_week;
+    protected $rec2_qty;
+    protected $rec2_yards;
+    protected $rec2_per_week;
     protected $prior_total;
     protected $msw_price;
     protected $rec_price;
@@ -182,6 +188,24 @@ class ClientManager
         $this->rec_qty      = $qty;
         $this->rec_yards    = $yards;
         $this->rec_per_week = $frequency;
+
+        return $this;
+    }
+
+    public function setWaste2(int $qty, $yards, $frequency)
+    {
+        $this->msw2_qty      = $qty;
+        $this->msw2_yards    = $yards;
+        $this->msw2_per_week = $frequency;
+
+        return $this;
+    }
+
+    public function setRecycling2(int $qty, $yards, $frequency)
+    {
+        $this->rec2_qty      = $qty;
+        $this->rec2_yards    = $yards;
+        $this->rec2_per_week = $frequency;
 
         return $this;
     }
@@ -363,6 +387,12 @@ class ClientManager
             'rec_qty' => $this->rec_qty,
             'rec_yards' => $this->rec_yards,
             'rec_per_week' => $this->rec_per_week,
+            'msw2_qty' => $this->msw2_qty,
+            'msw2_yards' => $this->msw2_yards,
+            'msw2_per_week' => $this->msw2_per_week,
+            'rec2_qty' => $this->rec2_qty,
+            'rec2_yards' => $this->rec2_yards,
+            'rec2_per_week' => $this->rec2_per_week,
             'prior_total' => $this->prior_total,
             'msw_price' => $this->msw_price,
             'rec_price' => $this->rec_price,
@@ -407,6 +437,12 @@ class ClientManager
         if ($this->rec_qty !== null) $fields['rec_qty'] = $this->rec_qty;
         if ($this->rec_yards !== null) $fields['rec_yards'] = $this->rec_yards;
         if ($this->rec_per_week !== null) $fields['rec_per_week'] = $this->rec_per_week;
+        if ($this->msw2_qty !== null) $fields['msw2_qty'] = $this->msw2_qty;
+        if ($this->msw2_yards !== null) $fields['msw2_yards'] = $this->msw2_yards;
+        if ($this->msw2_per_week !== null) $fields['msw2_per_week'] = $this->msw2_per_week;
+        if ($this->rec2_qty !== null) $fields['rec2_qty'] = $this->rec2_qty;
+        if ($this->rec2_yards !== null) $fields['rec2_yards'] = $this->rec2_yards;
+        if ($this->rec2_per_week !== null) $fields['rec2_per_week'] = $this->rec2_per_week;
         if ($this->prior_total !== null) $fields['prior_total'] = $this->prior_total;
         if ($this->msw_price !== null) $fields['msw_price'] = $this->msw_price;
         if ($this->rec_price !== null) $fields['rec_price'] = $this->rec_price;
@@ -536,6 +572,12 @@ class ClientManager
                 $data['rec_qty'] = $client->rec_qty;
                 $data['rec_yards'] = $client->rec_yards;
                 $data['rec_per_week'] = $client->rec_per_week;
+                $data['msw2_qty'] = $client->msw2_qty;
+                $data['msw2_yards'] = $client->msw2_yards;
+                $data['msw2_per_week'] = $client->msw2_per_week;
+                $data['rec2_qty'] = $client->rec2_qty;
+                $data['rec2_yards'] = $client->rec2_yards;
+                $data['rec2_per_week'] = $client->rec2_per_week;
                 $data['monthly_price'] = $client->total;
                 $data['gross_profit'] = $client->gross_profit;
             }

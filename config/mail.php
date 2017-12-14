@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => env('MAIL_FROM', 'no-reply@vaultinnovation.com'), 'name' => env('MAIL_FROM_NAME', 'Wastemaster Support')],
+    'from' => ['address' => env('MAIL_FROM', 'no-reply@wastemaster.com'), 'name' => env('MAIL_FROM_NAME', 'Wastemaster Support')],
 
     /*
     |--------------------------------------------------------------------------

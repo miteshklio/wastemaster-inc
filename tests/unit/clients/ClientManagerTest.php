@@ -101,6 +101,12 @@ class ClientManagerTest extends UnitTestCase
             'rec_qty' => 4,
             'rec_yards' => 5,
             'rec_per_week' => 6,
+            'msw2_qty' => 2,
+            'msw2_yards' => 3,
+            'msw2_per_week' => 4,
+            'rec2_qty' => 5,
+            'rec2_yards' => 6,
+            'rec2_per_week' => 7,
             'prior_total' => 100,
             'msw_price' => 123,
             'rec_price' => 456,
@@ -136,6 +142,8 @@ class ClientManagerTest extends UnitTestCase
             ->setHaulerID(3)
             ->setWaste(1, 2, 3)
             ->setRecycling(4,5,6)
+            ->setWaste2(2, 3, 4)
+            ->setRecycling2(5,6,7)
             ->setPriorTotal(100)
             ->setWastePrice(123)
             ->setRecyclePrice(456)
@@ -225,74 +233,47 @@ class ClientManagerTest extends UnitTestCase
         $client = m::mock('App\Client');
         $bid = m::mock('App\Bid');
 
-        $this->clients->shouldReceive('with->find')
-            ->once()
-            ->andReturn($client);
-        $client->shouldReceive('getAttribute')
-            ->with('lead')
-            ->andReturn($lead);
-        $client->shouldReceive('getAttribute')
-            ->with('total')
-            ->andReturn(50);
+        $this->clients->shouldReceive('with->find')->once()->andReturn($client);
+        $client->shouldReceive('getAttribute')->with('lead')->andReturn($lead);
+        $client->shouldReceive('getAttribute')->with('total')->andReturn(50);
 
-        $this->lead->shouldReceive('firstOrCreate')
-            ->once()
-            ->andReturn($lead);
-        $lead->shouldReceive('getAttribute')
-            ->with('id')
-            ->andReturn(1);
-        $client->shouldReceive('setAttribute')
-            ->with('lead_id', 1);
-        $client->shouldReceive('save')
-            ->andReturn($client);
+        $this->lead->shouldReceive('firstOrCreate')->once()->andReturn($lead);
+        $lead->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $client->shouldReceive('setAttribute')->with('lead_id', 1);
+        $client->shouldReceive('save')->andReturn($client);
 
         // Update Lead
         $lead->shouldReceive('update');
-        $client->shouldReceive('getAttribute')
-            ->with('company');
-        $client->shouldReceive('getAttribute')
-               ->with('address');
-        $client->shouldReceive('getAttribute')
-               ->with('service_area_id');
-        $client->shouldReceive('getAttribute')
-               ->with('contact_name');
-        $client->shouldReceive('getAttribute')
-               ->with('contact_email');
-        $client->shouldReceive('getAttribute')
-               ->with('account_num');
-        $client->shouldReceive('getAttribute')
-               ->with('hauler_id');
-        $client->shouldReceive('getAttribute')
-               ->with('msw_qty');
-        $client->shouldReceive('getAttribute')
-               ->with('msw_yards');
-        $client->shouldReceive('getAttribute')
-               ->with('msw_per_week');
-        $client->shouldReceive('getAttribute')
-               ->with('rec_qty');
-        $client->shouldReceive('getAttribute')
-               ->with('rec_yards');
-        $client->shouldReceive('getAttribute')
-               ->with('rec_per_week');
-        $client->shouldReceive('getAttribute')
-               ->with('gross_profit');
+        $client->shouldReceive('getAttribute')->with('company')->twice();
+        $client->shouldReceive('getAttribute')->with('address')->twice();
+        $client->shouldReceive('getAttribute')->with('service_area_id')->once();
+        $client->shouldReceive('getAttribute')->with('contact_name')->once();
+        $client->shouldReceive('getAttribute')->with('contact_email')->once();
+        $client->shouldReceive('getAttribute')->with('account_num')->once();
+        $client->shouldReceive('getAttribute')->with('hauler_id')->once();
+        $client->shouldReceive('getAttribute')->with('msw_qty')->once();
+        $client->shouldReceive('getAttribute')->with('msw_yards')->once();
+        $client->shouldReceive('getAttribute')->with('msw_per_week')->once();
+        $client->shouldReceive('getAttribute')->with('rec_qty')->once();
+        $client->shouldReceive('getAttribute')->with('rec_yards')->once();
+        $client->shouldReceive('getAttribute')->with('rec_per_week')->once();
+        $client->shouldReceive('getAttribute')->with('msw2_qty')->once();
+        $client->shouldReceive('getAttribute')->with('msw2_yards')->once();
+        $client->shouldReceive('getAttribute')->with('msw2_per_week')->once();
+        $client->shouldReceive('getAttribute')->with('rec2_qty')->once();
+        $client->shouldReceive('getAttribute')->with('rec2_yards')->once();
+        $client->shouldReceive('getAttribute')->with('rec2_per_week')->once();
+        $client->shouldReceive('getAttribute')->with('gross_profit')->once();
 
 
         // Archive Bids
-        $lead->shouldReceive('getAttribute')
-            ->with('bids')
-            ->andReturn([$bid]);
-        $bid->shouldReceive('setAttribute')
-            ->with('archived', 1);
+        $lead->shouldReceive('getAttribute')->with('bids')->andReturn([$bid]);
+        $bid->shouldReceive('setAttribute')->with('archived', 1);
         $bid->shouldReceive('save');
 
         // Delete Email History
-        $lead->shouldReceive('getAttribute')
-            ->with('id')
-            ->andReturn(1);
-        $this->history->shouldReceive('where')
-            ->with('lead_id', 1)
-            ->andReturn($this->history);
+        $lead->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $this->history->shouldReceive('where')->with('lead_id', 1)->andReturn($this->history);
         $this->history->shouldReceive('delete');
 
         $this->manager->rebidClient(1);

@@ -35,6 +35,12 @@ class LeadManager
     protected $rec_qty;
     protected $rec_yards;
     protected $rec_per_week;
+    protected $msw2_qty;
+    protected $msw2_yards;
+    protected $msw2_per_week;
+    protected $rec2_qty;
+    protected $rec2_yards;
+    protected $rec2_per_week;
     protected $monthly_price;
     protected $status;
     protected $archived;
@@ -163,6 +169,24 @@ class LeadManager
         return $this;
     }
 
+    public function setWaste2(int $qty=null, $yards=null, $frequency=null)
+    {
+        $this->msw2_qty      = $qty;
+        $this->msw2_yards    = $yards;
+        $this->msw2_per_week = $frequency;
+
+        return $this;
+    }
+
+    public function setRecycling2(int $qty=null, $yards=null, $frequency=null)
+    {
+        $this->rec2_qty      = $qty;
+        $this->rec2_yards    = $yards;
+        $this->rec2_per_week = $frequency;
+
+        return $this;
+    }
+
     public function setMonthlyPrice(float $price)
     {
         $this->monthly_price = $price;
@@ -224,6 +248,12 @@ class LeadManager
             'rec_qty' => $this->rec_qty,
             'rec_yards' => $this->rec_yards,
             'rec_per_week' => $this->rec_per_week,
+            'msw2_qty' => $this->msw2_qty,
+            'msw2_yards' => $this->msw2_yards,
+            'msw2_per_week' => $this->msw2_per_week,
+            'rec2_qty' => $this->rec2_qty,
+            'rec2_yards' => $this->rec2_yards,
+            'rec2_per_week' => $this->rec2_per_week,
             'monthly_price' => $this->monthly_price,
             'status' => Lead::NEW,
             'archived' => 0,
@@ -260,6 +290,12 @@ class LeadManager
         if ($this->rec_qty !== null) $fields['rec_qty'] = $this->rec_qty;
         if ($this->rec_yards !== null) $fields['rec_yards'] = $this->rec_yards;
         if ($this->rec_per_week !== null) $fields['rec_per_week'] = $this->rec_per_week;
+        if ($this->msw2_qty !== null) $fields['msw2_qty'] = $this->msw2_qty;
+        if ($this->msw2_yards !== null) $fields['msw2_yards'] = $this->msw2_yards;
+        if ($this->msw2_per_week !== null) $fields['msw2_per_week'] = $this->msw2_per_week;
+        if ($this->rec2_qty !== null) $fields['rec2_qty'] = $this->rec2_qty;
+        if ($this->rec2_yards !== null) $fields['rec2_yards'] = $this->rec2_yards;
+        if ($this->rec2_per_week !== null) $fields['rec2_per_week'] = $this->rec2_per_week;
         if ($this->monthly_price !== null) $fields['monthly_price'] = $this->monthly_price;
         if ($this->status !== null) $fields['status'] = $this->status;
         if ($this->archived !== null) $fields['archived'] = $this->archived;
