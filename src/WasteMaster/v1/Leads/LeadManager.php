@@ -402,6 +402,8 @@ class LeadManager
             ->setAccountNum($lead->account_num)
             ->setWaste($lead->msw_qty, $lead->msw_yards, $lead->msw_per_week)
             ->setRecycling($lead->rec_qty, $lead->rec_yards, $lead->rec_per_week)
+            ->setWaste2($lead->msw2_qty, $lead->msw2_yards, $lead->msw2_per_week)
+            ->setRecycling2($lead->rec2_qty, $lead->rec2_yards, $lead->rec2_per_week)
             ->setPriorTotal($lead->monthly_price)
             ->setWastePrice($bid->msw_price)
             ->setRecyclePrice($bid->rec_price)
