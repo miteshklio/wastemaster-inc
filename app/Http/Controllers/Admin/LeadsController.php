@@ -96,6 +96,12 @@ class LeadsController extends Controller
             'rec_qty' => 'integer',
             'rec_yards' => 'numeric',
             'rec_per_week' => 'numeric',
+            'msw2_qty' => 'integer',
+            'msw2_yards' => 'numeric',
+            'msw2_per_week' => 'numeric',
+            'rec2_qty' => 'integer',
+            'rec2_yards' => 'numeric',
+            'rec2_per_week' => 'numeric',
             'monthly_price' => 'numeric',
         ]);
 
@@ -118,6 +124,16 @@ class LeadsController extends Controller
                     $request->input('rec_qty'),
                     $request->input('rec_yards'),
                     $request->input('rec_per_week')
+                )
+                ->setWaste2(
+                    $request->input('msw2_qty'),
+                    $request->input('msw2_yards'),
+                    $request->input('msw2_per_week')
+                )
+                ->setRecycling2(
+                    $request->input('rec2_qty'),
+                    $request->input('rec2_yards'),
+                    $request->input('rec2_per_week')
                 )
                 ->setMonthlyPrice($request->input('monthly_price'))
                 ->setNotes($request->input('notes'))
