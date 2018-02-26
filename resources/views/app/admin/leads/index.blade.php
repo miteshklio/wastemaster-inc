@@ -43,6 +43,7 @@
                             0
                         @endif
                     </td>
+                    <td>{{ $row->contact_name }}</td>
                     <td>
                         @if ((int)$row->status === \App\Lead::BID_ACCEPTED && is_object($row->acceptedBid()))
                             <a href="{{ route('bids::show', ['id' => $row->acceptedBid()->id]) }}">Bid Accepted</a>
@@ -50,6 +51,7 @@
                             {{ $row->status() }}
                         @endif
                     </td>
+                    <td>{{ $row->hauler->name ?? '' }}</td>
                     <td>@if ($row->serviceArea !== null){{ $row->serviceArea->name }} @endif</td>
                     <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
                     <td class="hidden-xs">${{ number_format($row->monthly_price, 2) }}</td>

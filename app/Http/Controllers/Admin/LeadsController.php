@@ -38,7 +38,9 @@ class LeadsController extends Controller
         $datatable->showColumns([
             'company'    => 'Name',
             'bid_count'  => '# of Bids',
+            'contact_name' => 'Contact',
             'status'     => 'Status',
+            'hauler_id' => 'Current Hauler',
             'service_area_id' => 'Service Area',
             'created_at'  => 'Created At',
             'leads.monthly_price' => 'Current $',
