@@ -189,7 +189,8 @@ class LeadsController extends Controller
             'postMatchHistory' => $history->findForLead($leadID, 'post_match_request'),
             'isCurrentMatching' => $this->leads->doesCurrentHaulerMatch($lead),
             'showPostMatchBid' => $showPostBid,
-            'preMatchBid' => $matcher->matchFor($lead),
+            'preWasteMatch' => $matcher->matchWaste($lead),
+            'preRecycleMatch' => $matcher->matchRecycle($lead),
             'serviceAreas' => $areas->all()
         ]);
     }

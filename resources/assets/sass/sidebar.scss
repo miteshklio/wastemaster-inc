@@ -7,9 +7,14 @@ p.notice {
 
 .amt-lg {
   color: $dark-green;
-  font-size: 36px;
+  font-size: 30px;
   padding: 0;
   text-align: center;
+
+  span {
+    color: $light-gray;
+    font-size: 0.75em;
+  }
 }
 .side-block {
   margin-bottom: 50px;

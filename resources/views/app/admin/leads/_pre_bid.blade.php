@@ -2,12 +2,33 @@
 <div class="side-block @if($lead->archived) archived @endif">
     <h3>Pre-Bid Matching Price</h3>
 
-    @if ($preMatchBid !== null)
-        <p class="amt-lg">${{ number_format($preMatchBid->net_monthly, 2) }}</p>
-        <p class="text-center">by {{ $preMatchBid->hauler->name }} 
-            <br>on <a href="/admin/bid/{{ $preMatchBid->id }}">{{ $preMatchBid->created_at->format('F j, Y') }}</a>
-            <br>for <a href="/admin/lead/{{ $preMatchBid->lead_id }}">{{ $preMatchBid->lead->company }}</a>
+    @if ($preWasteMatch !== null || $preRecycleMatch !== null)
+        <p class="amt-lg">
+            @if ($preWasteMatch !== null)
+                ${{ number_format($preWasteMatch->net_monthly, 2) }}
+            @else
+                <span>MSW</span>
+            @endif
+            /
+            @if ($preRecycleMatch !== null)
+                ${{ number_format($preRecycleMatch->net_monthly, 2) }}
+            @else
+                <span>REC</span>
+            @endif
         </p>
+
+        @if ($preWasteMatch !== null)
+            <p class="text-center"><b>Waste Services Match:</b>
+                <br>by <a href="/admin/bid/{{ $preWasteMatch->id  }}">{{ $preWasteMatch->hauler->name }}</a>
+                <br>for <a href="/admin/lead/{{ $preWasteMatch->lead_id }}">{{ $preWasteMatch->lead->company }}</a>
+            </p>
+        @endif
+        @if ($preRecycleMatch !== null)
+            <p class="text-center"><b>Recycling Services Match:</b>
+                <br>by <a href="/admin/bid/{{ $preRecycleMatch->id }}">{{ $preRecycleMatch->hauler->name }}</a>
+                <br>for <a href="/admin/lead/{{ $preRecycleMatch->lead_id }}">{{ $preRecycleMatch->lead->company}}</a>
+            </p>
+        @endif
     @else
         <p>Not in system.</p>
     @endif
