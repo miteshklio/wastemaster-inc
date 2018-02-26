@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Lead;
 use Illuminate\Http\Request;
 use WasteMaster\v1\Bids\BidManager;
+use WasteMaster\v1\Bids\PreBidMatcher;
 use WasteMaster\v1\Clients\ClientManager;
 use WasteMaster\v1\Haulers\HaulerManager;
 use WasteMaster\v1\History\HistoryManager;
@@ -154,11 +155,13 @@ class LeadsController extends Controller
      * @param HaulerManager                                   $haulers
      * @param \WasteMaster\v1\History\HistoryManager          $history
      * @param \WasteMaster\v1\ServiceAreas\ServiceAreaManager $areas
+     * @param PreBidMatcher                                   $matcher
      * @param int                                             $leadID
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws LeadNotFound
      */
-    public function show(HaulerManager $haulers, HistoryManager $history, ServiceAreaManager $areas, int $leadID)
+    public function show(HaulerManager $haulers, HistoryManager $history, ServiceAreaManager $areas, PreBidMatcher $matcher, int $leadID)
     {
         $lead = $this->leads->find($leadID);
 
@@ -175,7 +178,6 @@ class LeadsController extends Controller
         $lowBid = $lead->cheapestBidObject();
         $showPostBid = $this->leads->shouldShowPostMatchBid($lead, $lowBid);
 
-
         return view('app.admin.leads.form', [
             'lead' => $lead,
             'editMode' => true,
@@ -187,6 +189,7 @@ class LeadsController extends Controller
             'postMatchHistory' => $history->findForLead($leadID, 'post_match_request'),
             'isCurrentMatching' => $this->leads->doesCurrentHaulerMatch($lead),
             'showPostMatchBid' => $showPostBid,
+            'preMatchBid' => $matcher->matchFor($lead),
             'serviceAreas' => $areas->all()
         ]);
     }
