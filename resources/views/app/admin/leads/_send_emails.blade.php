@@ -28,7 +28,7 @@
             <br>
 
             <input type="submit" class="btn btn-primary btn-block" value="Send Bid Requests"
-                   onclick="return confirm('Send bid request emails now?');" @if($lead->archived) disabled @endif>
+                   onclick="return confirm('Send match request to current hauler now?');" @if($lead->archived) disabled @endif>
 
             @if (! empty($bidRequestHistory) && $bidRequestHistory->count())
                 <?php
