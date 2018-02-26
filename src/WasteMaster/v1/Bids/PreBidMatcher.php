@@ -41,6 +41,7 @@ class PreBidMatcher
             ->select('bids.*')
             ->orderBy('net_monthly', 'asc')
             ->orderBy('bids.created_at', 'desc')
+            ->where('net_monthly', '>', 0)
             ->first();
     }
 

@@ -40,6 +40,7 @@ class BidManager
     protected $admin_fee;
     protected $other_fees;
     protected $net_monthly;
+    protected $no_bid;
 
     /**
      * Stores the IDs of all leads with "recent" bids.
@@ -232,6 +233,13 @@ class BidManager
         return $this;
     }
 
+    public function setNoBid(bool $noBid)
+    {
+        $this->no_bid = $noBid;
+
+        return $this;
+    }
+
 
     public function create()
     {
@@ -259,6 +267,7 @@ class BidManager
             'admin_fee' => $this->admin_fee,
             'other_fees' => $this->other_fees,
             'net_monthly' => $this->net_monthly,
+            'no_bid' => (int)$this->no_bid
         ]);
 
         $this->reset();
@@ -298,6 +307,7 @@ class BidManager
         if ($this->admin_fee !== null) $fields['admin_fee'] = $this->admin_fee;
         if ($this->other_fees !== null) $fields['other_fees'] = $this->other_fees;
         if ($this->net_monthly !== null) $fields['net_monthly'] = $this->net_monthly;
+        if ($this->no_bid !== null) $fields['no_bid'] = $this->no_bid;
 
         if (! count($fields))
         {

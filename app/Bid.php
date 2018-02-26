@@ -18,7 +18,7 @@ class Bid extends Model
         'hauler_id', 'hauler_email', 'lead_id', 'status', 'notes',
         'msw_qty', 'msw_yards', 'msw_per_week', 'rec_qty', 'rec_yards', 'rec_per_week', 'prior_total',
         'msw_price', 'rec_price', 'rec_offset', 'fuel_surcharge', 'env_surcharge', 'recovery_fee',
-        'admin_fee', 'other_fees', 'net_monthly', 'gross_profit'
+        'admin_fee', 'other_fees', 'net_monthly', 'gross_profit', 'no_bid'
     ];
 
     /**

@@ -112,6 +112,7 @@ class BidController extends Controller
                 ->setOtherFees($request->input('other_fees'))
                 ->setNet($request->input('net_monthly'))
                 ->setStatus(Bid::STATUS_LIVE)
+                ->setNoBid($request->has('no-bid'))
                 ->create();
 
             return redirect()->route('bids::thanks', ['code' => base64_encode($code)]);

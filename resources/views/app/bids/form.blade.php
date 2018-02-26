@@ -220,7 +220,8 @@
                     @if (empty($bid))
                     <div class="row">
                         <div class="col-sm-12 text-center">
-                            <input type="submit" class="btn btn-success btn-lg" value="Submit Bid!">
+                            <input type="submit" class="btn btn-success btn-lg" value="Submit Bid!"> &nbsp;
+                            <input type="submit" name="no-bid" class="btn btn-default btn-lg" value="Not In My Service Area">
                         </div>
                     </div>
                     @endif
