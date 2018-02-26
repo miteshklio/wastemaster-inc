@@ -13,7 +13,7 @@
 
                 <br><br>
 
-                <p class="text-center">Thanks for your interest in submitting a bid.</p>
+                <p class="text-center lead">Thanks for your interest in submitting a bid.</p>
 
                 <p class="text-center">A bid has already been accepted, however, so we are not
                     taking any more bids for this company.</p>
@@ -25,7 +25,7 @@
 
                 <h2 class="text-center">Submit a bid for {{ $lead->company }}</h2>
 
-                <p class="text-center">{{ $lead->address }}</p>
+                <p class="text-center lead">{{ $lead->address }}</p>
 
                 <p class="text-center">{{ $lead->notes }}</p>
 
