@@ -17,7 +17,7 @@ class History extends Model
      */
     public function lead()
     {
-        return $this->hasOne('App\Lead');
+        return $this->hasOne('App\Lead', 'id', 'lead_id');
     }
 
     /**
