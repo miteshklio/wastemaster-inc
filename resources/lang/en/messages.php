@@ -72,6 +72,8 @@ return [
     'bidAccepted' => 'The bid was accepted and all other bids for this lead have been closed.',
     'bidRescinded' => 'The bid was rescinded and all other bids for this lead have been re-opened.',
     'bidsNotFound' => 'Unable to locate any bids for that lead.',
+    'emailReminder' => 'Reminder - you have a new business opportunity',
+    'emailFinalReminder' => 'Final Reminder - you have a new business opportunity',
 
     // Service Areas
     'serviceAreaValidationErrors' => 'The following fields are required to create a new Service Area: :fields',

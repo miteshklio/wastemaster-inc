@@ -17,7 +17,7 @@ class History extends Model
      */
     public function lead()
     {
-        return $this->hasOne('App\Lead');
+        return $this->hasOne('App\Lead', 'id', 'lead_id');
     }
 
     /**
@@ -27,4 +27,5 @@ class History extends Model
     {
         return $this->hasOne('App\Hauler', 'id', 'hauler_id');
     }
+
 }

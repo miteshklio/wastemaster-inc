@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Lead;
 use Illuminate\Http\Request;
 use WasteMaster\v1\Bids\BidManager;
+use WasteMaster\v1\Bids\PreBidMatcher;
 use WasteMaster\v1\Clients\ClientManager;
 use WasteMaster\v1\Haulers\HaulerManager;
 use WasteMaster\v1\History\HistoryManager;
@@ -38,7 +39,9 @@ class LeadsController extends Controller
         $datatable->showColumns([
             'company'    => 'Name',
             'bid_count'  => '# of Bids',
+            'contact_name' => 'Contact',
             'status'     => 'Status',
+            'hauler_id' => 'Current Hauler',
             'service_area_id' => 'Service Area',
             'created_at'  => 'Created At',
             'leads.monthly_price' => 'Current $',
@@ -50,7 +53,7 @@ class LeadsController extends Controller
             ->hideOnMobile(['created_at', 'Current $'])
             ->eagerLoad('city')
             ->select('leads.*',
-                \DB::raw('(SELECT net_monthly FROM bids WHERE bids.lead_id = leads.id AND bids.archived=0 ORDER BY net_monthly ASC LIMIT 0,1) as low_bid')
+                \DB::raw('(SELECT net_monthly FROM bids WHERE bids.lead_id = leads.id AND bids.archived=0 AND bids.net_monthly > 0 ORDER BY net_monthly ASC LIMIT 0,1) as low_bid')
             )
             ->prepare(20);
 
@@ -152,11 +155,13 @@ class LeadsController extends Controller
      * @param HaulerManager                                   $haulers
      * @param \WasteMaster\v1\History\HistoryManager          $history
      * @param \WasteMaster\v1\ServiceAreas\ServiceAreaManager $areas
+     * @param PreBidMatcher                                   $matcher
      * @param int                                             $leadID
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws LeadNotFound
      */
-    public function show(HaulerManager $haulers, HistoryManager $history, ServiceAreaManager $areas, int $leadID)
+    public function show(HaulerManager $haulers, HistoryManager $history, ServiceAreaManager $areas, PreBidMatcher $matcher, int $leadID)
     {
         $lead = $this->leads->find($leadID);
 
@@ -173,6 +178,9 @@ class LeadsController extends Controller
         $lowBid = $lead->cheapestBidObject();
         $showPostBid = $this->leads->shouldShowPostMatchBid($lead, $lowBid);
 
+        $bidRequestHistory = $history->findForLead($leadID, 'bid_request');
+        $postMatchHistory = $history->findForLead($leadID, 'post_match_request');
+        $preMatchHistory = $history->findForLead($leadID, 'pre_match_request');
 
         return view('app.admin.leads.form', [
             'lead' => $lead,
@@ -180,11 +188,16 @@ class LeadsController extends Controller
             'haulers' => $haulers->all(),
             'cityHaulers' => $cityHaulers,
             'lowBid' => $lowBid,
-            'bidRequestHistory' => $history->findForLead($leadID, 'bid_request'),
-            'preMatchHistory' => $history->findForLead($leadID, 'pre_match_request'),
-            'postMatchHistory' => $history->findForLead($leadID, 'post_match_request'),
+            'bidRequestDate' => $bidRequestHistory[0]->created_at ?? '',
+            'preMatchDate' => $preMatchHistory[0]->created_at ?? '',
+            'postMatchDate' => $postMatchHistory[0]->created_at ?? '',
+            'bidRequestHaulers' => $history->listNames($bidRequestHistory),
+            'preMatchHaulers' => $history->listNames($preMatchHistory),
+            'postMatchHistory' => $history->listNames($postMatchHistory),
             'isCurrentMatching' => $this->leads->doesCurrentHaulerMatch($lead),
             'showPostMatchBid' => $showPostBid,
+            'preWasteMatch' => $matcher->matchWaste($lead),
+            'preRecycleMatch' => $matcher->matchRecycle($lead),
             'serviceAreas' => $areas->all()
         ]);
     }

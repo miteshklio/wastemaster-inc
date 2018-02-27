@@ -36,10 +36,10 @@
                     </td>
                     <td>@if (! empty($row->serviceArea)){{ $row->serviceArea->name }} @endif</td>
                     <td class="hidden-xs">{{ date('M j, Y', strtotime($row->created_at)) }}</td>
-                    <td class="hidden-xs">{{ number_format($row->prior_total, 2) }}</td>
-                    <td>${{ number_format($row->net_monthly, 2) }}</td>
-                    <td>${{ number_format($row->gross_profit, 2) }}</td>
-                    <td>${{ number_format($row->total, 2) }}</td>
+                    <td class="hidden-xs text-right">${{ number_format($row->prior_total, 2) }}</td>
+                    <td class="text-right">${{ number_format($row->net_monthly, 2) }}</td>
+                    <td class="text-right">${{ number_format($row->gross_profit, 2) }}</td>
+                    <td class="text-right">${{ number_format($row->total, 2) }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

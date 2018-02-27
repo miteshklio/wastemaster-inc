@@ -49,6 +49,17 @@ class Hauler extends Model
         return implode(', ', unserialize($this->emails));
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEmailArrayAttribute()
+    {
+        return substr($this->emails, 0, 1) == 'a'
+            ? unserialize($this->emails)
+            : $this->emails;
+    }
+
+
     public function city()
     {
         return $this->hasOne('App\City', 'id', 'city_id');
