@@ -26,16 +26,9 @@
             </a>
         @endif
 
-        @if (! empty($postMatchHistory) && $postMatchHistory->count())
-            <?php
-            $haulers = [];
-            foreach ($postMatchHistory as $item)
-            {
-                $haulers[] = $item->hauler->name;
-            }
-            ?>
+        @if (! empty($postMatchHaulers))
             <br>
-            <div class="label label-default" title="{{ implode("\n", $haulers) }}">Requested on {{ date('M j, Y g:ia', strtotime($postMatchHistory[0]->created_at)) }}</div>
+            <div class="label label-default" title="{{ $postMatchHaulers }}">Requested on {{ date('M j, Y g:ia', strtotime($postMatchDate)) }}</div>
         @endif
     @endif
 </div>

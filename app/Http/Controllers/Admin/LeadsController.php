@@ -178,15 +178,22 @@ class LeadsController extends Controller
         $lowBid = $lead->cheapestBidObject();
         $showPostBid = $this->leads->shouldShowPostMatchBid($lead, $lowBid);
 
+        $bidRequestHistory = $history->findForLead($leadID, 'bid_request');
+        $postMatchHistory = $history->findForLead($leadID, 'post_match_request');
+        $preMatchHistory = $history->findForLead($leadID, 'pre_match_request');
+
         return view('app.admin.leads.form', [
             'lead' => $lead,
             'editMode' => true,
             'haulers' => $haulers->all(),
             'cityHaulers' => $cityHaulers,
             'lowBid' => $lowBid,
-            'bidRequestHistory' => $history->findForLead($leadID, 'bid_request'),
-            'preMatchHistory' => $history->findForLead($leadID, 'pre_match_request'),
-            'postMatchHistory' => $history->findForLead($leadID, 'post_match_request'),
+            'bidRequestDate' => $bidRequestHistory[0]->created_at ?? '',
+            'preMatchDate' => $preMatchHistory[0]->created_at ?? '',
+            'postMatchDate' => $postMatchHistory[0]->created_at ?? '',
+            'bidRequestHaulers' => $history->listNames($bidRequestHistory),
+            'preMatchHaulers' => $history->listNames($preMatchHistory),
+            'postMatchHistory' => $history->listNames($postMatchHistory),
             'isCurrentMatching' => $this->leads->doesCurrentHaulerMatch($lead),
             'showPostMatchBid' => $showPostBid,
             'preWasteMatch' => $matcher->matchWaste($lead),

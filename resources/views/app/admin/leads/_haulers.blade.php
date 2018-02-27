@@ -24,21 +24,9 @@
         <input type="submit" class="btn btn-primary btn-block" value="Send Bid Requests"
                onclick="return confirm('Send match request to current hauler now?');" @if($lead->archived) disabled @endif>
 
-        @if (! empty($bidRequestHistory) && $bidRequestHistory->count())
-            <?php
-            $haulers = [];
-            foreach ($bidRequestHistory as $item)
-            {
-                if (empty($item)) continue;
-
-                $h = $item->hauler;
-                if (empty($h)) continue;
-
-                $haulers[] = $h->name;
-            }
-            ?>
+        @if (! empty($bidRequestHaulers))
             <br>
-            <div class="label label-default" title="{{ implode("\n", $haulers) }}">Requested on {{ date('M j, Y g:ia', strtotime($bidRequestHistory[0]->created_at)) }}</div>
+            <div class="label label-default" title="{{ $bidRequestHaulers }}">Requested on {{ date('M j, Y g:ia', strtotime($bidRequestDate)) }}</div>
         @endif
     </form>
 </div>

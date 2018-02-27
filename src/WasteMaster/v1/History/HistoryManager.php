@@ -133,4 +133,27 @@ class HistoryManager
             throw new MissingRequiredFields(trans('messages.clientValidationErrors', ['fields' => implode(', ', $errorFields)]));
         }
     }
+
+    public function listNames($haulers=null)
+    {
+        $names = [];
+        foreach ($haulers as $record)
+        {
+            if (empty($record))
+            {
+                continue;
+            }
+
+            $hauler = $record->hauler;
+
+            if (empty($hauler))
+            {
+                continue;
+            }
+
+            $names[] = $hauler->name;
+        }
+
+        return implode("\n", $names);
+    }
 }

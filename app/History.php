@@ -27,4 +27,5 @@ class History extends Model
     {
         return $this->hasOne('App\Hauler', 'id', 'hauler_id');
     }
+
 }

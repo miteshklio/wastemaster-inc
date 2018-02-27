@@ -32,7 +32,7 @@ class PreBidMatcher
      */
     public function matchWaste(Lead $lead)
     {
-        $msw_qty = [ $lead->msw_qty, $lead->msw2_qty];
+        $msw_qty = array_filter([ $lead->msw_qty, $lead->msw2_qty]);
         $msw_yards = [ $lead->msw_yards, $lead->msw2_yards];
         $msw_per_week = [$lead->msw_per_week, $lead->msw2_per_week];
 
@@ -64,7 +64,7 @@ class PreBidMatcher
      */
     public function matchRecycle(Lead $lead)
     {
-        $rec_qty = [ $lead->rec_qty, $lead->rec2_qty];
+        $rec_qty = array_filter([ $lead->rec_qty, $lead->rec2_qty]);
         $rec_yards = [ $lead->rec_yards, $lead->rec2_yards];
         $rec_per_week = [$lead->rec_per_week, $lead->rec2_per_week];
 

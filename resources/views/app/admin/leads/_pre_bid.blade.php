@@ -33,15 +33,8 @@
         <p>Not in system.</p>
     @endif
 
-    @if (! empty($preMatchHistory) && $preMatchHistory->count())
-        <?php
-        $haulers = [];
-        foreach ($preMatchHistory as $item)
-        {
-            $haulers[] = $item->hauler->name;
-        }
-        ?>
+    @if (! empty($preMatchHaulers))
         <br>
-        <div class="label label-default" title="{{ implode("\n", $haulers) }}">Requested on {{ date('M j, Y g:ia', strtotime($preMatchHistory[0]->created_at)) }}</div>
+        <div class="label label-default" title="{{ $preMatchHaulers}}">Requested on {{ date('M j, Y g:ia', strtotime($preMatchDate)) }}</div>
     @endif
 </div>
