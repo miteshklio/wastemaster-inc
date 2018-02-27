@@ -53,7 +53,7 @@ class LeadsController extends Controller
             ->hideOnMobile(['created_at', 'Current $'])
             ->eagerLoad('city')
             ->select('leads.*',
-                \DB::raw('(SELECT net_monthly FROM bids WHERE bids.lead_id = leads.id AND bids.archived=0 ORDER BY net_monthly ASC LIMIT 0,1) as low_bid')
+                \DB::raw('(SELECT net_monthly FROM bids WHERE bids.lead_id = leads.id AND bids.archived=0 AND bids.net_monthly > 0 ORDER BY net_monthly ASC LIMIT 0,1) as low_bid')
             )
             ->prepare(20);
 

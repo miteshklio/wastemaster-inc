@@ -516,7 +516,11 @@ class BidManager
     public function cheapestForLead(int $leadID)
     {
         return $this->bids->where('lead_id', $leadID)
-                    ->where('archived', 0)
+                    ->where([
+                        'archived' => 0,
+                        'no_bid' => 0,
+                    ])
+                    ->where('net_monthly', '>', 0)
                     ->orderBy('net_monthly', 'asc')
                     ->first();
     }
