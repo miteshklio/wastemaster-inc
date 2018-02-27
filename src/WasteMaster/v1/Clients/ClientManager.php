@@ -192,7 +192,7 @@ class ClientManager
         return $this;
     }
 
-    public function setWaste2(int $qty, $yards, $frequency)
+    public function setWaste2(int $qty = null, $yards, $frequency)
     {
         $this->msw2_qty      = $qty;
         $this->msw2_yards    = $yards;
@@ -201,7 +201,7 @@ class ClientManager
         return $this;
     }
 
-    public function setRecycling2(int $qty, $yards, $frequency)
+    public function setRecycling2(int $qty = null, $yards, $frequency)
     {
         $this->rec2_qty      = $qty;
         $this->rec2_yards    = $yards;
