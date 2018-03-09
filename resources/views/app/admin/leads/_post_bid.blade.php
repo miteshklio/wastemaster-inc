@@ -21,7 +21,7 @@
             <p class="text-center"><b>A bid has been submitted by the current hauler.</b></p>
         @else
             <a href="{{ route('bids::postMatchRequest', ['id' => $lowBid->id]) }}" class="btn btn-primary btn-block"
-               onclick="return confirm('Send bid request emails now?');" @if($lead->archived) disabled @endif>
+               onclick="return confirm('Send match request to current hauler now?');" @if($lead->archived) disabled @endif>
                 Send Match Request<br>to Current Hauler
             </a>
         @endif
