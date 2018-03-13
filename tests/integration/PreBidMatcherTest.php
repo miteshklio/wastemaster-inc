@@ -41,7 +41,6 @@ class PreBidMatcherTest extends IntegrationTestCase
 
         $result = $this->matcher->matchWaste($testLead);
 
-//        dd(\DB::getQueryLog());
         $this->assertNull($result);
     }
 
@@ -68,8 +67,6 @@ class PreBidMatcherTest extends IntegrationTestCase
             'msw_yards' => 1.5,
             'msw_per_week' => 1
         ]);
-
-        \DB::enableQueryLog();
 
         $result = $this->matcher->matchWaste($testLead);
 
@@ -103,8 +100,6 @@ class PreBidMatcherTest extends IntegrationTestCase
             'msw_per_week' => 1
         ]);
 
-        \DB::enableQueryLog();
-
         $result = $this->matcher->matchWaste($testLead);
 
         $this->assertInstanceOf(\App\Bid::class, $result);
@@ -134,11 +129,8 @@ class PreBidMatcherTest extends IntegrationTestCase
             'rec_per_week' => 1
         ]);
 
-        \DB::enableQueryLog();
-
         $result = $this->matcher->matchRecycle($testLead);
 
-//        dd(\DB::getQueryLog());
         $this->assertNull($result);
     }
 
@@ -165,8 +157,6 @@ class PreBidMatcherTest extends IntegrationTestCase
             'rec_yards' => 1.5,
             'rec_per_week' => 1
         ]);
-
-        \DB::enableQueryLog();
 
         $result = $this->matcher->matchRecycle($testLead);
 
@@ -199,8 +189,6 @@ class PreBidMatcherTest extends IntegrationTestCase
             'rec_yards' => 1.5,
             'rec_per_week' => 1
         ]);
-
-        \DB::enableQueryLog();
 
         $result = $this->matcher->matchRecycle($testLead);
 
