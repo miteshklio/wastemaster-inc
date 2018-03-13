@@ -37,8 +37,6 @@ class PreBidMatcherTest extends IntegrationTestCase
             'msw_per_week' => 1
         ]);
 
-        \DB::enableQueryLog();
-
         $result = $this->matcher->matchWaste($testLead);
 
         $this->assertNull($result);
