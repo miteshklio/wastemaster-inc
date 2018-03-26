@@ -20,5 +20,6 @@ salt-call --local state.sls php.php
 salt-call --local state.sls webserver.production
 salt-call --local state.sls redis.redis
 salt-call --local state.sls mariadb.mariadb
+salt-call --local state.sls cron.scheduler
 service nginx restart
 service php7.0-fpm restart
