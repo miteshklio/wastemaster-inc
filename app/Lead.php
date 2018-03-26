@@ -200,5 +200,12 @@ class Lead extends Model
         return 'New';
     }
 
+    public function getHaulerNameAttribute()
+    {
+        $hauler = $this->hauler;
+
+        return $hauler->name ?? '';
+    }
+
 
 }
