@@ -106,7 +106,7 @@ class BidReminders extends Command
                 'url'    => route('bids::externalForm', ['id' => base64_encode($record->lead->id .'::'. $record->hauler->id)])
             ];
 
-            $this->mailer->send('emails.bid_reminder', $data, function($m) use($isFinalReminder, $record, $record) {
+            $this->mailer->send('emails.bid_reminder', $data, function($m) use($isFinalReminder, $record) {
                 $m->subject($isFinalReminder ? trans('messages.emailFinalReminder') : trans('messages.emailReminder'));
                 $m->to($record->hauler->email_array);
             });
