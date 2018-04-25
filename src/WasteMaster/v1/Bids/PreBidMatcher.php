@@ -55,6 +55,7 @@ class PreBidMatcher
             ->orderBy('net_monthly', 'asc')
             ->orderBy('bids.created_at', 'desc')
             ->where('net_monthly', '>', 0)
+            ->with('hauler', 'lead')
             ->first();
     }
 
@@ -88,6 +89,7 @@ class PreBidMatcher
             ->orderBy('net_monthly', 'asc')
             ->orderBy('bids.created_at', 'desc')
             ->where('net_monthly', '>', 0)
+            ->with('hauler', 'lead')
             ->first();
     }
 }
