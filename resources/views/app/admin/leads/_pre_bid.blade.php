@@ -19,8 +19,8 @@
 
         @if ($preWasteMatch !== null)
             <p class="text-center"><b>Waste Services Match:</b>
-                <br>by <a href="/admin/bid/{{ $preWasteMatch->id  }}">{{ $preWasteMatch->hauler->name }}</a>
-                <br>for <a href="/admin/lead/{{ $preWasteMatch->lead_id }}">{{ $preWasteMatch->lead->company }}</a>
+                <br>by <a href="/admin/bid/{{ $preWasteMatch->id  }}">{{ $preWasteMatch->hauler->name ?? 'Unknown Hauler' }}</a>
+                <br>for <a href="/admin/lead/{{ $preWasteMatch->lead_id }}">{{ $preWasteMatch->lead->company ?? 'Unknown Company' }}</a>
             </p>
         @endif
         @if ($preRecycleMatch !== null)
