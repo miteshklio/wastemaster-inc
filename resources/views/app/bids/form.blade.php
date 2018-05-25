@@ -104,6 +104,9 @@
 
                             <p class="green text-center">
                                 {{ $lead->rec_qty }} dumpsters, {{ $displayNumber($lead->rec_yards) }} yds, {{ $displayNumber($lead->rec_per_week) }}/week
+                                @if ($lead->rec2_qty > 0)
+                                    <br>{{ $lead->rec2_qty }} dumpsters, {{ $displayNumber($lead->rec2_yards) }} yds, {{ $displayNumber($lead->rec2_per_week) }}/week
+                                @endif
                             </p>
 
                         </div>
