@@ -19,14 +19,36 @@
 
         @if ($preWasteMatch !== null)
             <p class="text-center"><b>Waste Services Match:</b>
-                <br>by <a href="/admin/bid/{{ $preWasteMatch->id  }}">{{ $preWasteMatch->hauler->name ?? 'Unknown Hauler' }}</a>
-                <br>for <a href="/admin/lead/{{ $preWasteMatch->lead_id }}">{{ $preWasteMatch->lead->company ?? 'Unknown Company' }}</a>
+                <br>by
+                @if(! empty($preWasteMatch->hauler))
+                    <a href="/admin/bid/{{ $preWasteMatch->id  }}">{{ $preWasteMatch->hauler->name ?? 'Unknown Hauler' }}</a>
+                @else
+                    Unknown Hauler
+                @endif
+                <br>for
+                @if(! empty($preWasteMatch->lead))
+                    <a href="/admin/lead/{{ $preWasteMatch->lead_id }}">{{ $preWasteMatch->lead->company ?? 'Unknown Company' }}</a>
+                @else
+                    Unknown Company
+                @endif
             </p>
         @endif
+
         @if ($preRecycleMatch !== null)
             <p class="text-center"><b>Recycling Services Match:</b>
-                <br>by <a href="/admin/bid/{{ $preRecycleMatch->id }}">{{ $preRecycleMatch->hauler->name }}</a>
-                <br>for <a href="/admin/lead/{{ $preRecycleMatch->lead_id }}">{{ $preRecycleMatch->lead->company}}</a>
+                <br>by
+                @if(! empty($preRecycleMatch->hauler))
+                    <a href="/admin/bid/{{ $preRecycleMatch->id }}">{{ $preRecycleMatch->hauler->name ?? 'Unknown Hauler' }}</a>
+                @else
+                    Unknown Hauler
+                @endif
+
+                <br>for
+                @if(! empty($preRecycleMatch->lead))
+                    <a href="/admin/lead/{{ $preRecycleMatch->lead_id }}">{{ $preRecycleMatch->lead->company ?? 'Unknown Company'}}</a>
+                @else
+                    Unknown Company
+                @endif
             </p>
         @endif
     @else

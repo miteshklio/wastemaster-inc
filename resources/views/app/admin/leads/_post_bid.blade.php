@@ -10,9 +10,13 @@
 
         <p class="text-center">
             Submitted by
-            <a href="{{ route('bids::show', ['id' => $lowBid->id]) }}">
-                {{ $lowBid->hauler->name }}
-            </a>
+            @if (! empty($lowBid->hauler))
+                <a href="{{ route('bids::show', ['id' => $lowBid->id]) }}">
+                    {{ $lowBid->hauler->name }}
+                </a>
+            @else
+                Unknown Hauler
+            @endif
         </p>
 
         <br>
